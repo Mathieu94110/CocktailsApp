@@ -2,6 +2,9 @@
   border-radius: 20px;
   height: 400px;
   cursor: pointer;
+  i {
+    font-size: 20px;
+  }
   &:hover {
     img {
       transform: scale(1.1);
@@ -13,7 +16,6 @@
 }
 
 .imageContainer {
-  height: 300px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   overflow: hidden;

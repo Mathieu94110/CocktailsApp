@@ -1,9 +1,19 @@
+@use '../assets/styles/mixins' as mixin;
+
 .header {
   padding: 10px 20px;
   background-color: white;
   box-shadow: var(--box-shadow-nav);
   color: var(--primary);
+  @include mixin.xs {
+    padding: 4px 8px;
+  }
   img {
     width: 130px;
+  }
+  h1 {
+    @include mixin.xs {
+      display: none;
+    }
   }
 }

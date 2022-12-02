@@ -1,8 +1,14 @@
+@use './mixins' as mixin;
+
 .btn {
   padding: 5px 15px;
   border-radius: 20px;
   cursor: pointer;
   transition: 0.2s opacity;
+  @include mixin.xs {
+    font-size: 0.8rem;
+    padding: 2px 6px;
+  }
   &:hover {
     opacity: 0.8;
   }
@@ -23,4 +29,7 @@
 .card {
   border-radius: 20px;
   background-color: white;
+}
+.text-primary {
+  color: var(--primary);
 }
