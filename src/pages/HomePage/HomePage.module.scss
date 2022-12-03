@@ -1,4 +1,4 @@
-@use '../assets/styles/mixins' as mixin;
+@use '../../assets/styles/mixins' as mixin;
 
 .grid {
   display: grid;
@@ -24,25 +24,8 @@
   max-width: 1130px;
   width: 100%;
 }
-h1 {
-  @include mixin.lg {
-    font-size: 1.6rem;
-  }
-  @include mixin.md {
-    font-size: 1.4rem;
-  }
-  @include mixin.xs {
-    font-size: 0.9rem;
-  }
-  @include mixin.sm-lt {
-    font-size: 1.2rem;
-  }
-  @include mixin.lg-lt {
-    text-align: center;
-  }
-}
-h3 {
-  @include mixin.xs {
-    font-size: 0.9rem;
-  }
+
+.small {
+  font-size: 12px;
+  font-weight: 500;
 }
