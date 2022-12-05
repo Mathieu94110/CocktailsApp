@@ -1,7 +1,9 @@
+import { CocktailInterface } from 'interfaces';
 import React, { useState } from 'react';
+
 import styles from './Recipe.module.scss';
 
-function Recipe({ cocktails }) {
+function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
   const [liked, setLiked] = useState(false);
 
   function handleClick() {
@@ -15,11 +17,13 @@ function Recipe({ cocktails }) {
         <img src={cocktails.strDrinkThumb} alt={cocktails.strDrink} />
       </div>
       <div
-        onClick={handleClick}
         className={`${styles.recipeTitle} d-flex flex-column justify-content-center align-items-center`}
       >
         <h3 className="mb-10">{cocktails.strDrink}</h3>
-        <i className={`fa-solid fa-heart ${liked ? 'text-primary' : ''}`}></i>
+        <i
+          onClick={handleClick}
+          className={`fa-solid fa-heart ${liked ? 'text-primary' : ''}`}
+        ></i>
       </div>
     </div>
   );

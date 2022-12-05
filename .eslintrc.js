@@ -17,5 +17,6 @@ module.exports = {
         functions: 'never',
       },
     ],
+    'import/extensions': 'off',
   },
 };

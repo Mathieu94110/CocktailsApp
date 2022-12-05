@@ -9,7 +9,7 @@ function Header() {
 
   return (
     <header className={`${styles.header} d-flex flex-row align-items-center`}>
-      <div className="flex-fill-vertical-center">
+      <div className="flex-fill vertical-center">
         <img src={cocktailsImg} alt="logo cocktails" />
         <h1>Cocktails Master</h1>
       </div>

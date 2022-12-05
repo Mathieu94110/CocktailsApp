@@ -1,28 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import styles from './HomePage.module.scss';
 import Search from './Components/Search/Search';
 import Recipe from './Components/Recipe/Recipe';
 import Loading from '../../components/Loading/Loading';
 import searchApi from '../../api/search';
+import cocktailsReducer from '../../reducers/cocktailsReducer';
+import { CocktailInterface } from 'interfaces';
 
 function HomePage() {
   const [filter, setFilter] = useState('margarita');
   const [isLoading, setIsLoading] = useState(true);
-  const [cocktails, setCocktails] = useState([]);
+  const [state, dispatch] = useReducer(cocktailsReducer, {
+    cocktails: [],
+  });
 
   useEffect(() => {
     // cancel below is used in order to avoid performing request twice
     let cancel = false;
     searchApi
       .searchCocktails(filter)
-      .then((cocktailsInfos) => {
+      .then((cocktailsInfos: CocktailInterface[]) => {
         if (!cancel) {
           if (!cocktailsInfos) {
-            setCocktails([]);
+            cocktailsInfos = [];
+            dispatch({
+              type: 'CURRENT_COCKTAILS',
+              cocktailsInfos,
+            });
           } else if (Array.isArray(cocktailsInfos)) {
-            setCocktails(cocktailsInfos);
+            dispatch({
+              type: 'CURRENT_COCKTAILS',
+              cocktailsInfos,
+            });
           } else {
-            setCocktails([cocktailsInfos]);
+            dispatch({
+              type: 'CURRENT_COCKTAILS',
+              cocktailsInfos,
+            });
           }
         }
       })
@@ -43,11 +57,11 @@ function HomePage() {
         className={`card flex-fill d-flex flex-column p-20 mb-20  ${styles.contentCard}`}
       >
         <Search setFilter={setFilter} />
-        {isLoading && !cocktails.length ? (
+        {isLoading && !state.cocktails.length ? (
           <Loading />
         ) : (
           <div className={styles.grid}>
-            {cocktails.map((c, i) => (
+            {state.cocktails.map((c: any, i: number) => (
               <Recipe key={i} cocktails={c} />
             ))}
           </div>
