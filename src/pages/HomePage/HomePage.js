@@ -11,15 +11,30 @@ function HomePage() {
   const [cocktails, setCocktails] = useState([]);
 
   useEffect(() => {
+    // cancel below is used in order to avoid performing request twice
+    let cancel = false;
     searchApi
       .searchCocktails(filter)
       .then((cocktailsInfos) => {
-        console.log(cocktailsInfos);
-        setCocktails(cocktailsInfos);
+        if (!cancel) {
+          if (!cocktailsInfos) {
+            setCocktails([]);
+          } else if (Array.isArray(cocktailsInfos)) {
+            setCocktails(cocktailsInfos);
+          } else {
+            setCocktails([cocktailsInfos]);
+          }
+        }
       })
-      .catch((e) => console.error(e))
-      .finally(() => setIsLoading(false));
-  }, []);
+      .catch((e) => {
+        console.error(e);
+      })
+      .finally(() => {
+        if (!cancel) {
+          setIsLoading(false);
+        }
+      });
+  }, [filter]);
 
   return (
     <div className="flex-fill container d-flex flex-column p-20">

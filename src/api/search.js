@@ -8,6 +8,7 @@ export default {
   searchCocktails: async (value) => {
     try {
       let cocktail = await cocktailApi.get(`search.php?s=${value}`);
+      console.log(cocktail.data.drinks);
       return cocktail.data.drinks;
     } catch (err) {
       return err;
