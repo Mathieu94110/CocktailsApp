@@ -9,7 +9,6 @@ export default {
   searchCocktails: async (value: string): Promise<CocktailInterface[]> => {
     try {
       let cocktail = await cocktailApi.get(`search.php?s=${value}`);
-      console.log(cocktail.data.drinks);
       return cocktail.data.drinks;
     } catch (err) {
       throw new Error('Error fetch cocktails');

@@ -1,5 +1,69 @@
+.cardContainer {
+  margin: 30px;
+}
+
 .card {
-  height: 400px;
-  width: 400px;
-  background-color: red;
+  margin: auto;
+  background-color: white;
+  color: #272727;
+  padding: 20px;
+  border-radius: 10px;
+  border: 0px;
+  border-color: tomato;
+  border-style: solid;
+  transition: 200ms;
+  max-width: 380px;
+  height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.card:hover {
+  transition: 200ms;
+  border: 3px;
+  border-color: tomato;
+  border-style: solid;
+  cursor: pointer;
+}
+
+.cardHeader {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.cardTitleGroup {
+  justify-content: center;
+}
+
+.cardTitle {
+  flex: 0.5;
+  font-size: large;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+.cardAlcool {
+  flex: 0.3;
+  font-size: small;
+  margin-top: 0;
+}
+
+.cardImage {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.cardLikeIcon {
+  height: 25px;
+}
+
+.cardText {
+  max-width: 340px;
+  font-size: medium;
+}
+
+.subTitle {
+  text-decoration: underline;
+  font-weight: 600;
+  color: var(--primary);
 }
