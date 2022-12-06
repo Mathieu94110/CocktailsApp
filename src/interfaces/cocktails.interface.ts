@@ -51,6 +51,6 @@ export interface CocktailInterface {
   strTags: string;
   strVideo: string;
 }
-export interface cocktailsInitialInterface {
+export interface CocktailsInitialInterface {
   cocktails: CocktailInterface[] | [];
 }

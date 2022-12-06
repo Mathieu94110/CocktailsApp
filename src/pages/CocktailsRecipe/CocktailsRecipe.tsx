@@ -1,35 +1,27 @@
-// import { CocktailInterface } from 'interfaces';
 import { CocktailInterface } from 'interfaces';
-import React, { useEffect, useState } from 'react';
-import { /* useParams, */ useLoaderData } from 'react-router-dom';
-import styles from './CocktailsRecipe.module.scss';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import CocktailsRecipeCard from './Components/CocktailsRecipeCard/CocktailsRecipeCard';
+import styles from './CocktailsRecipe.module.scss';
 
 function CocktailsRecipe() {
-  const [isLoading, setIsLoading] = useState(true);
   const recipes = useLoaderData() as CocktailInterface[];
-  // const { name } = useParams();
-
-  useEffect(() => {
-    if (recipes) {
-      setIsLoading(false);
-    }
-  }, [recipes]);
+  const navigate = useNavigate();
 
   return (
     <div className={styles.cocktailsRecipe}>
-      {isLoading ? (
-        'Loading'
-      ) : (
-        <ul className={styles.cardContainer}>
-          {' '}
-          {recipes.map((r: CocktailInterface) => (
+      <button className={styles.backButton} onClick={() => navigate(-1)}>
+        Back
+      </button>
+      <ul className={styles.cardContainer}>
+        {' '}
+        {recipes &&
+          recipes.map((r: CocktailInterface) => (
             <li key={r.strDrink}>
               <CocktailsRecipeCard recipe={r} />
             </li>
           ))}{' '}
-        </ul>
-      )}
+      </ul>
+      {/* )} */}
     </div>
   );
 }
