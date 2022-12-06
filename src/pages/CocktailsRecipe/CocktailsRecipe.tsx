@@ -13,15 +13,13 @@ function CocktailsRecipe() {
         Back
       </button>
       <ul className={styles.cardContainer}>
-        {' '}
         {recipes &&
           recipes.map((r: CocktailInterface) => (
             <li key={r.strDrink}>
               <CocktailsRecipeCard recipe={r} />
             </li>
-          ))}{' '}
+          ))}
       </ul>
-      {/* )} */}
     </div>
   );
 }

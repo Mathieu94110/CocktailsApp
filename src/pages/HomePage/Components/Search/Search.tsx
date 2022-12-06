@@ -3,8 +3,10 @@ import styles from './Search.module.scss';
 
 function Search({
   setFilter,
+  currentFilter,
 }: {
   setFilter: Dispatch<SetStateAction<string>>;
+  currentFilter: string;
 }) {
   function handleInput(e: ChangeEvent<HTMLInputElement>) {
     const filter = e.currentTarget.value;
@@ -20,7 +22,7 @@ function Search({
         onInput={handleInput}
         className="flex-fill"
         type="text"
-        placeholder="Rechercher"
+        placeholder={currentFilter}
       />
     </div>
   );
