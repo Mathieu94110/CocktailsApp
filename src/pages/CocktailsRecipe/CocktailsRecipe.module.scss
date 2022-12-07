@@ -3,17 +3,15 @@
 .backButton {
   padding: 10px 15px;
   cursor: pointer;
-  border-color: white;
-  font-weight: 600;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
-    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  border-radius: 20px;
   transition: background-color 0.2s, color 0.2s;
-  color: var(--primary);
-  background-color: white;
-  border-color: var(--primary);
+  color: white;
+  background-color: var(--primary);
+  border: 0px;
+  font-weight: 600;
   &:hover {
-    background-color: var(--primary);
-    color: white;
+    background-color: white;
+    color: var(--primary);
   }
 }
 .cocktailsRecipe {

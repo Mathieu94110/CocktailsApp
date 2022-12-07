@@ -92,7 +92,7 @@ function HomePage() {
                 <Recipe key={i} cocktails={c} />
               ))}
             </div>
-            {state.cocktails.length && (
+            {!!state.cocktails.length && (
               <Paginate
                 postsPerPage={postsPerPage}
                 totalPosts={state.cocktails.length}
