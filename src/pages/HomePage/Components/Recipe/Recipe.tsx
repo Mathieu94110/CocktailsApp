@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Recipe.module.scss';
 
 function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState<boolean>(false);
   const navigate = useNavigate();
   const goToRecipe = () => navigate(`/recipe/${cocktails.strDrink}`);
   function handleClick() {

@@ -96,7 +96,7 @@ function CocktailsRecipeCard({ recipe }: { recipe: CocktailInterface }) {
         </div>
         <div className={styles.cardText}>
           <span className={styles.subTitle}>Ingredients</span>:{' '}
-          {ingredients.map((item, index) => {
+          {ingredients.map((item:string, index: number) => {
             return item ? (
               <span key={index}>{(index ? ', ' : '') + item}</span>
             ) : null;
@@ -104,7 +104,7 @@ function CocktailsRecipeCard({ recipe }: { recipe: CocktailInterface }) {
         </div>
         <div className={styles.cardText}>
           <span className={styles.subTitle}>Measures</span>:{' '}
-          {measures.map((item, index) => {
+          {measures.map((item: string, index: number) => {
             return item ? (
               <span key={index}>{(index ? ', ' : '') + item}</span>
             ) : null;

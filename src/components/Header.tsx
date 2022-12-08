@@ -5,7 +5,7 @@ import { useState } from 'react';
 import HeaderMenu from './HeaderMenu';
 
 function Header() {
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
     <header className={`${styles.header} d-flex flex-row align-items-center`}>

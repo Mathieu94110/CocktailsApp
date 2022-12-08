@@ -28,9 +28,9 @@ const Paginate = ({
         <li onClick={previousPage} className={styles.pageNumber}>
           Prev
         </li>
-        {pageNumbers.map((number) => (
+        {pageNumbers.map((number: number, index: number) => (
           <li
-            key={number}
+            key={index}
             onClick={() => paginate(number)}
             className={
               `${styles.pageNumber} ` +

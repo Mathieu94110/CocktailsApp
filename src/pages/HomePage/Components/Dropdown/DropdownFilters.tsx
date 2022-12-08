@@ -29,11 +29,11 @@ const DropdownFilters = ({
   options: CategoriesInterface[];
   isMulti: boolean;
   isSearchable: boolean;
-  onChange: any;
+  onChange: (x: CategoriesInterface[]) => void;
 }) => {
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<any>(isMulti ? [] : null);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState<string>('');
   const searchRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLDivElement>(null);
 
@@ -45,8 +45,11 @@ const DropdownFilters = ({
   }, [showMenu]);
 
   useEffect(() => {
-    const handler = (e: any) => {
-      if (inputRef.current && !inputRef.current.contains(e.target)) {
+    const handler = (e: Event) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(e.target as HTMLElement)
+      ) {
         setShowMenu(false);
       }
     };
@@ -66,7 +69,7 @@ const DropdownFilters = ({
     );
   };
 
-  const onTagRemove = (e: any, option: CategoriesInterface) => {
+  const onTagRemove = (e: React.MouseEvent, option: CategoriesInterface) => {
     e.stopPropagation();
     const newValue = removeOption(option);
     setSelectedValue(newValue);
@@ -132,7 +135,7 @@ const DropdownFilters = ({
     return selectedValue.value === option.value;
   };
 
-  const onSearch = (e: any) => {
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
 

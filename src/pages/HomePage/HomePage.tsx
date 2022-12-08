@@ -10,16 +10,16 @@ import Paginate from './Components/Paginate/Paginate';
 import DropdownFilters from './Components/Dropdown/DropdownFilters';
 
 function HomePage() {
-  const [filter, setFilter] = useState('margarita');
+  const [filter, setFilter] = useState<string>('margarita');
   const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>(
     []
   );
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [state, dispatch] = useReducer(cocktailsReducer, {
     cocktails: [],
   });
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [postsPerPage] = useState<number>(6);
 
   const indexOfLastCocktail: number = currentPage * postsPerPage;
   const indexOfFirstCocktail: number = indexOfLastCocktail - postsPerPage;
@@ -45,7 +45,7 @@ function HomePage() {
     }
   };
 
-  function setFilters(categories?: any) {
+  function setFilters(categories?: CategoriesInterface[]) {
     if (categories) {
       setDropDownFilters(categories);
       searchApi.searchByFilters(dropDownFilters, currentCocktailsList);
@@ -126,8 +126,8 @@ function HomePage() {
         ) : (
           <>
             <div className={styles.grid}>
-              {currentCocktails.map((c: CocktailInterface, i: number) => (
-                <Recipe key={i} cocktails={c} />
+              {currentCocktails.map((c: CocktailInterface, index: number) => (
+                <Recipe key={index} cocktails={c} />
               ))}
             </div>
             {!!state.cocktails.length && (

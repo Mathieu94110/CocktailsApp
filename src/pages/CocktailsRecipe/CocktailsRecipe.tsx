@@ -14,8 +14,8 @@ function CocktailsRecipe() {
       </button>
       <ul className={styles.cardContainer}>
         {recipes &&
-          recipes.map((r: CocktailInterface) => (
-            <li key={r.strDrink}>
+          recipes.map((r: CocktailInterface, index: number) => (
+            <li key={index}>
               <CocktailsRecipeCard recipe={r} />
             </li>
           ))}
