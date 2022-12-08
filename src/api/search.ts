@@ -6,12 +6,49 @@ const cocktailApi = axios.create({
 });
 
 export default {
-  searchCocktails: async (value: string): Promise<CocktailInterface[]> => {
+  searchCocktails: async (name: string): Promise<CocktailInterface[]> => {
     try {
-      let cocktail = await cocktailApi.get(`search.php?s=${value}`);
+      let cocktail = await cocktailApi.get(`search.php?s=${name}`);
       return cocktail.data.drinks;
     } catch (err) {
       throw new Error('Error fetch cocktails');
+    }
+  },
+
+  searchByFilters: (categories: any, currentCocktailsList: any) => {
+    console.log(currentCocktailsList);
+    if (currentCocktailsList.length && categories.length) {
+      console.log(
+        'currentCocktailsList.length && categories.length',
+        'currentCocktailsList',
+        currentCocktailsList,
+        'categories',
+        categories
+      );
+    } else if (currentCocktailsList.length && !categories.length) {
+      console.log(
+        'currentCocktailsList.length && !categories.length =',
+        'currentCocktailsList',
+        currentCocktailsList,
+        'categories',
+        categories
+      );
+    } else if (!currentCocktailsList.length && categories.length) {
+      console.log(
+        '!currentCocktailsList.length && categories.length =',
+        'currentCocktailsList',
+        currentCocktailsList,
+        'categories',
+        categories
+      );
+    } else {
+      console.log(
+        '!currentCocktailsList.length && !categories.length =',
+        'currentCocktailsList',
+        currentCocktailsList,
+        'categories',
+        categories
+      );
     }
   },
 };
