@@ -8,6 +8,7 @@ import cocktailsReducer from '../../reducers/cocktailsReducer';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
 import Paginate from './Components/Paginate/Paginate';
 import DropdownFilters from './Components/Dropdown/DropdownFilters';
+import { options } from '../../constant';
 
 function HomePage() {
   const [filter, setFilter] = useState<string>('margarita');
@@ -45,12 +46,17 @@ function HomePage() {
     }
   };
 
-  function setFilters(categories?: CategoriesInterface[]) {
+  async function setFilters(categories?: CategoriesInterface[]) {
     if (categories) {
       setDropDownFilters(categories);
-      searchApi.searchByFilters(dropDownFilters, currentCocktailsList);
+      console.log('called');
+      const newCocktailsList: CocktailInterface[] =
+        await searchApi.searchByFilters(dropDownFilters, currentCocktailsList);
+      if (newCocktailsList) {
+        dispatch({ type: 'CURRENT_COCKTAILS', payload: newCocktailsList });
+      }
     }
-    searchApi.searchByFilters(dropDownFilters, currentCocktailsList);
+    // searchApi.searchByFilters(dropDownFilters, currentCocktailsList);
   }
 
   useEffect(() => {
@@ -60,23 +66,10 @@ function HomePage() {
       .searchCocktails(filter)
       .then((cocktailsInfos: CocktailInterface[]) => {
         if (!cancel) {
-          if (!cocktailsInfos) {
-            cocktailsInfos = [];
-            dispatch({
-              type: 'CURRENT_COCKTAILS',
-              cocktailsInfos,
-            });
-          } else if (Array.isArray(cocktailsInfos)) {
-            dispatch({
-              type: 'CURRENT_COCKTAILS',
-              cocktailsInfos,
-            });
-          } else {
-            dispatch({
-              type: 'CURRENT_COCKTAILS',
-              cocktailsInfos,
-            });
-          }
+          dispatch({
+            type: 'CURRENT_COCKTAILS',
+            payload: cocktailsInfos ? cocktailsInfos : [],
+          });
         }
       })
       .catch((e) => {
@@ -91,19 +84,10 @@ function HomePage() {
 
   // On below we check category filter and current cocktails list in order to adapt new request
   useEffect(() => {
-    if (currentCocktailsList && dropDownFilters) {
-      setFilters();
+    if (dropDownFilters) {
+      setFilters(dropDownFilters);
     }
-  }, [currentCocktailsList, dropDownFilters]);
-
-  const options: CategoriesInterface[] = [
-    { value: 'Alcoholic', label: 'Alcoholic' },
-    { value: 'Non_Alcoholic', label: 'Non_Alcoholic' },
-    { value: 'Ordinary_Drink', label: 'Ordinary_Drink' },
-    { value: 'Cocktail', label: 'Cocktail' },
-    { value: 'Cocktail_glass', label: 'Cocktail_glass' },
-    { value: 'Champagne_flute', label: 'Champagne_flute' },
-  ];
+  }, [dropDownFilters]);
 
   return (
     <div className="flex-fill container d-flex flex-column p-20">

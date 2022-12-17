@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { CocktailInterface } from 'interfaces';
+import { CocktailInterface, CategoriesInterface } from 'interfaces';
+import filterSearchUtil from '../utils/searchFiltered';
 
 const cocktailApi = axios.create({
   baseURL: 'https://www.thecocktaildb.com/api/json/v1/1/',
@@ -15,16 +16,17 @@ export default {
     }
   },
 
-  searchByFilters: (categories: any, currentCocktailsList: any) => {
+  searchByFilters: async (
+    categories: CategoriesInterface[],
+    currentCocktailsList: CocktailInterface[]
+  ): Promise<any> => {
     console.log(currentCocktailsList);
     if (currentCocktailsList.length && categories.length) {
-      console.log(
-        'currentCocktailsList.length && categories.length',
-        'currentCocktailsList',
-        currentCocktailsList,
-        'categories',
-        categories
+      const filteredList = await filterSearchUtil.currentListFilteredByCategories(
+        categories,
+        currentCocktailsList
       );
+      return filteredList;
     } else if (currentCocktailsList.length && !categories.length) {
       console.log(
         'currentCocktailsList.length && !categories.length =',

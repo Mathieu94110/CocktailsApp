@@ -6,7 +6,7 @@ export interface CocktailInterface {
   strCreativeCommonsConfirmed: string;
   strDrink: string;
   strDrinkAlternate: string;
-  strDrinkThumb: string;
+  strDrinkThumb?: string;
   strGlass: string;
   strIBA: string;
   strImageAttribution: string;
