@@ -20,37 +20,10 @@ export default {
     categories: CategoriesInterface[],
     currentCocktailsList: CocktailInterface[]
   ): Promise<any> => {
-    console.log(currentCocktailsList);
-    if (currentCocktailsList.length && categories.length) {
-      const filteredList = await filterSearchUtil.currentListFilteredByCategories(
-        categories,
-        currentCocktailsList
-      );
-      return filteredList;
-    } else if (currentCocktailsList.length && !categories.length) {
-      console.log(
-        'currentCocktailsList.length && !categories.length =',
-        'currentCocktailsList',
-        currentCocktailsList,
-        'categories',
-        categories
-      );
-    } else if (!currentCocktailsList.length && categories.length) {
-      console.log(
-        '!currentCocktailsList.length && categories.length =',
-        'currentCocktailsList',
-        currentCocktailsList,
-        'categories',
-        categories
-      );
-    } else {
-      console.log(
-        '!currentCocktailsList.length && !categories.length =',
-        'currentCocktailsList',
-        currentCocktailsList,
-        'categories',
-        categories
-      );
-    }
+    const filteredList = await filterSearchUtil.filterListByCategories(
+      categories,
+      currentCocktailsList
+    );
+    return filteredList;
   },
 };

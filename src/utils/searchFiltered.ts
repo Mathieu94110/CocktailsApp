@@ -1,7 +1,8 @@
 import type { CategoriesInterface } from 'interfaces';
 import { CocktailInterface } from 'interfaces';
+import { CATEGORIESTYPES } from '../types/categories';
 
-const checkRequestQueries = (categories: any) => {
+const checkRequestQueries = (categories: CATEGORIESTYPES[]) => {
   const validAlcoholicIInfo =
     (categories.includes('Alcoholic') &&
       !categories.includes('Non_Alcoholic')) ||
@@ -45,7 +46,7 @@ const checkRequestQueries = (categories: any) => {
   return validQueries;
 };
 
-const multiPropsFilter = (products: any, filters: any) => {
+const filterListByQueries = (products: CocktailInterface[], filters: any) => {
   const filterKeys = Object.keys(filters);
   return products.filter((product: any) => {
     return filterKeys.every((key) => {
@@ -60,20 +61,25 @@ const multiPropsFilter = (products: any, filters: any) => {
   });
 };
 
-const currentListFilteredByCategories = async (
+const filterListByCategories = async (
   categories: CategoriesInterface[],
   currentList: CocktailInterface[]
 ): Promise<CocktailInterface[]> => {
-  const categoriesInArray: any = categories.map((category) => category.value);
+  const categoriesInArray: any = categories.map(
+    (category: CategoriesInterface) => category.value
+  );
 
   const validQueries = await checkRequestQueries(categoriesInArray);
   const nonNullishQueries = Object.fromEntries(
     Object.entries(validQueries).filter(([, v]) => v !== null)
   );
-  const response = await multiPropsFilter(currentList, nonNullishQueries);
-  return response;
+  const filteredList = await filterListByQueries(
+    currentList,
+    nonNullishQueries
+  );
+  return filteredList;
 };
 
 export default {
-  currentListFilteredByCategories,
+  filterListByCategories,
 };

@@ -24,7 +24,6 @@ function HomePage() {
 
   const indexOfLastCocktail: number = currentPage * postsPerPage;
   const indexOfFirstCocktail: number = indexOfLastCocktail - postsPerPage;
-  const currentCocktailsList: CocktailInterface[] = state.cocktails;
   const currentCocktails: CocktailInterface[] = state.cocktails.slice(
     indexOfFirstCocktail,
     indexOfLastCocktail
@@ -46,30 +45,33 @@ function HomePage() {
     }
   };
 
-  async function setFilters(categories?: CategoriesInterface[]) {
-    if (categories) {
-      setDropDownFilters(categories);
-      console.log('called');
-      const newCocktailsList: CocktailInterface[] =
-        await searchApi.searchByFilters(dropDownFilters, currentCocktailsList);
-      if (newCocktailsList) {
-        dispatch({ type: 'CURRENT_COCKTAILS', payload: newCocktailsList });
-      }
-    }
-    // searchApi.searchByFilters(dropDownFilters, currentCocktailsList);
-  }
-
   useEffect(() => {
-    // Cancel below is used in order to avoid performing request twice
     let cancel = false;
     searchApi
       .searchCocktails(filter)
-      .then((cocktailsInfos: CocktailInterface[]) => {
+      .then(async (cocktailsInfos: CocktailInterface[]) => {
         if (!cancel) {
-          dispatch({
-            type: 'CURRENT_COCKTAILS',
-            payload: cocktailsInfos ? cocktailsInfos : [],
-          });
+          if (filter && !dropDownFilters.length) {
+            dispatch({
+              type: 'CURRENT_COCKTAILS',
+              payload: cocktailsInfos ? cocktailsInfos : [],
+            });
+          } else if (filter && dropDownFilters.length) {
+            const newCocktailsList: CocktailInterface[] =
+              await searchApi.searchByFilters(dropDownFilters, cocktailsInfos);
+            if (newCocktailsList) {
+              dispatch({
+                type: 'CURRENT_COCKTAILS',
+                payload: newCocktailsList,
+              });
+            }
+          } else {
+            const emptyListArray: CocktailInterface[] = [];
+            dispatch({
+              type: 'CURRENT_COCKTAILS',
+              payload: emptyListArray,
+            });
+          }
         }
       })
       .catch((e) => {
@@ -80,14 +82,7 @@ function HomePage() {
           setIsLoading(false);
         }
       });
-  }, [filter]);
-
-  // On below we check category filter and current cocktails list in order to adapt new request
-  useEffect(() => {
-    if (dropDownFilters) {
-      setFilters(dropDownFilters);
-    }
-  }, [dropDownFilters]);
+  }, [filter, dropDownFilters]);
 
   return (
     <div className="flex-fill container d-flex flex-column p-20">
