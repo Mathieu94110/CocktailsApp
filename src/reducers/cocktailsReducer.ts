@@ -7,6 +7,7 @@ function cocktailsReducer(
 ) {
   switch (action.type) {
     case 'CURRENT_COCKTAILS': {
+      console.log(action.payload);
       return {
         ...state,
         cocktails: action.payload,

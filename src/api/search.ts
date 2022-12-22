@@ -26,4 +26,12 @@ export default {
     );
     return filteredList;
   },
+  searchByLetter: async (letter: string): Promise<any> => {
+    try {
+      let cocktail = await cocktailApi.get(`search.php?f=${letter}`);
+      return cocktail.data.drinks;
+    } catch (err) {
+      throw new Error('Error fetch cocktails by first letter');
+    }
+  },
 };

@@ -8,8 +8,8 @@
   box-shadow: var(--box-shadow-nav);
   color: var(--primary);
   img {
-    width: 130px;
-    @include mixin.xs {
+    width: 120px;
+    @include mixin.md-lt {
       width: 80px;
     }
   }
@@ -30,5 +30,15 @@
   }
   @include mixin.xs {
     display: block !important;
+  }
+}
+@include mixin.sm-lt {
+  h1 {
+    font-size: 18px;
+  }
+}
+@include mixin.md {
+  h1 {
+    font-size: 26px;
   }
 }

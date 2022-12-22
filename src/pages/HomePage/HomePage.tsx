@@ -8,10 +8,12 @@ import cocktailsReducer from '../../reducers/cocktailsReducer';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
 import Paginate from './Components/Paginate/Paginate';
 import DropdownFilters from './Components/Dropdown/DropdownFilters';
+import AlphabeticalFilter from './Components/AphabeticalFilter/AlphabeticalFilter';
 import { options } from '../../constant';
 
 function HomePage() {
   const [filter, setFilter] = useState<string>('margarita');
+  const [letter, setLetter] = useState<string>('');
   const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>(
     []
   );
@@ -46,6 +48,7 @@ function HomePage() {
   };
 
   useEffect(() => {
+    setLetter('');
     let cancel = false;
     searchApi
       .searchCocktails(filter)
@@ -84,6 +87,56 @@ function HomePage() {
       });
   }, [filter, dropDownFilters]);
 
+  useEffect(() => {
+    let cancel = false;
+    if (letter) {
+      console.log(letter);
+      setFilter('');
+
+      searchApi
+        .searchByLetter(letter)
+        .then(async (cocktailsInfos: CocktailInterface[]) => {
+          if (!cancel) {
+            if (letter && !dropDownFilters.length) {
+              console.log('!dropDownFilters.length');
+              console.log(cocktailsInfos);
+              dispatch({
+                type: 'CURRENT_COCKTAILS',
+                payload: cocktailsInfos ? cocktailsInfos : [],
+              });
+            } else if (dropDownFilters.length) {
+              const newCocktailsList: CocktailInterface[] =
+                await searchApi.searchByFilters(
+                  dropDownFilters,
+                  cocktailsInfos
+                );
+              if (newCocktailsList) {
+                console.log(newCocktailsList);
+                dispatch({
+                  type: 'CURRENT_COCKTAILS',
+                  payload: newCocktailsList,
+                });
+              }
+            } else {
+              const emptyListArray: CocktailInterface[] = [];
+              dispatch({
+                type: 'CURRENT_COCKTAILS',
+                payload: emptyListArray,
+              });
+            }
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+        .finally(() => {
+          if (!cancel) {
+            setIsLoading(false);
+          }
+        });
+    }
+  }, [letter, dropDownFilters]);
+
   return (
     <div className="flex-fill container d-flex flex-column p-20">
       <h1 className="my-30">Découvrez des nouvelles recettes</h1>
@@ -99,6 +152,7 @@ function HomePage() {
             categories ? setDropDownFilters(categories) : setDropDownFilters([])
           }
         />
+        <AlphabeticalFilter setLetter={setLetter} />
         <Search setFilter={setFilter} currentFilter={filter} />
         {isLoading && !state.cocktails.length ? (
           <Loading />
