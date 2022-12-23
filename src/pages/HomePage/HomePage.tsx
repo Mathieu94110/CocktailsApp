@@ -48,70 +48,25 @@ function HomePage() {
   };
 
   useEffect(() => {
-    setLetter('');
-    let cancel = false;
-    searchApi
-      .searchCocktails(filter)
-      .then(async (cocktailsInfos: CocktailInterface[]) => {
-        if (!cancel) {
-          if (filter && !dropDownFilters.length) {
-            dispatch({
-              type: 'CURRENT_COCKTAILS',
-              payload: cocktailsInfos ? cocktailsInfos : [],
-            });
-          } else if (filter && dropDownFilters.length) {
-            const newCocktailsList: CocktailInterface[] =
-              await searchApi.searchByFilters(dropDownFilters, cocktailsInfos);
-            if (newCocktailsList) {
-              dispatch({
-                type: 'CURRENT_COCKTAILS',
-                payload: newCocktailsList,
-              });
-            }
-          } else {
-            const emptyListArray: CocktailInterface[] = [];
-            dispatch({
-              type: 'CURRENT_COCKTAILS',
-              payload: emptyListArray,
-            });
-          }
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-      })
-      .finally(() => {
-        if (!cancel) {
-          setIsLoading(false);
-        }
-      });
-  }, [filter, dropDownFilters]);
-
-  useEffect(() => {
-    let cancel = false;
-    if (letter) {
-      console.log(letter);
-      setFilter('');
-
+    if (filter) {
+      setLetter('');
+      let cancel = false;
       searchApi
-        .searchByLetter(letter)
+        .searchCocktails(filter)
         .then(async (cocktailsInfos: CocktailInterface[]) => {
           if (!cancel) {
-            if (letter && !dropDownFilters.length) {
-              console.log('!dropDownFilters.length');
-              console.log(cocktailsInfos);
+            if (filter && !dropDownFilters.length) {
               dispatch({
                 type: 'CURRENT_COCKTAILS',
                 payload: cocktailsInfos ? cocktailsInfos : [],
               });
-            } else if (dropDownFilters.length) {
+            } else if (filter && dropDownFilters.length) {
               const newCocktailsList: CocktailInterface[] =
                 await searchApi.searchByFilters(
                   dropDownFilters,
                   cocktailsInfos
                 );
               if (newCocktailsList) {
-                console.log(newCocktailsList);
                 dispatch({
                   type: 'CURRENT_COCKTAILS',
                   payload: newCocktailsList,
@@ -133,6 +88,37 @@ function HomePage() {
           if (!cancel) {
             setIsLoading(false);
           }
+        });
+    }
+  }, [filter, dropDownFilters]);
+
+  useEffect(() => {
+    if (letter) {
+      setFilter('');
+      searchApi
+        .searchByLetter(letter)
+        .then(async (cocktailsInfos: CocktailInterface[]) => {
+          if (!dropDownFilters.length) {
+            dispatch({
+              type: 'CURRENT_COCKTAILS',
+              payload: cocktailsInfos ? cocktailsInfos : [],
+            });
+          } else {
+            const newCocktailsList: CocktailInterface[] =
+              await searchApi.searchByFilters(dropDownFilters, cocktailsInfos);
+            if (newCocktailsList) {
+              dispatch({
+                type: 'CURRENT_COCKTAILS',
+                payload: newCocktailsList,
+              });
+            }
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   }, [letter, dropDownFilters]);
