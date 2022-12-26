@@ -1,7 +1,7 @@
 .recipe {
   position: relative;
   border-radius: 20px;
-  height: 400px;
+  height: 200px;
   cursor: pointer;
   > i {
     position: absolute;
@@ -30,7 +30,7 @@
 }
 
 .imageContainer {
-  height: 300px;
+  height: 150px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   overflow: hidden;

@@ -125,9 +125,9 @@ function HomePage() {
 
   return (
     <div className="flex-fill container d-flex flex-column p-20">
-      <h1 className="my-30">Découvrez des nouvelles recettes</h1>
+      <h1 className="my-10">Découvrez des nouvelles recettes</h1>
       <div
-        className={`card flex-fill d-flex flex-column p-20 mb-20  ${styles.contentCard}`}
+        className={`card flex-fill d-flex flex-column px-10 ${styles.contentCard}`}
       >
         <DropdownFilters
           isSearchable
