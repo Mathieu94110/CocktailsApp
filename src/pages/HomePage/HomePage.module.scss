@@ -1,31 +1,54 @@
 @use '../../assets/styles/mixins' as mixin;
-
+.container {
+  max-width: 1200px;
+  margin: auto;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
 .grid {
   display: grid;
   place-content: center;
-  grid-template-columns: repeat(3, 350px);
-  grid-auto-columns: repeat(3, 350px);
+  grid-template-columns: repeat(3, 200px);
+  grid-auto-columns: repeat(3, 200px);
   gap: 20px;
-  @include mixin.lg-lt {
-    grid-template-columns: repeat(2, 350px);
-    grid-auto-columns: repeat(2, 350px);
-  }
   @include mixin.md-lt {
-    grid-template-columns: 350px;
-    grid-auto-columns: 350px;
+    grid-template-columns: repeat(2, 250px);
+    grid-auto-columns: repeat(2, 250px);
   }
   @include mixin.xs {
-    grid-template-columns: 1fr;
-    grid-auto-columns: 1fr;
+    grid-template-columns: 250px;
+    grid-auto-columns: 250px;
   }
+}
+
+.noResults {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .contentCard {
   max-width: 1130px;
   width: 100%;
+  justify-content: flex-end;
 }
 
 .small {
   font-size: 12px;
   font-weight: 500;
+}
+@media screen and (max-width: 1600px) {
+  .grid {
+    gap: 10px;
+  }
+  .contentCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
 }

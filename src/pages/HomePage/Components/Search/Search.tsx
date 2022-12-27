@@ -15,7 +15,7 @@ function Search({
 
   return (
     <div
-      className={`d-flex flex-row justify-content-center align-item-center mt-10 mb-30 ${styles.searchBar}`}
+      className={`d-flex flex-row justify-content-center align-item-center my-10 ${styles.searchBar}`}
     >
       <i className="fa-solid fa-magnifying-glass mr-15"></i>
       <input

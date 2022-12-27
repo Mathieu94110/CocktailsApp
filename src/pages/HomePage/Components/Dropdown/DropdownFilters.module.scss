@@ -62,3 +62,8 @@ i:hover {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+@media screen and (max-width: 1600px) {
+  .dropdownContainer {
+    margin: 10px 0px;
+  }
+}

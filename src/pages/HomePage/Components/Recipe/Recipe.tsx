@@ -13,7 +13,6 @@ function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
 
   return (
     <div className={styles.recipe}>
-      <i className="fa-solid fa-xmark"></i>
       <div className={styles.imageContainer}>
         <img
           src={cocktails.strDrinkThumb}
@@ -22,9 +21,9 @@ function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
         />
       </div>
       <div
-        className={`${styles.recipeTitle} d-flex flex-column justify-content-center align-items-center`}
+        className={`${styles.recipeContent} d-flex flex-column space-between align-items-center pb-10 pt-5`}
       >
-        <h3 className="mb-10">{cocktails.strDrink}</h3>
+        <h3 className="text-center">{cocktails.strDrink}</h3>
         <i
           onClick={handleClick}
           className={`fa-solid fa-heart ${liked ? 'text-primary' : ''}`}

@@ -13,6 +13,12 @@
 .p-30 {
   padding: 30px;
 }
+.pt-5 {
+  padding-top: 5px;
+}
+.pb-10 {
+  padding-bottom: 10px;
+}
 
 .m-5 {
   margin: 5px;
@@ -46,22 +52,20 @@
   margin-bottom: 10px;
 }
 
-.px-10{
+.px-10 {
   padding-left: 10px;
   padding-right: 10px;
 }
-.my-10{
-  margin-left: 10px;
-  margin-right: 10px;
+.my-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .mb-30 {
   margin-bottom: 30px;
 }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
-  width: 100%;
+.text-center {
+  text-align: center;
 }
 
 .calc {

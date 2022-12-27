@@ -124,7 +124,7 @@ function HomePage() {
   }, [letter, dropDownFilters]);
 
   return (
-    <div className="flex-fill container d-flex flex-column p-20">
+    <div className={styles.container}>
       <h1 className="my-10">Découvrez des nouvelles recettes</h1>
       <div
         className={`card flex-fill d-flex flex-column px-10 ${styles.contentCard}`}
@@ -132,7 +132,7 @@ function HomePage() {
         <DropdownFilters
           isSearchable
           isMulti
-          placeHolder="Select filters"
+          placeHolder="Sélectionner les filtres"
           options={options}
           onChange={(categories: CategoriesInterface[]) =>
             categories ? setDropDownFilters(categories) : setDropDownFilters([])
@@ -144,11 +144,11 @@ function HomePage() {
           <Loading />
         ) : (
           <>
-            <div className={styles.grid}>
+          {state.cocktails.length > 0 ? <div className={styles.grid}>
               {currentCocktails.map((c: CocktailInterface, index: number) => (
                 <Recipe key={index} cocktails={c} />
               ))}
-            </div>
+            </div> : <div className={styles.noResults}>Aucun résultat trouvé</div>}  
             {!!state.cocktails.length && (
               <Paginate
                 postsPerPage={postsPerPage}

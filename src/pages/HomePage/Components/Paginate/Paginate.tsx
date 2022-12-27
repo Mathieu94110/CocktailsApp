@@ -25,7 +25,7 @@ const Paginate = ({
   return (
     <div className={styles.paginationContainer}>
       <ul className={styles.pagination}>
-        <li onClick={previousPage} className={styles.pageNumber}>
+        <li onClick={previousPage} className={styles.paginateItems}>
           Prev
         </li>
         {pageNumbers.map((number: number, index: number) => (
@@ -33,14 +33,14 @@ const Paginate = ({
             key={index}
             onClick={() => paginate(number)}
             className={
-              `${styles.pageNumber} ` +
+              `${styles.paginateItems} ` +
               (number === currentPageNumber ? `${styles.active}` : '')
             }
           >
             {number}
           </li>
         ))}
-        <li onClick={nextPage} className={styles.pageNumber}>
+        <li onClick={nextPage} className={styles.paginateItems}>
           Next
         </li>
       </ul>

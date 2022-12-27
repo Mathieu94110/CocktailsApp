@@ -2,22 +2,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin: 10px 0px;
   gap: 20px;
 }
 
-.pagination .pageNumber {
-  font-size: 16px;
+.pagination .paginateItems {
+  font-size: 1rem;
   font-weight: 600;
   color: var(--primary);
   background: #fff;
-  padding: 10px 20px;
+  padding: 4px 10px;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.5s ease;
 }
 
-.pagination .pageNumber:hover {
+.pagination .paginateItems:hover {
   color: #fff;
   background: var(--primary);
 }
@@ -30,4 +30,9 @@
 .pagination .active:hover {
   color: #00a8ff;
   background: #fff;
+}
+@media screen and (max-width: 1600px) {
+  .pagination {
+    margin: 0px;
+  }
 }
