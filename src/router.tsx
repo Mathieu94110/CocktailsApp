@@ -1,12 +1,11 @@
 import React, { lazy } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 import App from './App';
 import CocktailsRecipeCard from './pages/CocktailsRecipe/CocktailsRecipe';
-// import { recipeLoader } from './loaders/recipeLoader';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <App />,
