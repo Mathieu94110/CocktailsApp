@@ -47,25 +47,24 @@ function HomePage() {
     }
   };
 
-  useEffect(() => {
-    if (filter) {
-      setLetter('');
-      let cancel = false;
-      searchApi
-        .searchCocktails(filter)
-        .then(async (cocktailsInfos: CocktailInterface[]) => {
+  useEffect((): any => {
+    let cancel = false;
+    async function fetchCocktails() {
+      try {
+        if (filter) {
+          setLetter('');
+          const response: CocktailInterface[] = await searchApi.searchCocktails(
+            filter
+          );
           if (!cancel) {
             if (filter && !dropDownFilters.length) {
               dispatch({
                 type: 'CURRENT_COCKTAILS',
-                payload: cocktailsInfos ? cocktailsInfos : [],
+                payload: response ? response : [],
               });
             } else if (filter && dropDownFilters.length) {
               const newCocktailsList: CocktailInterface[] =
-                await searchApi.searchByFilters(
-                  dropDownFilters,
-                  cocktailsInfos
-                );
+                await searchApi.searchByFilters(dropDownFilters, response);
               if (newCocktailsList) {
                 dispatch({
                   type: 'CURRENT_COCKTAILS',
@@ -80,47 +79,56 @@ function HomePage() {
               });
             }
           }
-        })
-        .catch((e) => {
-          console.error(e);
-        })
-        .finally(() => {
-          if (!cancel) {
-            setIsLoading(false);
-          }
-        });
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        if (!cancel) {
+          setIsLoading(false);
+        }
+      }
     }
+    fetchCocktails();
+    return () => (cancel = true);
   }, [filter, dropDownFilters]);
 
-  useEffect(() => {
-    if (letter) {
-      setFilter('');
-      searchApi
-        .searchByLetter(letter)
-        .then(async (cocktailsInfos: CocktailInterface[]) => {
-          if (!dropDownFilters.length) {
-            dispatch({
-              type: 'CURRENT_COCKTAILS',
-              payload: cocktailsInfos ? cocktailsInfos : [],
-            });
-          } else {
-            const newCocktailsList: CocktailInterface[] =
-              await searchApi.searchByFilters(dropDownFilters, cocktailsInfos);
-            if (newCocktailsList) {
+  useEffect((): any => {
+    let cancel = false;
+    async function fetchCocktails() {
+      try {
+        if (letter) {
+          setFilter('');
+          const response: CocktailInterface[] = await searchApi.searchByLetter(
+            letter
+          );
+          if (!cancel) {
+            if (!dropDownFilters.length) {
               dispatch({
                 type: 'CURRENT_COCKTAILS',
-                payload: newCocktailsList,
+                payload: response ? response : [],
               });
+            } else {
+              const newCocktailsList: CocktailInterface[] =
+                await searchApi.searchByFilters(dropDownFilters, response);
+              if (newCocktailsList) {
+                dispatch({
+                  type: 'CURRENT_COCKTAILS',
+                  payload: newCocktailsList,
+                });
+              }
             }
           }
-        })
-        .catch((e) => {
-          console.error(e);
-        })
-        .finally(() => {
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        if (!cancel) {
           setIsLoading(false);
-        });
+        }
+      }
     }
+    fetchCocktails();
+    return () => (cancel = true);
   }, [letter, dropDownFilters]);
 
   return (
@@ -144,11 +152,15 @@ function HomePage() {
           <Loading />
         ) : (
           <>
-          {state.cocktails.length > 0 ? <div className={styles.grid}>
-              {currentCocktails.map((c: CocktailInterface, index: number) => (
-                <Recipe key={index} cocktails={c} />
-              ))}
-            </div> : <div className={styles.noResults}>Aucun résultat trouvé</div>}  
+            {state.cocktails.length ? (
+              <div className={styles.grid}>
+                {currentCocktails.map((c: CocktailInterface, index: number) => (
+                  <Recipe key={index} cocktails={c} />
+                ))}
+              </div>
+            ) : (
+              <div className={styles.noResults}>Aucun résultat trouvé</div>
+            )}
             {!!state.cocktails.length && (
               <Paginate
                 postsPerPage={postsPerPage}
