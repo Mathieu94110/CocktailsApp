@@ -1,9 +1,12 @@
 import React, { lazy } from 'react';
 import { createHashRouter } from 'react-router-dom';
 import App from './App';
-import CocktailsRecipeCard from './pages/CocktailsRecipe/CocktailsRecipe';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
+const CocktailsRecipeCard = lazy(
+  () => import('./pages/CocktailsRecipe/CocktailsRecipe')
+);
+const Signup = lazy(() => import('./pages/Signup/Signup'));
 
 export const router = createHashRouter([
   {
@@ -13,6 +16,10 @@ export const router = createHashRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: 'signup',
+        element: <Signup />,
       },
       {
         path: '/recipe/:name',

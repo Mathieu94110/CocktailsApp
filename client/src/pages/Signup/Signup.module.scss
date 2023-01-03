@@ -1,0 +1,9 @@
+.form {
+  max-width: 350px;
+  flex: 1 1 auto;
+}
+.form-input {
+  padding: 10px 15px;
+  border: 2px solid var(--gray);
+  border-radius: 20px;
+}

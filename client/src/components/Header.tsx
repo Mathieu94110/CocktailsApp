@@ -3,6 +3,7 @@ import styles from './Header.module.scss';
 import cocktailsImg from '../assets/images/cocktails-logo.png';
 import { useState } from 'react';
 import HeaderMenu from './HeaderMenu';
+import { NavLink } from 'react-router-dom';
 
 function Header() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
