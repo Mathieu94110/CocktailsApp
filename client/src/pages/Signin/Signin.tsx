@@ -22,7 +22,6 @@ function Signin() {
   });
 
   const defaultValues = {
-    name: '',
     email: '',
     password: '',
     generic: '',
@@ -43,8 +42,11 @@ function Signin() {
     try {
       clearErrors();
       await signin(credentials);
-    } catch (message: any) {
-      setError('generic', { type: 'generic', message });
+    } catch (error: any) {
+      setError('generic', {
+        type: 'generic',
+        message: "Problème d'adresse mail ou de mot de passe",
+      });
     }
   });
   return (
@@ -58,11 +60,6 @@ function Signin() {
             className={`${styles.form} d-flex flex-column card p-20`}
           >
             <h2 className="mb-10">Connexion</h2>
-            <div className="mb-10  d-flex flex-column">
-              {errors.name && (
-                <p className={styles.formError}>{errors.name.message}</p>
-              )}
-            </div>
             <div className="mb-10 d-flex flex-column">
               <label htmlFor="email">Email</label>
               <input
