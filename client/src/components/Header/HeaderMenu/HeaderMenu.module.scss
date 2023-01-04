@@ -1,4 +1,4 @@
-@use '../assets/styles/mixins' as mixin;
+@use '../../../assets/styles/mixins' as mixin;
 
 .header {
   position: relative;
@@ -18,6 +18,10 @@
 .headerList {
   @include mixin.xs {
     display: none;
+  }
+  > a {
+    text-decoration: none;
+    font-weight: 500;
   }
 }
 
@@ -41,4 +45,8 @@
   h1 {
     font-size: 26px;
   }
+}
+.login-links {
+  text-decoration: none;
+  font-weight: 500;
 }

@@ -1,0 +1,47 @@
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 10px 0px;
+  gap: 20px;
+}
+
+.pagination .paginateItems {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: #fff;
+  padding: 4px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.pagination .paginateItems:hover {
+  color: #fff;
+  background: var(--primary);
+}
+
+.pagination .active {
+  color: #fff;
+  background: var(--primary);
+}
+
+.pagination .active:hover {
+  color: #00a8ff;
+  background: #fff;
+}
+
+@media screen and (max-width: 1600px) {
+  .pagination {
+    margin: 0px;
+  }
+}
+/*# sourceMappingURL=Paginate.module.css.map */

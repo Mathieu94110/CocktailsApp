@@ -1,0 +1,76 @@
+.recipe {
+  position: relative;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.recipe > i {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 25px;
+  color: white;
+  cursor: pointer;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+  z-index: 1;
+}
+
+.recipe > i:hover {
+  color: var(--red-1);
+}
+
+.recipe:hover img {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.recipe i {
+  font-size: 20px;
+}
+
+.recipe i:hover {
+  color: var(--primary);
+}
+
+.imageContainer {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow: hidden;
+}
+
+.imageContainer img {
+  -webkit-transition: 1s -webkit-transform;
+  transition: 1s -webkit-transform;
+  transition: 1s transform;
+  transition: 1s transform, 1s -webkit-transform;
+  width: 100%;
+}
+
+.recipeContent {
+  height: 80px;
+  -webkit-transition: 0.2s color;
+  transition: 0.2s color;
+  border: 1px solid var(--gray-2);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+@media screen and (max-width: 1600px) {
+  .recipe {
+    height: auto;
+  }
+  .recipeContent {
+    height: 60px;
+  }
+  .imageContainer {
+    height: 120px;
+    border: 1px solid var(--gray-2);
+    text-align: center;
+  }
+  .imageContainer img {
+    width: 150px;
+    height: auto;
+  }
+}
+/*# sourceMappingURL=Recipe.module.css.map */

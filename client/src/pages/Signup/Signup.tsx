@@ -1,9 +1,10 @@
-import styles from './SignUp.module.scss';
+import styles from './Signup.module.scss';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createUser } from '../../api/users';
 import { useNavigate } from 'react-router';
+import { UsersInterface } from '../../interfaces';
 
 function Signup() {
   const navigate = useNavigate();
@@ -41,13 +42,12 @@ function Signup() {
     resolver: yupResolver(validationSchema),
   });
 
-  const submit = handleSubmit(async (user) => {
-    console.log(user);
+  const submit = handleSubmit(async (user: UsersInterface) => {
     try {
       clearErrors();
       await createUser(user);
       navigate('/signin');
-    } catch (message:any) {
+    } catch (message: any) {
       setError('generic', { type: 'generic', message });
     }
   });
@@ -60,20 +60,12 @@ function Signup() {
         <h2 className="mb-10">Inscription</h2>
         <div className="mb-10  d-flex flex-column">
           <label htmlFor="name">Nom</label>
-          <input
-            className="form-input"
-            type="text"
-            {...register('name')}
-          />
+          <input className="form-input" type="text" {...register('name')} />
           {errors.name && <p className="form-error">{errors.name.message}</p>}
         </div>
         <div className="mb-10 d-flex flex-column">
           <label htmlFor="email">Email</label>
-          <input
-            className="form-input"
-            type="text"
-            {...register('email')}
-          />
+          <input className="form-input" type="text" {...register('email')} />
           {errors.email && <p className="form-error">{errors.email.message}</p>}
         </div>
         <div className="mb-10 d-flex flex-column">

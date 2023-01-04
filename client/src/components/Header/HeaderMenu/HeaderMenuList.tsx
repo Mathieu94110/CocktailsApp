@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './HeaderMenu.module.scss';
+import styles from './HeaderMenuList.module.scss';
 
-function HeaderMenu() {
+function HeaderMenuList() {
   return (
     <ul className={`${styles.MenuContainer} card p-20`}>
       <li>Favoris</li>
@@ -10,4 +10,4 @@ function HeaderMenu() {
   );
 }
 
-export default HeaderMenu;
+export default HeaderMenuList;

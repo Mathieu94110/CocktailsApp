@@ -1,0 +1,20 @@
+.MenuContainer {
+  position: absolute;
+  top: 68px;
+  right: 10px;
+  width: 200px;
+}
+
+.MenuContainer li {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 20px;
+  -webkit-transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.MenuContainer li:hover {
+  background-color: var(--primary);
+  color: white;
+}
+/*# sourceMappingURL=HeaderMenuList.module.css.map */

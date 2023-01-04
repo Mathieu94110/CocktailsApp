@@ -1,0 +1,12 @@
+@use '../../../../assets/styles/mixins' as mixin;
+.searchBar {
+  padding: 8px 13px;
+  border: 2px solid var(--gray-2);
+  border-radius: 20px;
+}
+
+.searchBar input {
+  outline: 0;
+  border: 0;
+}
+/*# sourceMappingURL=Search.module.css.map */

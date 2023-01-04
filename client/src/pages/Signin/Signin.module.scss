@@ -1,0 +1,9 @@
+.formError {
+  color: var(--red-1);
+  margin: 6px 0;
+}
+input {
+  padding: 6px 10px;
+  border: 2px solid var(--gray-2);
+  border-radius: var(--border-radius);
+}
