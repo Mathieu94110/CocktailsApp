@@ -1,4 +1,5 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction, useEffect } from 'react';
+import { useDebounce } from '../../../../helpers/useDebounce';
 import styles from './Search.module.scss';
 
 function Search({
@@ -8,10 +9,16 @@ function Search({
   setFilter: Dispatch<SetStateAction<string>>;
   currentFilter: string;
 }) {
-  function handleInput(e: ChangeEvent<HTMLInputElement>) {
-    const filter = e.currentTarget.value;
-    setFilter(filter.trim().toLowerCase());
-  }
+  const [debouncedOutput, setDebouncedOutput] = useState('');
+
+  const onChangeDebouncedEvent = async (text: string) => {
+    setDebouncedOutput(text);
+  };
+  const onChangeDebounced = useDebounce(onChangeDebouncedEvent);
+
+  useEffect(() => {
+    if (debouncedOutput) setFilter(debouncedOutput);
+  }, [debouncedOutput]);
 
   return (
     <div
@@ -19,7 +26,7 @@ function Search({
     >
       <i className="fa-solid fa-magnifying-glass mr-15"></i>
       <input
-        onInput={handleInput}
+        onChange={(e) => onChangeDebounced(e.target.value)}
         className="flex-fill"
         type="text"
         placeholder={currentFilter}

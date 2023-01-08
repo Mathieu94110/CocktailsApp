@@ -152,24 +152,30 @@ function HomePage() {
           <Loading />
         ) : (
           <>
-            {state.cocktails.length ? (
-              <div className={styles.grid}>
-                {currentCocktails.map((c: CocktailInterface, index: number) => (
-                  <Recipe key={index} cocktails={c} />
-                ))}
+            {state.cocktails.length && !isLoading ? (
+              <div className={styles.cocktailsResults}>
+                <div className={styles.grid}>
+                  {currentCocktails.map(
+                    (c: CocktailInterface, index: number) => (
+                      <Recipe key={index} cocktails={c} />
+                    )
+                  )}
+                </div>
+                <Paginate
+                  postsPerPage={postsPerPage}
+                  totalPosts={state.cocktails.length}
+                  paginate={paginate}
+                  previousPage={previousPage}
+                  nextPage={nextPage}
+                  currentPageNumber={currentPage}
+                />
+              </div>
+            ) : !state.cocktails.length && !isLoading ? (
+              <div className={styles.cocktailsResults}>
+                Aucun résultat trouvé
               </div>
             ) : (
-              <div className={styles.noResults}>Aucun résultat trouvé</div>
-            )}
-            {!!state.cocktails.length && (
-              <Paginate
-                postsPerPage={postsPerPage}
-                totalPosts={state.cocktails.length}
-                paginate={paginate}
-                previousPage={previousPage}
-                nextPage={nextPage}
-                currentPageNumber={currentPage}
-              />
+              <div className={styles.cocktailsResults}></div>
             )}
           </>
         )}

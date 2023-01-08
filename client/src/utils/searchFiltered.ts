@@ -48,6 +48,7 @@ const checkRequestQueries = (categories: CATEGORIESTYPES[]) => {
 
 const filterListByQueries = (products: CocktailInterface[], filters: any) => {
   const filterKeys = Object.keys(filters);
+  if (!products) return [];
   return products.filter((product: any) => {
     return filterKeys.every((key) => {
       if (!filters[key].length) return true;
@@ -83,3 +84,4 @@ const filterListByCategories = async (
 export default {
   filterListByCategories,
 };
+  
