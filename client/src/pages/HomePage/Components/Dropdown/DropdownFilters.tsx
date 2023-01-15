@@ -77,7 +77,7 @@ const DropdownFilters = ({
         <div className={styles.dropdownTags}>
           {selectedValue.map((option: CategoriesInterface) => (
             <div key={option.id} className={styles.dropdownTagItem}>
-              {option.label}
+              {option.text}
               <span
                 onClick={(e) => onTagRemove(e, option)}
                 className={styles.dropdownTagClose}
@@ -170,7 +170,7 @@ const DropdownFilters = ({
                 type="checkbox"
                 checked={isSelected(option)}
               />
-              <label>{option.label}</label>
+              <label>{option.text}</label>
             </div>
           ))}
         </div>

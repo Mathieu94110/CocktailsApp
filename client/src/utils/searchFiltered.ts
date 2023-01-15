@@ -1,42 +1,71 @@
 import type { CategoriesInterface } from 'interfaces';
 import { CocktailInterface } from 'interfaces';
-import { CATEGORIESTYPES } from '../types/categories';
+import { CATEGORYTYPES } from '../types/categories';
 
-const checkRequestQueries = (categories: CATEGORIESTYPES[]) => {
-  const validAlcoholicIInfo =
-    (categories.includes('Alcoholic') &&
-      !categories.includes('Non_Alcoholic')) ||
-    (!categories.includes('Alcoholic') && categories.includes('Non_Alcoholic'));
+const isRequiredInfos = (
+  categories: CATEGORYTYPES[],
+  cat1: CATEGORYTYPES,
+  cat2: CATEGORYTYPES
+): boolean => {
+  return (
+    (categories.includes(cat1) && !categories.includes(cat2)) ||
+    (!categories.includes(cat1) && categories.includes(cat2))
+  );
+};
 
-  const validCocktailIInfo =
-    (categories.includes('Ordinary_Drink') &&
-      !categories.includes('Cocktail')) ||
-    (!categories.includes('Ordinary_Drink') && categories.includes('Cocktail'));
-
-  const validGlassInfo =
-    (categories.includes('Cocktail_glass') &&
-      !categories.includes('Champagne_flute')) ||
-    (!categories.includes('Cocktail_glass') &&
-      categories.includes('Champagne_flute'));
-
-  const alcoholicQueries =
-    validAlcoholicIInfo && categories.includes('Alcoholic')
-      ? 'Alcoholic'
-      : validAlcoholicIInfo && categories.includes('Non_Alcoholic')
+const categoriesQueries = (
+  categories: CATEGORYTYPES[],
+  requiredInfos: boolean,
+  cat1: CATEGORYTYPES,
+  cat2: CATEGORYTYPES
+) => {
+  return requiredInfos && categories.includes(cat1)
+    ? cat1.split('_').join(' ')
+    : requiredInfos && categories.includes(cat2)
+      ? cat2 === 'Non_Alcoholic'
         ? 'Non alcoholic'
-        : null;
-  const cocktailQueries =
-    validCocktailIInfo && categories.includes('Ordinary_Drink')
-      ? 'Ordinary Drink'
-      : validCocktailIInfo && categories.includes('Cocktail')
-        ? 'Cocktail'
-        : null;
-  const glassQueries =
-    validGlassInfo && categories.includes('Cocktail_glass')
-      ? 'Cocktail glass'
-      : validGlassInfo && categories.includes('Champagne_flute')
-        ? 'Champagne flute'
-        : null;
+        : cat2.split('_').join(' ')
+      : null;
+};
+const checkRequestQueries = (categories: CATEGORYTYPES[]) => {
+  const validAlcoholicIInfo = isRequiredInfos(
+    categories,
+    'Alcoholic',
+    'Non_Alcoholic'
+  );
+
+  const validCocktailIInfo = isRequiredInfos(
+    categories,
+    'Ordinary_Drink',
+    'Cocktail'
+  );
+
+  const validGlassInfo = isRequiredInfos(
+    categories,
+    'Cocktail_glass',
+    'Champagne_flute'
+  );
+
+  const alcoholicQueries = categoriesQueries(
+    categories,
+    validAlcoholicIInfo,
+    'Alcoholic',
+    'Non_Alcoholic'
+  );
+
+  const cocktailQueries = categoriesQueries(
+    categories,
+    validCocktailIInfo,
+    'Ordinary_Drink',
+    'Cocktail'
+  );
+
+  const glassQueries = categoriesQueries(
+    categories,
+    validGlassInfo,
+    'Cocktail_glass',
+    'Champagne_flute'
+  );
 
   const validQueries = {
     strAlcoholic: alcoholicQueries,
@@ -66,11 +95,11 @@ const filterListByCategories = async (
   categories: CategoriesInterface[],
   currentList: CocktailInterface[]
 ): Promise<CocktailInterface[]> => {
-  const categoriesInArray: any = categories.map(
+  const categoryValues: any = categories.map(
     (category: CategoriesInterface) => category.value
   );
 
-  const validQueries = await checkRequestQueries(categoriesInArray);
+  const validQueries = checkRequestQueries(categoryValues);
   const nonNullishQueries = Object.fromEntries(
     Object.entries(validQueries).filter(([, v]) => v !== null)
   );
@@ -84,4 +113,3 @@ const filterListByCategories = async (
 export default {
   filterListByCategories,
 };
-  

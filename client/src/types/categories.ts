@@ -1,4 +1,4 @@
-export type CATEGORIESTYPES =
+export type CATEGORYTYPES =
   | 'Alcoholic'
   | 'Non_Alcoholic'
   | 'Ordinary_Drink'
