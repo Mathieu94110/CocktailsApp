@@ -10,6 +10,9 @@ function AuthProvider({ children }: { children: any }) {
 
   async function signin(credentials: UsersInterface) {
     const newUser: UsersInterface = await login(credentials);
+    if (newUser._id) {
+      window.localStorage.setItem('userId', newUser._id);
+    }
     setUser(newUser);
   }
   async function signout() {

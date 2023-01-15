@@ -12,7 +12,7 @@ function CocktailsRecipe() {
       <button
         className={styles.backButton}
         onClick={() => {
-          navigate('/', { replace: true });
+          navigate(-1);
         }}
       >
         Back

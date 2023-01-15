@@ -9,7 +9,7 @@ const CocktailsRecipeCard = lazy(
 );
 const Signup = lazy(() => import('./pages/Signup/Signup'));
 const Signin = lazy(() => import('./pages/Signin/Signin'));
-
+const Favorite = lazy(() => import('./pages/Favorite/Favorite'));
 export const router = createHashRouter([
   {
     path: '/',
@@ -33,7 +33,11 @@ export const router = createHashRouter([
         element: <Signin />,
       },
       {
-        path: '/recipe/:name',
+        path: 'favorite',
+        element: <Favorite />,
+      },
+      {
+        path: '/recipe/:id',
         element: (
           <ProtectedRoute>
             <CocktailsRecipeCard />
@@ -41,7 +45,7 @@ export const router = createHashRouter([
         ),
         loader: async ({ params }) => {
           const res = await fetch(
-            `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${params.name}`
+            `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${params.id}`
           );
           const recipe = await res.json();
           return recipe.drinks;

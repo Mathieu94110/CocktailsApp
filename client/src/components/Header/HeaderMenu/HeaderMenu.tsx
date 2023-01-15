@@ -3,13 +3,16 @@ import styles from './HeaderMenu.module.scss';
 import cocktailsImg from '../../../assets/images/cocktails-logo.png';
 import { useState } from 'react';
 import HeaderMenuList from './HeaderMenuList';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate, useMatch } from 'react-router-dom';
 import { AuthContext } from 'context';
 
 function HeaderMenu() {
   const { user, signout } = useContext<any>(AuthContext);
   const [showMenu, setShowMenu] = useState<boolean>(false);
-
+  const navigate = useNavigate();
+  const matchHomepage = useMatch('/');
+  const goFavorite = () => navigate('/favorite');
+  const goToHome = () => navigate('/');
   return (
     <header className={`${styles.header} d-flex flex-row align-items-center`}>
       {user ? (
@@ -21,7 +24,11 @@ function HeaderMenu() {
           <ul className={styles.headerList}>
             <button className="mr-5 btn btn-reverse-primary">
               <i className="fa-solid fa-basket-shopping mr-5"></i>
-              <span>Favoris</span>
+              {matchHomepage ? (
+                <span onClick={goFavorite}>Favoris</span>
+              ) : (
+                <span onClick={goToHome}>Accueil</span>
+              )}
             </button>
             <button
               className="mr-5 btn btn-reverse-danger"
