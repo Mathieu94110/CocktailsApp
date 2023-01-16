@@ -22,13 +22,12 @@ function HeaderMenu() {
             <h1>Cocktails Master</h1>
           </div>
           <ul className={styles.headerList}>
-            <button className="mr-5 btn btn-reverse-primary">
+            <button
+              onClick={matchHomepage ? goFavorite : goToHome}
+              className="mr-5 btn btn-reverse-primary"
+            >
               <i className="fa-solid fa-basket-shopping mr-5"></i>
-              {matchHomepage ? (
-                <span onClick={goFavorite}>Favoris</span>
-              ) : (
-                <span onClick={goToHome}>Accueil</span>
-              )}
+              {matchHomepage ? <span>Favoris</span> : <span>Accueil</span>}
             </button>
             <button
               className="mr-5 btn btn-reverse-danger"
