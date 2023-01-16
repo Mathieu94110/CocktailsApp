@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import styles from './HomePage.module.scss';
-import Search from './Components/Search/Search';
+import SearchInput from './Components/SearchInput/SearchInput';
 import Recipe from './Components/Recipe/Recipe';
 import Loading from '../../components/Loading/Loading';
 import searchApi from '../../api/search';
@@ -12,7 +12,7 @@ import AlphabeticalFilter from './Components/AphabeticalFilter/AlphabeticalFilte
 import { options } from '../../constant';
 
 function HomePage() {
-  const [filter, setFilter] = useState<string>('margarita');
+  const [searchInputValue, setSearchInputValue] = useState<string>('margarita');
   const [letter, setLetter] = useState<string>('');
   const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>(
     []
@@ -31,38 +31,38 @@ function HomePage() {
     indexOfLastCocktail
   );
 
-  const paginate = (pageNumber: number) => {
+  function paginate(pageNumber: number) {
     setCurrentPage(pageNumber);
-  };
+  }
 
-  const previousPage = () => {
+  function previousPage() {
     if (currentPage !== 1) {
       setCurrentPage(currentPage - 1);
     }
-  };
+  }
 
-  const nextPage = () => {
+  function nextPage() {
     if (currentPage !== Math.ceil(state.cocktails.length / postsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
-  };
+  }
 
   useEffect((): any => {
     let cancel = false;
     async function fetchCocktails() {
       try {
-        if (filter) {
+        if (searchInputValue) {
           setLetter('');
           const response: CocktailInterface[] = await searchApi.searchCocktails(
-            filter
+            searchInputValue
           );
           if (!cancel) {
-            if (filter && !dropDownFilters.length) {
+            if (searchInputValue && !dropDownFilters.length) {
               dispatch({
                 type: 'CURRENT_COCKTAILS',
                 payload: response ? response : [],
               });
-            } else if (filter && dropDownFilters.length) {
+            } else if (searchInputValue && dropDownFilters.length) {
               const newCocktailsList: CocktailInterface[] =
                 await searchApi.searchByFilters(dropDownFilters, response);
               if (newCocktailsList) {
@@ -90,14 +90,14 @@ function HomePage() {
     }
     fetchCocktails();
     return () => (cancel = true);
-  }, [filter, dropDownFilters]);
+  }, [searchInputValue, dropDownFilters]);
 
   useEffect((): any => {
     let cancel = false;
     async function fetchCocktails() {
       try {
         if (letter) {
-          setFilter('');
+          setSearchInputValue('');
           const response: CocktailInterface[] = await searchApi.searchByLetter(
             letter
           );
@@ -147,7 +147,7 @@ function HomePage() {
           }
         />
         <AlphabeticalFilter setLetter={setLetter} />
-        <Search setFilter={setFilter} currentFilter={filter} />
+        <SearchInput setFilter={setSearchInputValue} currentFilter={searchInputValue} />
         {isLoading && !state.cocktails.length ? (
           <Loading />
         ) : (

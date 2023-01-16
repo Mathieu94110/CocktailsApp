@@ -1,5 +1,4 @@
 import styles from './Favorite.module.scss';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Loading from '../../components/Loading/Loading';
 import { CocktailInterface } from 'interfaces';
@@ -7,48 +6,45 @@ import { useNavigate } from 'react-router';
 import { useContext } from 'react';
 import { AuthContext } from '../../context';
 import { Navigate } from 'react-router-dom';
+import favoriteApi from 'api/favorite';
 
 function Favorite() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [Favorites, setFavorites] = useState([]);
   const { user } = useContext<any>(AuthContext);
   const variable: { userFrom: string } = {
-    userFrom: localStorage.getItem('userId')!,
+    userFrom: localStorage.getItem('userId')!, //here userId always exist
   };
 
   const navigate = useNavigate();
   const goToRecipe = (id: string) => navigate(`/recipe/${id}`);
 
-  const fetchFavoredMovie = () => {
-    axios
-      .post('/api/favorite/getFavoredCocktail', variable)
-      .then((response) => {
-        if (response.data.success) {
-          setIsLoading(false);
-          setFavorites(response.data.favorites);
-        } else {
-          alert('Failed to get cocktail favorites');
-        }
-      });
-  };
-  const onClickDelete = (favoriteId: string, userFrom: string) => {
+  async function fetchFavoredCocktail() {
+    const response = await favoriteApi.getFavorites(variable);
+
+    if (response.data.success) {
+      setIsLoading(false);
+      setFavorites(response.data.favorites);
+    } else {
+      alert('Failed to get cocktail favorites');
+    }
+  }
+
+  async function onClickDelete(favoriteId: string, userFrom: string) {
     const variables = {
       idDrink: favoriteId,
       userFrom: userFrom,
     };
+    const response = await favoriteApi.removeFromFavorite(variables);
+    if (response.response.data.success) {
+      fetchFavoredCocktail();
+    } else {
+      alert('Failed to Remove From Favorite');
+    }
+  }
 
-    axios
-      .post('/api/favorite/removeFromFavorite', variables)
-      .then((response) => {
-        if (response.data.success) {
-          fetchFavoredMovie();
-        } else {
-          alert('Failed to Remove From Favorite');
-        }
-      });
-  };
   useEffect(() => {
-    fetchFavoredMovie();
+    fetchFavoredCocktail();
   }, []);
 
   const renderCards = Favorites.map(
@@ -90,7 +86,7 @@ function Favorite() {
 
   return (
     <>
-      {user ? (
+      {Favorites.length ? (
         <div className="flex-fill m-20">
           <h1> Vos favoris </h1>
           <hr />
@@ -113,8 +109,11 @@ function Favorite() {
           )}
         </div>
       ) : (
-        <Navigate to="/"></Navigate>
+        <div className="flex-fill vertical-center-content align-items-center">
+          <h2>Vous n'avez pas enregistré de favoris</h2>
+        </div>
       )}
+      {!user && <Navigate to="/"></Navigate>}
     </>
   );
 }

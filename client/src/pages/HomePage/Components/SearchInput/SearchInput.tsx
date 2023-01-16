@@ -1,8 +1,8 @@
 import { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { useDebounce } from '../../../../helpers/useDebounce';
-import styles from './Search.module.scss';
+import styles from './SearchInput.module.scss';
 
-function Search({
+function SearchInput({
   setFilter,
   currentFilter,
 }: {
@@ -11,9 +11,10 @@ function Search({
 }) {
   const [debouncedOutput, setDebouncedOutput] = useState('');
 
-  const onChangeDebouncedEvent = async (text: string) => {
+  async function onChangeDebouncedEvent(text: string) {
     setDebouncedOutput(text);
-  };
+  }
+
   const onChangeDebounced = useDebounce(onChangeDebouncedEvent);
 
   useEffect(() => {
@@ -35,4 +36,4 @@ function Search({
   );
 }
 
-export default Search;
+export default SearchInput;

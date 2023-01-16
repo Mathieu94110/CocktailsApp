@@ -2,14 +2,13 @@ import { CocktailInterface } from 'interfaces';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Recipe.module.scss';
-import axios from 'axios';
+import favoriteApi from 'api/favorite';
 
 function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
-  const [liked, setLiked] = useState<boolean>(false);
   const [Favorited, setFavorited] = useState(false);
+  const userFrom = localStorage.getItem('userId');
   const navigate = useNavigate();
   const goToRecipe = () => navigate(`/recipe/${cocktails.idDrink}`);
-  const userFrom = localStorage.getItem('userId');
 
   const variables = {
     idDrink: cocktails.idDrink,
@@ -20,37 +19,44 @@ function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
     strAlcoholic: cocktails.strAlcoholic,
   };
 
-  function addToFavorite() {
-    setFavorited(!Favorited);
+  const variable: { userFrom: string } = {
+    userFrom: localStorage.getItem('userId')!,
+  };
+
+  async function addToFavorite() {
     if (Favorited) {
-      //when we are already subscribed
-      axios
-        .post('/api/favorite/removeFromFavorite', variables)
-        .then((response) => {
-          if (response.data.success) {
-          } else {
-            alert('Failed to Remove From Favorite');
-          }
-        });
+      const removed = await favoriteApi.removeFromFavorite(variables);
+      setFavorited(!Favorited);
+      alert(removed.message);
     } else {
-      setLiked(!liked);
-      axios.post('/api/favorite/addToFavorite', variables).then((response) => {
-        if (response.data.success) {
-        } else {
-          alert('Failed to Add To Favorite');
-        }
-      });
+      const added = await favoriteApi.addToFavorite(variables);
+      if (added.data.success) {
+        alert(`${variables.strDrink} a été ajouté à vos favoris`);
+        setFavorited(!Favorited);
+      }
     }
   }
-  useEffect(() => {
-    axios.post('/api/favorite/favorited', variables).then((response) => {
-      if (response.data.success) {
-        setFavorited(response.data.subcribed);
+
+  async function fetchFavoredCocktail() {
+    const response = await favoriteApi.getFavorites(variable);
+    if (response.data.success) {
+      const favorites = response.data.favorites;
+      const cocktailOnFavorite = favorites.filter(
+        (item: CocktailInterface) => item.idDrink === cocktails.idDrink
+      );
+      if (cocktailOnFavorite.length) {
+        setFavorited(true);
       } else {
-        alert('Failed to get Favorite Information');
+        setFavorited(false);
       }
-    });
-  }, []);
+    } else {
+      alert('Échec lors de la récupération des favoris');
+    }
+  }
+
+  useEffect(() => {
+    fetchFavoredCocktail();
+  }, [Favorited, cocktails]);
 
   return (
     <div className={styles.recipe}>
@@ -67,7 +73,7 @@ function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
         <h3 className="text-center">{cocktails.strDrink}</h3>
         <i
           onClick={addToFavorite}
-          className={`fa-solid fa-heart ${liked ? 'text-primary' : ''}`}
+          className={`fa-solid fa-heart ${Favorited ? 'text-primary' : ''}`}
         ></i>
       </div>
     </div>

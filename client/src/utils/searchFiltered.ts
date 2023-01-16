@@ -2,23 +2,23 @@ import type { CategoriesInterface } from 'interfaces';
 import { CocktailInterface } from 'interfaces';
 import { CATEGORYTYPES } from '../types/categories';
 
-const isRequiredInfos = (
+function isRequiredInfos(
   categories: CATEGORYTYPES[],
   cat1: CATEGORYTYPES,
   cat2: CATEGORYTYPES
-): boolean => {
+): boolean {
   return (
     (categories.includes(cat1) && !categories.includes(cat2)) ||
     (!categories.includes(cat1) && categories.includes(cat2))
   );
-};
+}
 
-const categoriesQueries = (
+function categoriesQueries(
   categories: CATEGORYTYPES[],
   requiredInfos: boolean,
   cat1: CATEGORYTYPES,
   cat2: CATEGORYTYPES
-) => {
+) {
   return requiredInfos && categories.includes(cat1)
     ? cat1.split('_').join(' ')
     : requiredInfos && categories.includes(cat2)
@@ -26,7 +26,7 @@ const categoriesQueries = (
         ? 'Non alcoholic'
         : cat2.split('_').join(' ')
       : null;
-};
+}
 const checkRequestQueries = (categories: CATEGORYTYPES[]) => {
   const validAlcoholicIInfo = isRequiredInfos(
     categories,
@@ -75,7 +75,7 @@ const checkRequestQueries = (categories: CATEGORYTYPES[]) => {
   return validQueries;
 };
 
-const filterListByQueries = (products: CocktailInterface[], filters: any) => {
+function filterListByQueries(products: CocktailInterface[], filters: any) {
   const filterKeys = Object.keys(filters);
   if (!products) return [];
   return products.filter((product: any) => {
@@ -89,12 +89,12 @@ const filterListByQueries = (products: CocktailInterface[], filters: any) => {
       return filters[key].includes(product[key]);
     });
   });
-};
+}
 
-const filterListByCategories = async (
+async function filterListByCategories(
   categories: CategoriesInterface[],
   currentList: CocktailInterface[]
-): Promise<CocktailInterface[]> => {
+): Promise<CocktailInterface[]> {
   const categoryValues: any = categories.map(
     (category: CategoriesInterface) => category.value
   );
@@ -108,7 +108,7 @@ const filterListByCategories = async (
     nonNullishQueries
   );
   return filteredList;
-};
+}
 
 export default {
   filterListByCategories,

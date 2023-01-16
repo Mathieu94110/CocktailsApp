@@ -2,22 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { Favorite } = require('../../database/models/favorite.model');
 
-router.post('/favorited', (req, res) => {
-  Favorite.find({
-    idDrink: req.body.idDrink,
-    userFrom: req.body.userFrom,
-  }).exec((err, subscribe) => {
-    if (err) return res.status(400).send(err);
-
-    let result = false;
-    if (subscribe.length !== 0) {
-      result = true;
-    }
-
-    res.status(200).json({ success: true, subcribed: result });
-  });
-});
-
 router.post('/addToFavorite', (req, res) => {
   const favorite = new Favorite(req.body);
   favorite.save((err, doc) => {
