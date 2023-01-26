@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose
+mongoose.set("strictQuery", true)
   .connect(
     'mongodb+srv://byby94110:byby94110@cluster0.byrbrs1.mongodb.net/?retryWrites=true&w=majority'
   )
