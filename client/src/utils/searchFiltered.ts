@@ -1,88 +1,48 @@
 import type { CategoriesInterface } from 'interfaces';
-import { CocktailInterface } from 'interfaces';
-import { CATEGORYTYPES } from '../types/categories';
+import { CocktailInterface, ValidQueriesInterface } from 'interfaces';
 
-function isRequiredInfos(
-  categories: CATEGORYTYPES[],
-  cat1: CATEGORYTYPES,
-  cat2: CATEGORYTYPES
-): boolean {
-  return (
-    (categories.includes(cat1) && !categories.includes(cat2)) ||
-    (!categories.includes(cat1) && categories.includes(cat2))
-  );
-}
-
-function categoriesQueries(
-  categories: CATEGORYTYPES[],
-  requiredInfos: boolean,
-  cat1: CATEGORYTYPES,
-  cat2: CATEGORYTYPES
-) {
-  return requiredInfos && categories.includes(cat1)
-    ? cat1.split('_').join(' ')
-    : requiredInfos && categories.includes(cat2)
-      ? cat2 === 'Non_Alcoholic'
-        ? 'Non alcoholic'
-        : cat2.split('_').join(' ')
-      : null;
-}
-const checkRequestQueries = (categories: CATEGORYTYPES[]) => {
-  const validAlcoholicIInfo = isRequiredInfos(
-    categories,
-    'Alcoholic',
-    'Non_Alcoholic'
-  );
-
-  const validCocktailIInfo = isRequiredInfos(
-    categories,
-    'Ordinary_Drink',
-    'Cocktail'
-  );
-
-  const validGlassInfo = isRequiredInfos(
-    categories,
-    'Cocktail_glass',
-    'Champagne_flute'
-  );
-
-  const alcoholicQueries = categoriesQueries(
-    categories,
-    validAlcoholicIInfo,
-    'Alcoholic',
-    'Non_Alcoholic'
-  );
-
-  const cocktailQueries = categoriesQueries(
-    categories,
-    validCocktailIInfo,
-    'Ordinary_Drink',
-    'Cocktail'
-  );
-
-  const glassQueries = categoriesQueries(
-    categories,
-    validGlassInfo,
-    'Cocktail_glass',
-    'Champagne_flute'
-  );
-
-  const validQueries = {
-    strAlcoholic: alcoholicQueries,
-    strCategory: cocktailQueries,
-    strGlass: glassQueries,
+function requiredInfos(
+  categories: CategoriesInterface['value'][],
+): ValidQueriesInterface {
+  let validQueries: ValidQueriesInterface = {
+    strAlcoholic: '',
+    strCategory: '',
+    strGlass: '',
   };
+  let i = 0;
+  while ( i < categories.length ) {
+    if (categories.includes('Alcoholic') && !categories.includes('Non_Alcoholic')) {
+      validQueries.strAlcoholic = 'Alcoholic';
+    } if (!categories.includes('Alcoholic') && categories.includes('Non_Alcoholic')) {
+      validQueries.strAlcoholic = 'Non alcoholic';
+    } if (categories.includes('Ordinary_Drink') && !categories.includes('Cocktail')) {
+      validQueries.strCategory = 'Ordinary Drink';
+    } if (!categories.includes('Ordinary_Drink') && categories.includes('Cocktail') ) {
+      validQueries.strCategory = 'Cocktail';
+    } if (!categories.includes('Cocktail_glass') && categories.includes('Champagne_flute')) {
+      validQueries.strGlass = 'Champagne flute';
+    } if (categories.includes('Cocktail_glass') && !categories.includes('Champagne_flute')) {
+      validQueries.strGlass = 'Cocktail glass';
+    }
+    i++;
+  }
+
   return validQueries;
+}
+
+const checkRequestQueries = (categories: CategoriesInterface['value'][]):ValidQueriesInterface => {
+  const validInfos = requiredInfos(categories);
+  return validInfos;
 };
 
-function filterListByQueries(products: CocktailInterface[], filters: any) {
+function filteredListByQueries(products: CocktailInterface[], filters: { [key: string]: string } ) {
   const filterKeys = Object.keys(filters);
   if (!products) return [];
   return products.filter((product: any) => {
-    return filterKeys.every((key) => {
+    return filterKeys.every((key:string) => {
       if (!filters[key].length) return true;
       if (Array.isArray(product[key])) {
-        return product[key].some((keyEle: any) =>
+        return product[key].some((keyEle: string) =>
           filters[key].includes(keyEle)
         );
       }
@@ -95,21 +55,19 @@ async function filterListByCategories(
   categories: CategoriesInterface[],
   currentList: CocktailInterface[]
 ): Promise<CocktailInterface[]> {
-  const categoryValues: any = categories.map(
+  const categoryValues:  CategoriesInterface['value'][] = categories.map(
     (category: CategoriesInterface) => category.value
   );
-
   const validQueries = checkRequestQueries(categoryValues);
-  const nonNullishQueries = Object.fromEntries(
-    Object.entries(validQueries).filter(([, v]) => v !== null)
+  const filteredQueries = Object.fromEntries(
+    Object.entries(validQueries).filter(([, v]) => v !== '')
   );
-  const filteredList = await filterListByQueries(
+  const filteredList: CocktailInterface[] = await filteredListByQueries(
     currentList,
-    nonNullishQueries
+    filteredQueries
   );
   return filteredList;
 }
-
 export default {
   filterListByCategories,
 };

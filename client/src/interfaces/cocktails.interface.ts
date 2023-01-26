@@ -54,3 +54,9 @@ export interface CocktailInterface {
 export interface CocktailsInitialInterface {
   cocktails: CocktailInterface[] | [];
 }
+
+export interface ValidQueriesInterface {
+  strAlcoholic?: string,
+  strCategory?: string,
+  strGlass?: string,
+}

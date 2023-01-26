@@ -161,14 +161,19 @@ function HomePage() {
                     )
                   )}
                 </div>
-                <Paginate
-                  postsPerPage={postsPerPage}
-                  totalPosts={state.cocktails.length}
-                  paginate={paginate}
-                  previousPage={previousPage}
-                  nextPage={nextPage}
-                  currentPageNumber={currentPage}
-                />
+                {
+                  state.cocktails.length > 6 && (
+                    <Paginate
+                    postsPerPage={postsPerPage}
+                    totalPosts={state.cocktails.length}
+                    paginate={paginate}
+                    previousPage={previousPage}
+                    nextPage={nextPage}
+                    currentPageNumber={currentPage}
+                  />
+                  )
+                }
+
               </div>
             ) : !state.cocktails.length && !isLoading ? (
               <div className={styles.cocktailsResults}>
