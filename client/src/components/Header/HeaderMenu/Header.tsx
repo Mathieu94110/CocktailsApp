@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
-import styles from './HeaderMenu.module.scss';
+import { useContext, useState } from 'react';
+import styles from './Header.module.scss';
 import cocktailsImg from '../../../assets/images/cocktails-logo.png';
-import { useState } from 'react';
-import HeaderMenuList from './HeaderMenuList';
+import { HeaderList } from './HeaderList';
 import { NavLink, useNavigate, useMatch } from 'react-router-dom';
 import { AuthContext } from 'context';
 
-function HeaderMenu() {
+export const Header = () => {
   const { user, signout } = useContext<any>(AuthContext);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -43,7 +42,7 @@ function HeaderMenu() {
           {showMenu && (
             <>
               <div onClick={() => setShowMenu(false)} className="calc"></div>
-              <HeaderMenuList />
+              <HeaderList />
             </>
           )}
         </>
@@ -59,6 +58,4 @@ function HeaderMenu() {
       )}
     </header>
   );
-}
-
-export default HeaderMenu;
+};

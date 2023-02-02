@@ -10,7 +10,7 @@ const Icon = () => {
   );
 };
 
-const DropdownFilters = ({
+export const DropdownFilters = ({
   placeHolder,
   options,
   isMulti,
@@ -178,5 +178,3 @@ const DropdownFilters = ({
     </div>
   );
 };
-
-export default DropdownFilters;

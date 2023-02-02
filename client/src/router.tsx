@@ -1,15 +1,29 @@
-import React, { lazy } from 'react';
+import { lazy } from 'react';
 import App from './App';
 import { createHashRouter } from 'react-router-dom';
 import { rootLoader } from './loaders/rootLoader';
-import ProtectedRoute from 'components/ProtectedRoute/ProtectedRoute';
-const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
-const CocktailsRecipeCard = lazy(
-  () => import('./pages/CocktailsRecipe/CocktailsRecipe')
+import { ProtectedRoute } from 'components';
+
+const HomePage = lazy(
+  () => import('./pages/HomePage/HomePage').then(module => ({ default: module.HomePage }))
 );
-const Signup = lazy(() => import('./pages/Signup/Signup'));
-const Signin = lazy(() => import('./pages/Signin/Signin'));
-const Favorite = lazy(() => import('./pages/Favorite/Favorite'));
+
+const CocktailsRecipeCard = lazy(
+  () => import('./pages/CocktailsRecipe/CocktailsRecipe').then(module => ({ default: module.CocktailsRecipe }))
+);
+
+const Signup = lazy(
+  () => import('./pages/Signup/Signup').then(module => ({ default: module.Signup }))
+);
+
+const Signin = lazy(
+  () => import('./pages/Signin/Signin').then(module => ({ default: module.Signin }))
+);
+
+const Favorite = lazy(
+  () => import('./pages/Favorite/Favorite').then(module => ({ default: module.Favorite }))
+);
+
 export const router = createHashRouter([
   {
     path: '/',

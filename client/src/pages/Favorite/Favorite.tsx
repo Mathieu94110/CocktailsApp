@@ -1,14 +1,13 @@
 import styles from './Favorite.module.scss';
-import React, { useEffect, useState } from 'react';
-import Loading from '../../components/Loading/Loading';
+import { useEffect, useState, useContext } from 'react';
+import {Loading } from 'components';
 import { CocktailInterface } from 'interfaces';
 import { useNavigate } from 'react-router';
-import { useContext } from 'react';
-import { AuthContext } from '../../context';
+import { AuthContext } from 'context';
 import { Navigate } from 'react-router-dom';
-import favoriteApi from 'api/favorite';
+import { getFavorites, removeFromFavorite } from 'api';
 
-function Favorite() {
+export const Favorite = ()=> {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [Favorites, setFavorites] = useState([]);
   const { user } = useContext<any>(AuthContext);
@@ -20,7 +19,7 @@ function Favorite() {
   const goToRecipe = (id: string) => navigate(`/recipe/${id}`);
 
   async function fetchFavoredCocktail() {
-    const response = await favoriteApi.getFavorites(variable);
+    const response = await getFavorites(variable);
 
     if (response.data.success) {
       setIsLoading(false);
@@ -35,7 +34,7 @@ function Favorite() {
       idDrink: favoriteId,
       userFrom: userFrom,
     };
-    const response = await favoriteApi.removeFromFavorite(variables);
+    const response = await removeFromFavorite(variables);
     if (response.response.data.success) {
       fetchFavoredCocktail();
     } else {
@@ -117,5 +116,3 @@ function Favorite() {
     </>
   );
 }
-
-export default Favorite;

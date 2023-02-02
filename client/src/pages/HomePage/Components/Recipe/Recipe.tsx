@@ -1,10 +1,10 @@
-import { CocktailInterface } from 'interfaces';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CocktailInterface } from 'interfaces';
 import styles from './Recipe.module.scss';
-import favoriteApi from 'api/favorite';
+import { getFavorites, addToFavorite, removeFromFavorite, } from 'api';
 
-function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
+export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
   const [Favorited, setFavorited] = useState(false);
   const userFrom = localStorage.getItem('userId');
   const navigate = useNavigate();
@@ -23,13 +23,13 @@ function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
     userFrom: localStorage.getItem('userId')!,
   };
 
-  async function addToFavorite() {
+  async function toggleOnFavorite() {
     if (Favorited) {
-      const removed = await favoriteApi.removeFromFavorite(variables);
+      const removed = await removeFromFavorite(variables);
       setFavorited(!Favorited);
       alert(removed.message);
     } else {
-      const added = await favoriteApi.addToFavorite(variables);
+      const added = await addToFavorite(variables);
       if (added.data.success) {
         alert(`${variables.strDrink} a été ajouté à vos favoris`);
         setFavorited(!Favorited);
@@ -38,7 +38,7 @@ function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
   }
 
   async function fetchFavoredCocktail() {
-    const response = await favoriteApi.getFavorites(variable);
+    const response = await getFavorites(variable);
     if (response.data.success) {
       const favorites = response.data.favorites;
       const cocktailOnFavorite = favorites.filter(
@@ -72,11 +72,10 @@ function Recipe({ cocktails }: { cocktails: CocktailInterface }) {
       >
         <h3 className="text-center">{cocktails.strDrink}</h3>
         <i
-          onClick={addToFavorite}
+          onClick={toggleOnFavorite}
           className={`fa-solid fa-heart ${Favorited ? 'text-primary' : ''}`}
         ></i>
       </div>
     </div>
   );
-}
-export default Recipe;
+};

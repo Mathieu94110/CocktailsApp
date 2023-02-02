@@ -1,5 +1,4 @@
-import type { CategoriesInterface } from 'interfaces';
-import { CocktailInterface, ValidQueriesInterface } from 'interfaces';
+import { CocktailInterface, CategoriesInterface, ValidQueriesInterface } from 'interfaces';
 
 function requiredInfos(
   categories: CategoriesInterface['value'][],
@@ -51,7 +50,7 @@ function filteredListByQueries(products: CocktailInterface[], filters: { [key: s
   });
 }
 
-async function filterListByCategories(
+export async function filterListByCategories(
   categories: CategoriesInterface[],
   currentList: CocktailInterface[]
 ): Promise<CocktailInterface[]> {
@@ -68,6 +67,3 @@ async function filterListByCategories(
   );
   return filteredList;
 }
-export default {
-  filterListByCategories,
-};

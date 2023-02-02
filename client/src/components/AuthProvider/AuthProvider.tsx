@@ -4,7 +4,7 @@ import { signin as login, signout as logout } from 'api/auth';
 import { UsersInterface } from 'interfaces';
 import { AuthContext } from 'context';
 
-function AuthProvider({ children }: { children: any }) {
+export const AuthProvider = ({ children }: { children: any }) => {
   const initialUser = useLoaderData();
   const [user, setUser] = useState<any>(initialUser);
 
@@ -30,6 +30,4 @@ function AuthProvider({ children }: { children: any }) {
       {children}
     </AuthContext.Provider>
   );
-}
-
-export default AuthProvider;
+};

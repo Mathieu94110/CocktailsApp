@@ -1,8 +1,8 @@
-import { UsersInterface } from '../interfaces';
+import { UsersInterface } from 'interfaces';
 
 const API_AUTH = '/api/auth';
 
-export async function signin(credentials: UsersInterface) {
+export const signin = async (credentials: UsersInterface) => {
   const response = await fetch(API_AUTH, {
     method: 'POST',
     headers: {
@@ -16,15 +16,15 @@ export async function signin(credentials: UsersInterface) {
   } else {
     throw new Error('An error occured on auth api');
   }
-}
+};
 
-export async function getCurrentUser() {
+export const getCurrentUser = async () => {
   const response = await fetch(`${API_AUTH}/current`);
   return response.json();
-}
+};
 
-export async function signout() {
+export const signout = async () => {
   await fetch(API_AUTH, {
     method: 'DELETE',
   });
-}
+};

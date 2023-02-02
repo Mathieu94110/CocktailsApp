@@ -1,5 +1,5 @@
-import { ACTIONTYPE } from '../types/actions';
-import { CocktailsInitialInterface } from '../interfaces/cocktails.interface';
+import { ACTIONTYPE } from 'types';
+import { CocktailsInitialInterface } from 'interfaces';
 
 function cocktailsReducer(
   state: CocktailsInitialInterface,

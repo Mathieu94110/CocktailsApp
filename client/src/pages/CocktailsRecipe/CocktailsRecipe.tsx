@@ -1,9 +1,9 @@
-import { CocktailInterface } from 'interfaces';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import CocktailsRecipeCard from './Components/CocktailsRecipeCard/CocktailsRecipeCard';
+import { CocktailsRecipeCard } from './Components/CocktailsRecipeCard/CocktailsRecipeCard';
 import styles from './CocktailsRecipe.module.scss';
+import { CocktailInterface } from 'interfaces';
 
-function CocktailsRecipe() {
+export const CocktailsRecipe = () => {
   const recipes = useLoaderData() as CocktailInterface[];
   const navigate = useNavigate();
 
@@ -27,6 +27,4 @@ function CocktailsRecipe() {
       </ul>
     </div>
   );
-}
-
-export default CocktailsRecipe;
+};

@@ -1,13 +1,13 @@
+import { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
 import styles from './Signin.module.scss';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from 'context';
+import { UsersInterface } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Navigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../../context';
-import { UsersInterface } from '../../interfaces';
 
-function Signin() {
+export const Signin = () => {
   const { signin, user } = useContext<any>(AuthContext);
 
   const validationSchema = yup.object({
@@ -95,6 +95,4 @@ function Signin() {
       )}
     </>
   );
-}
-
-export default Signin;
+};

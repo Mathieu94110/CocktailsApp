@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styles from './AlphabeticalFilter.module.scss';
 
 const Alphabet = [
@@ -30,7 +30,7 @@ const Alphabet = [
   'Z',
 ];
 
-const AlphabeticalFilter = ({
+export const AlphabeticalFilter = ({
   setLetter,
 }: {
   setLetter: Dispatch<SetStateAction<string>>;
@@ -48,4 +48,3 @@ const AlphabeticalFilter = ({
   );
 };
 
-export default AlphabeticalFilter;

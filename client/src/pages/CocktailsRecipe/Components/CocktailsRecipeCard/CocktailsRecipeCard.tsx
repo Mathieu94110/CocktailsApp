@@ -1,10 +1,8 @@
-import React from 'react';
 import styles from './CocktailsRecipeCard.module.scss';
-import { CocktailInterface } from '../../../../interfaces/cocktails.interface';
+import { CocktailInterface } from 'interfaces';
 
-function CocktailsRecipeCard({ recipe }: { recipe: CocktailInterface }) {
+export const CocktailsRecipeCard = ({ recipe }: { recipe: CocktailInterface }) => {
   const {
-    // idDrink,
     strCategory,
     strDrink,
     strAlcoholic,
@@ -96,7 +94,7 @@ function CocktailsRecipeCard({ recipe }: { recipe: CocktailInterface }) {
         </div>
         <div className={styles.cardText}>
           <span className={styles.subTitle}>Ingredients</span>:{' '}
-          {ingredients.map((item:string, index: number) => {
+          {ingredients.map((item: string, index: number) => {
             return item ? (
               <span key={index}>{(index ? ', ' : '') + item}</span>
             ) : null;
@@ -113,6 +111,4 @@ function CocktailsRecipeCard({ recipe }: { recipe: CocktailInterface }) {
       </div>
     </div>
   );
-}
-
-export default CocktailsRecipeCard;
+};

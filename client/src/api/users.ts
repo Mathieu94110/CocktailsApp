@@ -1,8 +1,8 @@
-import { UsersInterface } from '../interfaces';
+import { UsersInterface } from 'interfaces';
 
 const API_USERS = '/api/users';
 
-export async function createUser(newUser: UsersInterface) {
+export const createUser = async (newUser: UsersInterface) => {
   const response = await fetch(API_USERS, {
     method: 'POST',
     headers: {
@@ -20,4 +20,4 @@ export async function createUser(newUser: UsersInterface) {
       throw new Error('Error on createUser api');
     }
   }
-}
+};

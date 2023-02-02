@@ -1,17 +1,13 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import styles from './HomePage.module.scss';
-import SearchInput from './Components/SearchInput/SearchInput';
-import Recipe from './Components/Recipe/Recipe';
-import Loading from '../../components/Loading/Loading';
-import searchApi from '../../api/search';
+import { Loading } from 'components';
+import { searchCocktails, searchByFilters, searchByLetter } from 'api';
 import cocktailsReducer from '../../reducers/cocktailsReducer';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
-import Paginate from './Components/Paginate/Paginate';
-import DropdownFilters from './Components/Dropdown/DropdownFilters';
-import AlphabeticalFilter from './Components/AphabeticalFilter/AlphabeticalFilter';
+import { AlphabeticalFilter, DropdownFilters as CategoryFilters, Paginate, Recipe, SearchInput } from './Components';
 import { options } from '../../constant';
 
-function HomePage() {
+export const HomePage = ()=> {
   const [searchInputValue, setSearchInputValue] = useState<string>('margarita');
   const [letter, setLetter] = useState<string>('');
   const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>(
@@ -53,7 +49,7 @@ function HomePage() {
       try {
         if (searchInputValue) {
           setLetter('');
-          const response: CocktailInterface[] = await searchApi.searchCocktails(
+          const response: CocktailInterface[] = await searchCocktails(
             searchInputValue
           );
           if (!cancel) {
@@ -64,7 +60,7 @@ function HomePage() {
               });
             } else if (searchInputValue && dropDownFilters.length) {
               const newCocktailsList: CocktailInterface[] =
-                await searchApi.searchByFilters(dropDownFilters, response);
+                await searchByFilters(dropDownFilters, response);
               if (newCocktailsList) {
                 dispatch({
                   type: 'CURRENT_COCKTAILS',
@@ -98,7 +94,7 @@ function HomePage() {
       try {
         if (letter) {
           setSearchInputValue('');
-          const response: CocktailInterface[] = await searchApi.searchByLetter(
+          const response: CocktailInterface[] = await searchByLetter(
             letter
           );
           if (!cancel) {
@@ -109,7 +105,7 @@ function HomePage() {
               });
             } else {
               const newCocktailsList: CocktailInterface[] =
-                await searchApi.searchByFilters(dropDownFilters, response);
+                await searchByFilters(dropDownFilters, response);
               if (newCocktailsList) {
                 dispatch({
                   type: 'CURRENT_COCKTAILS',
@@ -137,7 +133,7 @@ function HomePage() {
       <div
         className={`card flex-fill d-flex flex-column px-10 ${styles.contentCard}`}
       >
-        <DropdownFilters
+        <CategoryFilters
           isSearchable
           isMulti
           placeHolder="Sélectionner les filtres"
@@ -164,13 +160,13 @@ function HomePage() {
                 {
                   state.cocktails.length > 6 && (
                     <Paginate
-                    postsPerPage={postsPerPage}
-                    totalPosts={state.cocktails.length}
-                    paginate={paginate}
-                    previousPage={previousPage}
-                    nextPage={nextPage}
-                    currentPageNumber={currentPage}
-                  />
+                      postsPerPage={postsPerPage}
+                      totalPosts={state.cocktails.length}
+                      paginate={paginate}
+                      previousPage={previousPage}
+                      nextPage={nextPage}
+                      currentPageNumber={currentPage}
+                    />
                   )
                 }
 
@@ -187,6 +183,4 @@ function HomePage() {
       </div>
     </div>
   );
-}
-
-export default HomePage;
+};

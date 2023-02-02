@@ -1,7 +1,6 @@
-import React from 'react';
 import styles from './Footer.module.scss';
 
-function Footer() {
+export const Footer = () => {
   return (
     <footer
       className={`${styles.footer} d-flex flex-row align-items-center justify-content-center`}
@@ -9,6 +8,4 @@ function Footer() {
       <p>Copyright © 2022 Mathieu Enault, Inc.</p>
     </footer>
   );
-}
-
-export default Footer;
+};

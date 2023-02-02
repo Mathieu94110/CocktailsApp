@@ -1,7 +1,6 @@
-import React from 'react';
 import styles from './Paginate.module.scss';
 
-const Paginate = ({
+export const Paginate = ({
   postsPerPage,
   totalPosts,
   paginate,
@@ -47,5 +46,3 @@ const Paginate = ({
     </div>
   );
 };
-
-export default Paginate;

@@ -1,12 +1,13 @@
+import { useNavigate } from 'react-router';
 import styles from './Signup.module.scss';
 import { useForm } from 'react-hook-form';
+import { createUser } from 'api';
+import { UsersInterface } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { createUser } from '../../api/users';
-import { useNavigate } from 'react-router';
-import { UsersInterface } from '../../interfaces';
 
-function Signup() {
+
+export const Signup = () => {
   const navigate = useNavigate();
 
   const validationSchema = yup.object({
@@ -90,6 +91,4 @@ function Signup() {
       </form>
     </div>
   );
-}
-
-export default Signup;
+};
