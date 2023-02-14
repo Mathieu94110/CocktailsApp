@@ -12,7 +12,7 @@ export const SearchInput = ({
   const [debouncedOutput, setDebouncedOutput] = useState('');
 
   async function onChangeDebouncedEvent(text: string) {
-    setDebouncedOutput(text);
+    setDebouncedOutput(text.trim());
   }
 
   const onChangeDebounced = useDebounce(onChangeDebouncedEvent);

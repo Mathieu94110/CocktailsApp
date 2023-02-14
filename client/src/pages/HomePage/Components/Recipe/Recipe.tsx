@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CocktailInterface } from 'interfaces';
 import styles from './Recipe.module.scss';
-import { getFavorites, addToFavorite, removeFromFavorite, } from 'api';
+import { getFavorites,  addToFavorite, removeFromFavorite, } from 'api';
 
 export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
-  const [Favorited, setFavorited] = useState(false);
+  const [favorited, setFavorited] = useState(false);
   const userFrom = localStorage.getItem('userId');
   const navigate = useNavigate();
   const goToRecipe = () => navigate(`/recipe/${cocktails.idDrink}`);
@@ -19,25 +19,24 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
     strAlcoholic: cocktails.strAlcoholic,
   };
 
-  const variable: { userFrom: string } = {
-    userFrom: localStorage.getItem('userId')!,
-  };
-
   async function toggleOnFavorite() {
-    if (Favorited) {
+    if (favorited) {
       const removed = await removeFromFavorite(variables);
-      setFavorited(!Favorited);
+      setFavorited(!favorited);
       alert(removed.message);
     } else {
       const added = await addToFavorite(variables);
       if (added.data.success) {
         alert(`${variables.strDrink} a été ajouté à vos favoris`);
-        setFavorited(!Favorited);
+        setFavorited(!favorited);
       }
     }
   }
 
   async function fetchFavoredCocktail() {
+    const variable: { userFrom: string } = {
+      userFrom: localStorage.getItem('userId')!,
+    };
     const response = await getFavorites(variable);
     if (response.data.success) {
       const favorites = response.data.favorites;
@@ -56,7 +55,7 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
 
   useEffect(() => {
     fetchFavoredCocktail();
-  }, [Favorited, cocktails]);
+  }, [favorited, cocktails]);
 
   return (
     <div className={styles.recipe}>
@@ -73,7 +72,7 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
         <h3 className="text-center">{cocktails.strDrink}</h3>
         <i
           onClick={toggleOnFavorite}
-          className={`fa-solid fa-heart ${Favorited ? 'text-primary' : ''}`}
+          className={`fa-solid fa-heart ${favorited ? 'text-primary' : ''}`}
         ></i>
       </div>
     </div>

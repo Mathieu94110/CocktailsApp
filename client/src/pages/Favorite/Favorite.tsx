@@ -1,6 +1,6 @@
 import styles from './Favorite.module.scss';
 import { useEffect, useState, useContext } from 'react';
-import {Loading } from 'components';
+import { Loading } from 'components';
 import { CocktailInterface } from 'interfaces';
 import { useNavigate } from 'react-router';
 import { AuthContext } from 'context';
@@ -9,7 +9,7 @@ import { getFavorites, removeFromFavorite } from 'api';
 
 export const Favorite = ()=> {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [Favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState<CocktailInterface[]>([]);
   const { user } = useContext<any>(AuthContext);
   const variable: { userFrom: string } = {
     userFrom: localStorage.getItem('userId')!, //here userId always exist
@@ -29,14 +29,14 @@ export const Favorite = ()=> {
     }
   }
 
-  async function onClickDelete(favoriteId: string, userFrom: string) {
+  async function handleClickDeleteFavorite(favoriteId: string, userFrom: string) {
     const variables = {
       idDrink: favoriteId,
       userFrom: userFrom,
     };
     const response = await removeFromFavorite(variables);
     if (response.response.data.success) {
-      fetchFavoredCocktail();
+      setFavorites(favorites.filter((f) => f.idDrink !== favoriteId));
     } else {
       alert('Failed to Remove From Favorite');
     }
@@ -46,7 +46,7 @@ export const Favorite = ()=> {
     fetchFavoredCocktail();
   }, []);
 
-  const renderCards = Favorites.map(
+  const renderCards = favorites.map(
     (favorite: CocktailInterface, index: number) => {
       return (
         <tr key={index}>
@@ -65,7 +65,7 @@ export const Favorite = ()=> {
           <td>{favorite.strAlcoholic}</td>
           <td>
             <button
-              onClick={() => onClickDelete(favorite.idDrink, variable.userFrom)}
+              onClick={() => handleClickDeleteFavorite(favorite.idDrink, variable.userFrom)}
               className="mr-5 btn btn-reverse-danger"
             >
               {' '}
@@ -85,7 +85,7 @@ export const Favorite = ()=> {
 
   return (
     <>
-      {Favorites.length ? (
+      {favorites.length ? (
         <div className="flex-fill m-20">
           <h1> Vos favoris </h1>
           <hr />
@@ -115,4 +115,4 @@ export const Favorite = ()=> {
       {!user && <Navigate to="/"></Navigate>}
     </>
   );
-}
+};
