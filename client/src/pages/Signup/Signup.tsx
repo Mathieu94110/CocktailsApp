@@ -4,7 +4,6 @@ import { createUser } from 'api';
 import { UsersInterface } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import styles from './Signup.module.scss';
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -53,34 +52,45 @@ export const Signup = () => {
   });
   return (
     <div className="flex-fill d-flex align-items-center justify-content-center">
-      <form
-        onSubmit={submit}
-        className={`${styles.form} d-flex flex-column card p-20`}
-      >
+      <form onSubmit={submit} className="auth-form card">
         <h2 className="mb-10">Inscription</h2>
-        <div className="mb-10  d-flex flex-column">
-          <label htmlFor="name">Nom</label>
-          <input className="form-input" type="text" {...register('name')} />
-          {errors.name && <p className="form-error">{errors.name.message}</p>}
-        </div>
-        <div className="mb-10 d-flex flex-column">
-          <label htmlFor="email">Email</label>
-          <input className="form-input" type="text" {...register('email')} />
-          {errors.email && <p className="form-error">{errors.email.message}</p>}
-        </div>
-        <div className="mb-10 d-flex flex-column">
-          <label htmlFor="password">Password</label>
+        <div className="auth-form-items">
+          <label className="mb-10" htmlFor="name">
+            Nom
+          </label>
           <input
-            className="form-input"
+            className="auth-form-inputs"
+            type="text"
+            {...register('name')}
+          />
+          {errors.name && <p className="auth-form-error">{errors.name.message}</p>}
+        </div>
+        <div className="auth-form-items">
+          <label className="mb-10" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="auth-form-inputs"
+            type="text"
+            {...register('email')}
+          />
+          {errors.email && <p className="auth-form-error">{errors.email.message}</p>}
+        </div>
+        <div className="auth-form-items">
+          <label className="mb-10" htmlFor="password">
+            Mot de passe
+          </label>
+          <input
+            className="auth-form-inputs"
             type="password"
             {...register('password')}
           />
           {errors.password && (
-            <p className="form-error">{errors.password.message}</p>
+            <p className="auth-form-error">{errors.password.message}</p>
           )}
         </div>
         {errors.generic && (
-          <p className="form-error">{errors.generic.message}</p>
+          <p className="auth-form-error">{errors.generic.message}</p>
         )}
         <div>
           <button disabled={isSubmitting} className="btn btn-primary">

@@ -47,7 +47,7 @@ export const Header = () => {
           )}
         </>
       ) : (
-        <ul className={styles.headerList}>
+        <ul>
           <NavLink to="signup" className="mr-15">
             Inscription
           </NavLink>

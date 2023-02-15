@@ -5,7 +5,6 @@ import { AuthContext } from 'context';
 import { UsersInterface } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import styles from './Signin.module.scss';
 
 export const Signin = () => {
   const { signin, user } = useContext<any>(AuthContext);
@@ -57,33 +56,33 @@ export const Signin = () => {
         <div className="flex-fill d-flex align-items-center justify-content-center">
           <form
             onSubmit={submit}
-            className={`${styles.form} d-flex flex-column card p-20`}
+            className="auth-form card"
           >
             <h2 className="mb-10">Connexion</h2>
-            <div className="mb-10 d-flex flex-column">
-              <label htmlFor="email">Email</label>
+            <div className="auth-form-items">
+              <label className="mb-10" htmlFor="email">Email</label>
               <input
-                className="form-input"
+                className="auth-form-inputs"
                 type="text"
                 {...register('email')}
               />
               {errors.email && (
-                <p className={styles.formError}>{errors.email.message}</p>
+                <p className="auth-form-error">{errors.email.message}</p>
               )}
             </div>
-            <div className="mb-10 d-flex flex-column">
-              <label htmlFor="password">Password</label>
+            <div className="auth-form-items">
+              <label className="mb-10" htmlFor="password">Mot de passe</label>
               <input
-                className="form-input"
+                className="auth-form-inputs"
                 type="password"
                 {...register('password')}
               />
               {errors.password && (
-                <p className={styles.formError}>{errors.password.message}</p>
+                <p className="auth-form-error">{errors.password.message}</p>
               )}
             </div>
             {errors.generic && (
-              <p className={styles.formError}>{errors.generic.message}</p>
+              <p className="auth-form-error">{errors.generic.message}</p>
             )}
             <div>
               <button disabled={isSubmitting} className="btn btn-primary">
