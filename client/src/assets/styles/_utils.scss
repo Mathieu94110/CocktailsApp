@@ -76,8 +76,9 @@
   height: 100vh;
 }
 
-.vertical-center-content {
+.center-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }

@@ -5,7 +5,7 @@ import { rootLoader } from './loaders/rootLoader';
 import { ProtectedRoute } from 'components';
 
 const HomePage = lazy(
-  () => import('./pages/HomePage/HomePage').then(module => ({ default: module.HomePage }))
+  () => import('./pages/Home/Home').then(module => ({ default: module.Home }))
 );
 
 const CocktailsRecipeCard = lazy(
@@ -20,8 +20,8 @@ const Signin = lazy(
   () => import('./pages/Signin/Signin').then(module => ({ default: module.Signin }))
 );
 
-const Favorite = lazy(
-  () => import('./pages/Favorite/Favorite').then(module => ({ default: module.Favorite }))
+const Favorites = lazy(
+  () => import('./pages/Favorites/Favorites').then(module => ({ default: module.Favorites }))
 );
 
 export const router = createHashRouter([
@@ -47,8 +47,8 @@ export const router = createHashRouter([
         element: <Signin />,
       },
       {
-        path: 'favorite',
-        element: <Favorite />,
+        path: 'favorites',
+        element: <Favorites />,
       },
       {
         path: '/recipe/:id',
