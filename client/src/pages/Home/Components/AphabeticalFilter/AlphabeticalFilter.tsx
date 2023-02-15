@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import styles from './AlphabeticalFilter.module.scss';
 
 const Alphabet = [
@@ -33,7 +32,7 @@ const Alphabet = [
 export const AlphabeticalFilter = ({
   setLetter,
 }: {
-  setLetter: Dispatch<SetStateAction<string>>;
+  setLetter: (letter: string) => void;
 }) => {
   return (
     <div className={styles.alphabeticalFilter}>

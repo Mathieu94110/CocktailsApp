@@ -1,6 +1,6 @@
-import styles from './Paginate.module.scss';
+import styles from './Pagination.module.scss';
 
-export const Paginate = ({
+export const Pagination = ({
   postsPerPage,
   totalPosts,
   paginate,

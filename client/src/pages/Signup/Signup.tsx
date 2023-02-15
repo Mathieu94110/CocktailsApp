@@ -1,11 +1,10 @@
 import { useNavigate } from 'react-router';
-import styles from './Signup.module.scss';
 import { useForm } from 'react-hook-form';
 import { createUser } from 'api';
 import { UsersInterface } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import styles from './Signup.module.scss';
 
 export const Signup = () => {
   const navigate = useNavigate();

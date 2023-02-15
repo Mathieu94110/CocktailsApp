@@ -1,7 +1,7 @@
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { CocktailsRecipeCard } from './Components/CocktailsRecipeCard/CocktailsRecipeCard';
-import styles from './CocktailsRecipe.module.scss';
 import { CocktailInterface } from 'interfaces';
+import styles from './CocktailsRecipe.module.scss';
 
 export const CocktailsRecipe = () => {
   const recipes = useLoaderData() as CocktailInterface[];

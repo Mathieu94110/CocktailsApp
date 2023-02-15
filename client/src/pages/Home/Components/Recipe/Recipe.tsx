@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getFavorites,  addToFavorites, removeFromFavorites } from 'api';
 import { CocktailInterface } from 'interfaces';
 import styles from './Recipe.module.scss';
-import { getFavorites,  addToFavorite, removeFromFavorite, } from 'api';
 
 export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
   const [favorited, setFavorited] = useState(false);
@@ -21,11 +21,11 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
 
   async function toggleOnFavorite() {
     if (favorited) {
-      const removed = await removeFromFavorite(variables);
+      const removed = await removeFromFavorites(variables);
       setFavorited(!favorited);
       alert(removed.message);
     } else {
-      const added = await addToFavorite(variables);
+      const added = await addToFavorites(variables);
       if (added.data.success) {
         alert(`${variables.strDrink} a été ajouté à vos favoris`);
         setFavorited(!favorited);

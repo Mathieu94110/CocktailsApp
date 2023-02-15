@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDebounce } from 'helpers';
 import styles from './SearchInput.module.scss';
 
@@ -6,7 +6,7 @@ export const SearchInput = ({
   setFilter,
   currentFilter,
 }: {
-  setFilter: Dispatch<SetStateAction<string>>;
+  setFilter: (text: string) => void;
   currentFilter: string;
 }) => {
   const [debouncedOutput, setDebouncedOutput] = useState('');

@@ -8,7 +8,7 @@ import {
   SearchInput,
 } from './Components';
 import { searchCocktails, searchByFilters, searchByLetter } from 'api';
-import cocktailsReducer from '../../reducers/cocktailsReducer';
+import cocktailsReducer from 'reducers/cocktailsReducer';
 import { options } from 'constant';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
 import styles from './Home.module.scss';

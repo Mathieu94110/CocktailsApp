@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CategoriesInterface } from 'interfaces';
 import styles from './DropdownFilters.module.scss';
 
@@ -82,7 +82,7 @@ export const DropdownFilters = ({
                 onClick={(e) => handleClickDeleteTag(e, option)}
                 className={styles.dropdownTagClose}
               >
-                <i className="fa-solid fa-xmark ml-5 vertical-center-content"></i>
+                <i className="fa-solid fa-xmark ml-5 d-flex align-items-center"></i>
               </span>
             </div>
           ))}

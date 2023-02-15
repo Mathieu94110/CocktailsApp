@@ -1,7 +1,11 @@
-import styles from './CocktailsRecipeCard.module.scss';
 import { CocktailInterface } from 'interfaces';
+import styles from './CocktailsRecipeCard.module.scss';
 
-export const CocktailsRecipeCard = ({ recipe }: { recipe: CocktailInterface }) => {
+export const CocktailsRecipeCard = ({
+  recipe,
+}: {
+  recipe: CocktailInterface;
+}) => {
   const {
     strCategory,
     strDrink,

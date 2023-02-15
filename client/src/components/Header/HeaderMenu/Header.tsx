@@ -1,22 +1,22 @@
 import { useContext, useState } from 'react';
-import styles from './Header.module.scss';
-import cocktailsImg from '../../../assets/images/cocktails-logo.png';
-import { HeaderList } from './HeaderList';
 import { NavLink, useNavigate, useMatch } from 'react-router-dom';
 import { AuthContext } from 'context';
+import { HeaderList } from './HeaderList';
+import cocktailsImg from 'assets/images/cocktails-logo.png';
+import styles from './Header.module.scss';
 
 export const Header = () => {
   const { user, signout } = useContext<any>(AuthContext);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const navigate = useNavigate();
   const matchHomepage = useMatch('/');
-  const goFavorite = () => navigate('/favorite');
+  const goFavorite = () => navigate('/favorites');
   const goToHome = () => navigate('/');
   return (
     <header className={`${styles.header} d-flex flex-row align-items-center`}>
       {user ? (
         <>
-          <div className="flex-fill vertical-center">
+          <div className="d-flex flex-fill align-items-center">
             <img src={cocktailsImg} alt="logo cocktails" />
             <h1>Cocktails Master</h1>
           </div>
