@@ -1,3 +1,4 @@
+@use './mixins' as mixin;
 body {
   margin: 0;
   font-family: var(--font-family);
@@ -15,11 +16,42 @@ h4 {
 }
 
 h1 {
-  font-size: 1.6rem;
+  @include mixin.xs {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  @include mixin.sm-lt {
+    h1 {
+      font-size: 18px;
+    }
+  }
+
+  @include mixin.sm {
+    font-size: 20px;
+    text-align: center;
+  }
 }
+
+@include mixin.md {
+  h1 {
+    font-size: 26px;
+  }
+}
+
 h2 {
-  font-size: 1.2rem;
+  font-size: 22px;
+  @include mixin.xs {
+    font-size: 10px;
+  }
+  @include mixin.sm-lt {
+    font-size: 14px;
+  }
+  @include mixin.md {
+    font-size: 20px;
+  }
 }
+
 h3 {
   font-size: 1rem;
 }
@@ -32,6 +64,11 @@ ul {
   list-style: none;
   padding-left: 0px;
   margin: 0;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
 }
 
 img {
