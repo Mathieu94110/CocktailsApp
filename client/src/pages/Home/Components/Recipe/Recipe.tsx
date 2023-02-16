@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFavorites,  addToFavorites, removeFromFavorites } from 'api';
+import { getFavorites, addToFavorites, removeFromFavorites } from 'api';
+import { useToasts } from 'context';
 import { CocktailInterface } from 'interfaces';
 import styles from './Recipe.module.scss';
 
@@ -8,6 +9,7 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
   const [favorited, setFavorited] = useState(false);
   const userFrom = localStorage.getItem('userId');
   const navigate = useNavigate();
+  const { pushToast } = useToasts();
   const goToRecipe = () => navigate(`/recipe/${cocktails.idDrink}`);
 
   const variables = {
@@ -23,11 +25,21 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
     if (favorited) {
       const removed = await removeFromFavorites(variables);
       setFavorited(!favorited);
-      alert(removed.message);
+      pushToast({
+        title: 'Succès',
+        type: 'success',
+        content: `${variables.strDrink} a été retiré de vos favoris`,
+        duration: 2,
+      });
     } else {
       const added = await addToFavorites(variables);
       if (added.data.success) {
-        alert(`${variables.strDrink} a été ajouté à vos favoris`);
+        pushToast({
+          title: 'Succès',
+          type: 'success',
+          content: `${variables.strDrink} a été ajouté à vos favoris`,
+          duration: 2,
+        });
         setFavorited(!favorited);
       }
     }
@@ -49,7 +61,12 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
         setFavorited(false);
       }
     } else {
-      alert('Échec lors de la récupération des favoris');
+      pushToast({
+        title: 'Erreur',
+        type: 'danger',
+        content: 'Problème rencontré lors de la récupération de vos favoris',
+        duration: 2,
+      });
     }
   }
 

@@ -12,23 +12,23 @@
 
 .btn-primary {
   background-color: var(--primary);
-  color: white;
+  color: #fff;
   border: 2px solid var(--primary);
 }
 
 .btn-reverse-primary {
   border: 2px solid var(--primary);
   color: var(--primary);
-  background-color: white;
+  background-color: #fff;
 }
 .btn-reverse-danger {
   border: 2px solid var(--red-1);
-  color: white;
+  color: #fff;
   background-color: var(--red-1);
 }
 .card {
   border-radius: 20px;
-  background-color: white;
+  background-color: #fff;
 }
 .text-primary {
   color: var(--primary);

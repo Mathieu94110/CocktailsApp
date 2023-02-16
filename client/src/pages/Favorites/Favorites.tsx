@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { AuthContext } from 'context';
 import { Loading } from 'components';
 import { getFavorites, removeFromFavorites } from 'api';
+import { useToasts } from 'context';
 import { CocktailInterface } from 'interfaces';
 import styles from './Favorites.module.scss';
 
@@ -11,6 +12,7 @@ export const Favorites = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [favorites, setFavorites] = useState<CocktailInterface[]>([]);
   const { user } = useContext<any>(AuthContext);
+  const { pushToast } = useToasts();
   const variable: { userFrom: string } = {
     userFrom: localStorage.getItem('userId')!, //here userId always exist
   };
@@ -25,23 +27,39 @@ export const Favorites = () => {
       setIsLoading(false);
       setFavorites(response.data.favorites);
     } else {
-      alert('Failed to get cocktail favorites');
+      pushToast({
+        title: 'Erreur',
+        type: 'success',
+        content: 'Problème rencontré lors de la récupération de vos favoris',
+        duration: 2,
+      });
     }
   }
 
   async function handleClickDeleteFavorite(
-    favoriteId: string,
+    favorite: CocktailInterface,
     userFrom: string
   ) {
     const variables = {
-      idDrink: favoriteId,
+      idDrink: favorite.idDrink,
       userFrom: userFrom,
     };
     const response = await removeFromFavorites(variables);
     if (response.response.data.success) {
-      setFavorites(favorites.filter((f) => f.idDrink !== favoriteId));
+      pushToast({
+        title: 'Succès',
+        type: 'success',
+        content: `${favorite.strDrink} a été retiré de vos favoris`,
+        duration: 2,
+      });
+      setFavorites(favorites.filter((f) => f.idDrink !== favorite.idDrink));
     } else {
-      alert('Failed to Remove From Favorite');
+      pushToast({
+        title: 'Erreur',
+        type: 'danger',
+        content: 'Erreur rencontrée lors de la suppression du favoris',
+        duration: 2,
+      });
     }
   }
 
@@ -69,7 +87,7 @@ export const Favorites = () => {
           <td>
             <button
               onClick={() =>
-                handleClickDeleteFavorite(favorite.idDrink, variable.userFrom)
+                handleClickDeleteFavorite(favorite, variable.userFrom)
               }
               className={`${styles.RecipeButtons} mr-5 mb-5 btn btn-reverse-danger`}
             >
@@ -89,7 +107,7 @@ export const Favorites = () => {
   );
 
   return (
-    <div className="flex-fill m-20">
+    <div className="flex-fill m-20 position-relative">
       <h1> Vos favoris </h1>
       <hr />
       {isLoading && !favorites.length ? (
