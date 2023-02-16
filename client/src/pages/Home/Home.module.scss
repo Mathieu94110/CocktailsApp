@@ -1,15 +1,5 @@
 @use '../../assets/styles/mixins' as mixin;
 
-h1 {
-  @include mixin.xs {
-    font-size: 16px;
-    text-align: center;
-  }
-  @include mixin.sm {
-    font-size: 20px;
-    text-align: center;
-  }
-}
 .container {
   max-width: 1200px;
   margin: auto;

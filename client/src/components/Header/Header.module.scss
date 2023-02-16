@@ -1,4 +1,4 @@
-@use '../../../assets/styles/mixins' as mixin;
+@use '../../assets/styles/mixins' as mixin;
 
 .header {
   position: relative;
@@ -8,7 +8,7 @@
   box-shadow: var(--box-shadow-nav);
   color: var(--primary);
   img {
-    width: 110px;
+    width: 100px;
     @include mixin.md-lt {
       width: 70px;
     }
@@ -36,16 +36,7 @@
     display: block !important;
   }
 }
-@include mixin.sm-lt {
-  h1 {
-    font-size: 18px;
-  }
-}
-@include mixin.md {
-  h1 {
-    font-size: 26px;
-  }
-}
+
 .login-links {
   text-decoration: none;
   font-weight: 500;

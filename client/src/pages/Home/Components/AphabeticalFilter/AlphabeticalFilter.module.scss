@@ -1,4 +1,4 @@
-@use '../../../../assets//styles/mixins' as mixin;
+@use '../../../../assets/styles/mixins' as mixin;
 
 .alphabeticalFilter {
   display: flex;
@@ -13,7 +13,7 @@ ul {
   max-width: inherit;
   word-wrap: break-word;
 }
-li {
+.alphabeticalFilterInput {
   min-width: 20px;
   padding: 2px;
   margin: 0px 2px;

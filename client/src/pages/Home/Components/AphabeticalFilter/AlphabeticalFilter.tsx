@@ -38,7 +38,11 @@ export const AlphabeticalFilter = ({
     <div className={styles.alphabeticalFilter}>
       <ul>
         {Alphabet.map((letter: string, index: number) => (
-          <li key={index} onClick={() => setLetter(letter)}>
+          <li
+            className={styles.alphabeticalFilterInput}
+            key={index}
+            onClick={() => setLetter(letter)}
+          >
             {letter}
           </li>
         ))}
@@ -46,4 +50,3 @@ export const AlphabeticalFilter = ({
     </div>
   );
 };
-

@@ -59,7 +59,7 @@ export const Favorites = () => {
               <img
                 src={favorite.strDrinkThumb}
                 alt={favorite.strDrink}
-                height="100px"
+                className={styles.favoriteImg}
               />
             )}
           </td>
@@ -71,13 +71,13 @@ export const Favorites = () => {
               onClick={() =>
                 handleClickDeleteFavorite(favorite.idDrink, variable.userFrom)
               }
-              className="mr-5 btn btn-reverse-danger"
+              className={`${styles.RecipeButtons} mr-5 mb-5 btn btn-reverse-danger`}
             >
               {' '}
               Suppprimer{' '}
             </button>
             <button
-              className="mr-5 btn btn-reverse-primary"
+              className={`${styles.RecipeButtons} mr-5 btn btn-reverse-primary`}
               onClick={() => goToRecipe(favorite.idDrink)}
             >
               Recette

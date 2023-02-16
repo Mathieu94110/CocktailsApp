@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { NavLink, useNavigate, useMatch } from 'react-router-dom';
 import { AuthContext } from 'context';
-import { HeaderList } from './HeaderList';
+import { HeaderMenu } from './HeaderMenu/HeaderMenu';
 import cocktailsImg from 'assets/images/cocktails-logo.png';
 import styles from './Header.module.scss';
 
@@ -42,7 +42,11 @@ export const Header = () => {
           {showMenu && (
             <>
               <div onClick={() => setShowMenu(false)} className="calc"></div>
-              <HeaderList />
+              <HeaderMenu
+                logout={() => signout()}
+                matchHomepage={matchHomepage}
+                hideMenu={() => setShowMenu(false)}
+              />
             </>
           )}
         </>
