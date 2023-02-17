@@ -23,24 +23,40 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
 
   async function toggleOnFavorite() {
     if (favorited) {
-      const removed = await removeFromFavorites(variables);
-      setFavorited(!favorited);
-      pushToast({
-        title: 'Succès',
-        type: 'success',
-        content: `${variables.strDrink} a été retiré de vos favoris`,
-        duration: 2,
-      });
+      const response = await removeFromFavorites(variables);
+      if (response.ok) {
+        setFavorited(!favorited);
+        pushToast({
+          title: 'Succès',
+          type: 'success',
+          content: `${variables.strDrink} a été retiré de vos favoris`,
+          duration: 2,
+        });
+      } else {
+        pushToast({
+          title: 'Erreur',
+          type: 'danger',
+          content: `Erreur lors de la suppression de ${variables.strDrink} de vos favoris`,
+          duration: 2,
+        });
+      }
     } else {
-      const added = await addToFavorites(variables);
-      if (added.data.success) {
+      const response = await addToFavorites(variables);
+      if (response.ok) {
+        setFavorited(!favorited);
         pushToast({
           title: 'Succès',
           type: 'success',
           content: `${variables.strDrink} a été ajouté à vos favoris`,
           duration: 2,
         });
-        setFavorited(!favorited);
+      } else {
+        pushToast({
+          title: 'Erreur',
+          type: 'danger',
+          content: `Erreur lors de l'ajout de ${variables.strDrink} à vos favoris`,
+          duration: 2,
+        });
       }
     }
   }
@@ -50,9 +66,8 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
       userFrom: localStorage.getItem('userId')!,
     };
     const response = await getFavorites(variable);
-    if (response.data.success) {
-      const favorites = response.data.favorites;
-      const cocktailOnFavorite = favorites.filter(
+    if (response.success) {
+      const cocktailOnFavorite = response.favorites.filter(
         (item: CocktailInterface) => item.idDrink === cocktails.idDrink
       );
       if (cocktailOnFavorite.length) {

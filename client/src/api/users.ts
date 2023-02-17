@@ -1,21 +1,21 @@
 import { UsersInterface } from 'interfaces';
 
-const API_USERS = '/api/users';
-
-export const createUser = async (newUser: UsersInterface) => {
-  const response = await fetch(API_USERS, {
+export const createUser = async (
+  newUser: UsersInterface
+): Promise<UsersInterface> => {
+  const data = await fetch('/api/users', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newUser),
   });
-  const body = await response.json();
-  if (response.ok) {
-    return body;
+  const response = await data.json();
+  if (data.ok) {
+    return response;
   } else {
-    if (body) {
-      throw body;
+    if (response) {
+      throw response;
     } else {
       throw new Error('Error on createUser api');
     }

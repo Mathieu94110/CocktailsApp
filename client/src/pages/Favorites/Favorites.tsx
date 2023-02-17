@@ -22,10 +22,9 @@ export const Favorites = () => {
 
   async function fetchFavoredCocktail() {
     const response = await getFavorites(variable);
-
-    if (response.data.success) {
+    if (response.success) {
       setIsLoading(false);
-      setFavorites(response.data.favorites);
+      setFavorites(response.favorites);
     } else {
       pushToast({
         title: 'Erreur',
@@ -45,14 +44,14 @@ export const Favorites = () => {
       userFrom: userFrom,
     };
     const response = await removeFromFavorites(variables);
-    if (response.response.data.success) {
+    if (response.ok) {
+      setFavorites(favorites.filter((f) => f.idDrink !== favorite.idDrink));
       pushToast({
         title: 'Succès',
         type: 'success',
         content: `${favorite.strDrink} a été retiré de vos favoris`,
         duration: 2,
       });
-      setFavorites(favorites.filter((f) => f.idDrink !== favorite.idDrink));
     } else {
       pushToast({
         title: 'Erreur',

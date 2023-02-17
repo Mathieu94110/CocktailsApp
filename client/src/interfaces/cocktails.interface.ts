@@ -52,11 +52,11 @@ export interface CocktailInterface {
   strVideo: string;
 }
 export interface CocktailsInitialInterface {
-  cocktails: CocktailInterface[] | [];
+  cocktails: CocktailInterface[];
 }
 
 export interface ValidQueriesInterface {
-  strAlcoholic?: string,
-  strCategory?: string,
-  strGlass?: string,
+  strAlcoholic?: string;
+  strCategory?: string;
+  strGlass?: string;
 }

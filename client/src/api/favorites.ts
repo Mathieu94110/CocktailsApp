@@ -1,38 +1,41 @@
-import axios from 'axios';
+import { CocktailInterface } from 'interfaces';
 
-export const removeFromFavorites = async (variables: any): Promise<any> => {
-  try {
-    let response = await axios.post(
-      '/api/favorites/removeFromFavorites',
-      variables
-    );
-    const objectResponse = {
-      response: response,
-      message: `${response.data.doc.strDrink} a été retiré de vos favoris`,
-    };
-    return objectResponse;
-  } catch (err) {
-    throw new Error('Erreur lors de la suppression du cocktail de vos favoris');
-  }
+export const removeFromFavorites = async (
+  variables: Partial<CocktailInterface>
+): Promise<Response> => {
+  const response = await fetch('/api/favorites/removeFromFavorites', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(variables),
+  });
+  return response;
 };
 
-export const addToFavorites = async (variables: any): Promise<any> => {
-  try {
-    let response = await axios.post('/api/favorites/addToFavorites', variables);
-    return response;
-  } catch (err) {
-    throw new Error("Erreur lors de l'ajout du cocktail à vos favoris");
-  }
+export const addToFavorites = async (
+  variables: Partial<CocktailInterface>
+): Promise<Response> => {
+  const response = await fetch('/api/favorites/addToFavorites', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(variables),
+  });
+  return response;
 };
 
-export const getFavorites = async (variable: any): Promise<any> => {
-  try {
-    let response = await axios.post(
-      '/api/favorites/getFavoredCocktail',
-      variable
-    );
-    return response;
-  } catch (err) {
-    throw new Error("Erreur lors de l'ajout du cocktail à vos favoris");
-  }
+export const getFavorites = async (variable: {
+  userFrom: string;
+}): Promise<{ success: boolean; favorites: CocktailInterface[] }> => {
+  const data = await fetch('/api/favorites/getFavoredCocktail', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(variable),
+  });
+  const response = await data.json();
+  return response;
 };

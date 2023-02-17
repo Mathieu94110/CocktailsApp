@@ -3,7 +3,7 @@ import { Timer, SomeFunction } from '../interfaces';
 
 export function useDebounce<Func extends SomeFunction>(
   func: Func,
-  delay = 1000
+  delay = 800
 ) {
   const [timer, setTimer] = useState<Timer>();
 

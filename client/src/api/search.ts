@@ -1,17 +1,15 @@
-import axios from 'axios';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
 import { filterListByCategories } from 'utils';
 
-const cocktailApi = axios.create({
-  baseURL: 'https://www.thecocktaildb.com/api/json/v1/1/',
-});
+const coktailsApiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/';
 
 export const searchCocktails = async (
   name: string
 ): Promise<CocktailInterface[]> => {
   try {
-    let cocktail = await cocktailApi.get(`search.php?s=${name}`);
-    return cocktail.data.drinks;
+    const data = await fetch(`${coktailsApiUrl}search.php?s=${name}`);
+    const response = await data.json();
+    return response.drinks;
   } catch (err) {
     throw new Error('Error fetch cocktails');
   }
@@ -20,17 +18,25 @@ export const searchCocktails = async (
 export const searchByFilters = async (
   categories: CategoriesInterface[],
   currentCocktailsList: CocktailInterface[]
-): Promise<any> => {
-  const filteredList = await filterListByCategories(
-    categories,
-    currentCocktailsList
-  );
-  return filteredList;
-};
-export const searchByLetter = async (letter: string): Promise<any> => {
+): Promise<CocktailInterface[]> => {
   try {
-    let cocktail = await cocktailApi.get(`search.php?f=${letter}`);
-    return cocktail.data.drinks;
+    const filteredList = await filterListByCategories(
+      categories,
+      currentCocktailsList
+    );
+    return filteredList;
+  } catch (err) {
+    throw new Error('Error fetch cocktails by filters');
+  }
+};
+
+export const searchByLetter = async (
+  letter: string
+): Promise<CocktailInterface[]> => {
+  try {
+    const data = await fetch(`${coktailsApiUrl}search.php?f=${letter}`);
+    const response = await data.json();
+    return response.drinks;
   } catch (err) {
     throw new Error('Error fetch cocktails by first letter');
   }

@@ -26,7 +26,6 @@ export const Home = () => {
   });
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage] = useState<number>(6);
-
   const indexOfLastCocktail: number = currentPage * postsPerPage;
   const indexOfFirstCocktail: number = indexOfLastCocktail - postsPerPage;
   const currentCocktails: CocktailInterface[] = state.cocktails.slice(
@@ -34,12 +33,11 @@ export const Home = () => {
     indexOfLastCocktail
   );
   // Initial fetch call
-  useEffect((): any => {
-    let cancel = false;
+  useEffect(() => {
     async function fetchCocktails() {
       try {
         setIsLoading(true);
-        if (searchInputValue && !cancel) {
+        if (searchInputValue) {
           const response: CocktailInterface[] = await searchCocktails(
             searchInputValue
           );
@@ -51,18 +49,15 @@ export const Home = () => {
       } catch (e) {
         console.error(e);
       } finally {
-        if (!cancel) {
-          setIsLoading(false);
-        }
+        setIsLoading(false);
       }
     }
     fetchCocktails();
-    return () => (setIsInitialFetchDone(true), (cancel = true));
+    setIsInitialFetchDone(true);
   }, []);
 
   // Dynamic fetch calls
-  useEffect((): any => {
-    let cancel = false;
+  useEffect(() => {
     async function fetchCocktails() {
       try {
         setIsLoading(true);
@@ -70,56 +65,52 @@ export const Home = () => {
           const response: CocktailInterface[] = await searchCocktails(
             searchInputValue
           );
-          if (!cancel) {
-            if (searchInputValue && !dropDownFilters.length) {
+          if (searchInputValue && !dropDownFilters.length) {
+            dispatch({
+              type: 'CURRENT_COCKTAILS',
+              payload: response ? response : [],
+            });
+          } else if (searchInputValue && dropDownFilters.length) {
+            const newCocktailsList: CocktailInterface[] = await searchByFilters(
+              dropDownFilters,
+              response
+            );
+            if (newCocktailsList) {
               dispatch({
                 type: 'CURRENT_COCKTAILS',
-                payload: response ? response : [],
+                payload: newCocktailsList ? newCocktailsList : [],
               });
-            } else if (searchInputValue && dropDownFilters.length) {
-              const newCocktailsList: CocktailInterface[] =
-                await searchByFilters(dropDownFilters, response);
-              if (newCocktailsList) {
-                dispatch({
-                  type: 'CURRENT_COCKTAILS',
-                  payload: newCocktailsList ? newCocktailsList : [],
-                });
-              }
             }
           }
         }
         if (letter) {
           const response: CocktailInterface[] = await searchByLetter(letter);
-          if (!cancel) {
-            if (dropDownFilters.length) {
-              const newCocktailsList: CocktailInterface[] =
-                await searchByFilters(dropDownFilters, response);
-              dispatch({
-                type: 'CURRENT_COCKTAILS',
-                payload: newCocktailsList ? newCocktailsList : [],
-              });
-            } else {
-              dispatch({
-                type: 'CURRENT_COCKTAILS',
-                payload: response ? response : [],
-              });
-            }
+          if (dropDownFilters.length) {
+            const newCocktailsList: CocktailInterface[] = await searchByFilters(
+              dropDownFilters,
+              response
+            );
+            dispatch({
+              type: 'CURRENT_COCKTAILS',
+              payload: newCocktailsList ? newCocktailsList : [],
+            });
+          } else {
+            dispatch({
+              type: 'CURRENT_COCKTAILS',
+              payload: response ? response : [],
+            });
           }
         }
       } catch (e) {
         console.error(e);
       } finally {
-        if (!cancel) {
-          setIsLoading(false);
-        }
+        setIsLoading(false);
       }
     }
     if (isInitialFetchDone) {
       fetchCocktails();
-      return () => (cancel = true);
     }
   }, [searchInputValue, dropDownFilters, letter]);
-
 
   function paginate(pageNumber: number) {
     setCurrentPage(pageNumber);
