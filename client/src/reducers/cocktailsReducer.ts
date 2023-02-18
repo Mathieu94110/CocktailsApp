@@ -9,7 +9,7 @@ function cocktailsReducer(
     case 'CURRENT_COCKTAILS': {
       return {
         ...state,
-        cocktails: action.payload,
+        cocktails: [...action.payload],
       };
     }
     default: {

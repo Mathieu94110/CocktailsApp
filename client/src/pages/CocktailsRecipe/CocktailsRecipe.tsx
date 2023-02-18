@@ -15,7 +15,7 @@ export const CocktailsRecipe = () => {
           navigate(-1);
         }}
       >
-        Back
+        <i className="fa-solid fa-arrow-left"></i>
       </button>
       <ul className={styles.cardContainer}>
         {recipes &&

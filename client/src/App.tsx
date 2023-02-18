@@ -1,20 +1,34 @@
-import { Suspense } from 'react';
+import { Suspense, useReducer } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header, Footer, AuthProvider, Loading } from 'components';
-import { ToastContextProvider } from 'context';
+import cocktailsReducer from 'reducers/cocktailsReducer';
+import {
+  CocktailStateContext,
+  CocktailsDispatcherContext,
+  ToastContextProvider,
+} from 'context';
 import styles from './App.module.scss';
+import { CocktailInterface } from 'interfaces';
 
 function App() {
+  const [state, dispatch] = useReducer(cocktailsReducer, {
+    cocktails: [] as CocktailInterface[],
+  });
+
   return (
     <div className={`d-flex flex-column ${styles.appContainer}`}>
       <AuthProvider>
-        <ToastContextProvider>
-          <Header />
-          <Suspense fallback={<Loading />}>
-            <Outlet />
-          </Suspense>
-          <Footer />
-        </ToastContextProvider>
+        <CocktailStateContext.Provider value={state}>
+          <CocktailsDispatcherContext.Provider value={dispatch}>
+            <ToastContextProvider>
+              <Header />
+              <Suspense fallback={<Loading />}>
+                <Outlet />
+              </Suspense>
+              <Footer />
+            </ToastContextProvider>
+          </CocktailsDispatcherContext.Provider>
+        </CocktailStateContext.Provider>
       </AuthProvider>
     </div>
   );

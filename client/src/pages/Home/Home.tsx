@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Loading } from 'components';
 import {
   AlphabeticalFilter,
@@ -8,36 +8,36 @@ import {
   SearchInput,
 } from './Components';
 import { searchCocktails, searchByFilters, searchByLetter } from 'api';
-import cocktailsReducer from 'reducers/cocktailsReducer';
+import { CocktailStateContext, CocktailsDispatcherContext } from 'context';
 import { options } from 'constant';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
 import styles from './Home.module.scss';
 
 export const Home = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInitialFetchDone, setIsInitialFetchDone] = useState<boolean>(false);
   const [searchInputValue, setSearchInputValue] = useState<string>('margarita');
   const [letter, setLetter] = useState<string>('');
-  const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>(
-    []
-  );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [state, dispatch] = useReducer(cocktailsReducer, {
-    cocktails: [],
-  });
+  const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage] = useState<number>(6);
+
+  const state = useContext(CocktailStateContext);
+  const dispatch = useContext(CocktailsDispatcherContext);
+
   const indexOfLastCocktail: number = currentPage * postsPerPage;
   const indexOfFirstCocktail: number = indexOfLastCocktail - postsPerPage;
   const currentCocktails: CocktailInterface[] = state.cocktails.slice(
     indexOfFirstCocktail,
     indexOfLastCocktail
   );
+
   // Initial fetch call
   useEffect(() => {
     async function fetchCocktails() {
-      try {
-        setIsLoading(true);
-        if (searchInputValue) {
+      if (!state.cocktails.length && searchInputValue) {
+        try {
+          setIsLoading(true);
           const response: CocktailInterface[] = await searchCocktails(
             searchInputValue
           );
@@ -45,11 +45,11 @@ export const Home = () => {
             type: 'CURRENT_COCKTAILS',
             payload: response ? response : [],
           });
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
       }
     }
     fetchCocktails();
@@ -57,6 +57,7 @@ export const Home = () => {
   }, []);
 
   // Dynamic fetch calls
+  // Here calls depending on search mode, no call is emitted on first load
   useEffect(() => {
     async function fetchCocktails() {
       try {
@@ -112,28 +113,28 @@ export const Home = () => {
     }
   }, [searchInputValue, dropDownFilters, letter]);
 
-  function paginate(pageNumber: number) {
+  const paginate = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
-  }
+  };
 
-  function previousPage() {
+  const previousPage = (): void => {
     if (currentPage !== 1) {
       setCurrentPage(currentPage - 1);
     }
-  }
+  };
 
-  function nextPage() {
+  const nextPage = (): void => {
     if (currentPage !== Math.ceil(state.cocktails.length / postsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
-  }
+  };
 
-  const switchToSearchLetterMode = (value: string) => {
+  const switchToSearchLetterMode = (value: string): void => {
     setSearchInputValue('');
     setLetter(value);
   };
 
-  const switchToSearchInputMode = (value: string) => {
+  const switchToSearchInputMode = (value: string): void => {
     setLetter('');
     setSearchInputValue(value);
   };
@@ -162,7 +163,7 @@ export const Home = () => {
           <Loading />
         ) : (
           <div className={styles.cocktailsResults}>
-            {state.cocktails.length > 0 ? (
+            {state.cocktails.length ? (
               <div className={styles.grid}>
                 {currentCocktails.map((c: CocktailInterface, index: number) => (
                   <Recipe key={index} cocktails={c} />
