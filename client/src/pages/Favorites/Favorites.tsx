@@ -13,15 +13,13 @@ export const Favorites = () => {
   const [favorites, setFavorites] = useState<CocktailInterface[]>([]);
   const { user } = useContext<any>(AuthContext);
   const { pushToast } = useToasts();
-  const variable: { userFrom: string } = {
+  const userInfos: { userFrom: string } = {
     userFrom: localStorage.getItem('userId')!, //here userId always exist
   };
-
   const navigate = useNavigate();
-  const goToRecipe = (id: string) => navigate(`/recipe/${id}`);
 
-  async function fetchFavoredCocktail() {
-    const response = await getFavorites(variable);
+  const fetchFavoredCocktail = async (): Promise<void> => {
+    const response = await getFavorites(userInfos);
     if (response.success) {
       setIsLoading(false);
       setFavorites(response.favorites);
@@ -33,17 +31,19 @@ export const Favorites = () => {
         duration: 2,
       });
     }
-  }
+  };
 
-  async function handleClickDeleteFavorite(
+  const handleClickDeleteFavorite = async (
     favorite: CocktailInterface,
     userFrom: string
-  ) {
-    const variables = {
+  ): Promise<void> => {
+    const favoriteInfos: Partial<CocktailInterface> & {
+      userFrom: string | null;
+    } = {
       idDrink: favorite.idDrink,
       userFrom: userFrom,
     };
-    const response = await removeFromFavorites(variables);
+    const response = await removeFromFavorites(favoriteInfos);
     if (response.ok) {
       setFavorites(favorites.filter((f) => f.idDrink !== favorite.idDrink));
       pushToast({
@@ -60,12 +60,11 @@ export const Favorites = () => {
         duration: 2,
       });
     }
-  }
+  };
 
   useEffect(() => {
     fetchFavoredCocktail();
   }, []);
-
   const renderCards = favorites.map(
     (favorite: CocktailInterface, index: number) => {
       return (
@@ -86,7 +85,7 @@ export const Favorites = () => {
           <td>
             <button
               onClick={() =>
-                handleClickDeleteFavorite(favorite, variable.userFrom)
+                handleClickDeleteFavorite(favorite, userInfos.userFrom)
               }
               className={`${styles.RecipeButtons} mr-5 mb-5 btn btn-reverse-danger`}
             >
@@ -95,7 +94,7 @@ export const Favorites = () => {
             </button>
             <button
               className={`${styles.RecipeButtons} mr-5 btn btn-reverse-primary`}
-              onClick={() => goToRecipe(favorite.idDrink)}
+              onClick={() => navigate(`/recipe/${favorite.idDrink}`)}
             >
               Recette
             </button>
@@ -104,7 +103,6 @@ export const Favorites = () => {
       );
     }
   );
-
   return (
     <div className="flex-fill m-20 position-relative">
       <h1> Vos favoris </h1>

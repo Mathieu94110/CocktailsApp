@@ -10,7 +10,7 @@ import {
 import styles from './App.module.scss';
 import { CocktailInterface } from 'interfaces';
 
-function App() {
+const App = () => {
   const [state, dispatch] = useReducer(cocktailsReducer, {
     cocktails: [] as CocktailInterface[],
   });
@@ -32,6 +32,6 @@ function App() {
       </AuthProvider>
     </div>
   );
-}
+};
 
 export default App;

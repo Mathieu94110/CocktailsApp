@@ -1,5 +1,6 @@
 import { getCurrentUser } from 'api';
+import { UsersInterface } from 'interfaces';
 
-export async function rootLoader() {
+export const rootLoader = async (): Promise<UsersInterface> => {
   return getCurrentUser();
-}
+};

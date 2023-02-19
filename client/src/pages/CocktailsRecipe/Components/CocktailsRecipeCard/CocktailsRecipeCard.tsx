@@ -98,7 +98,7 @@ export const CocktailsRecipeCard = ({
         </div>
         <div className={styles.cardText}>
           <span className={styles.subTitle}>Ingredients</span>:{' '}
-          {ingredients.map((item: string, index: number) => {
+          {ingredients.map((item: string | null, index: number) => {
             return item ? (
               <span key={index}>{(index ? ', ' : '') + item}</span>
             ) : null;
@@ -106,7 +106,7 @@ export const CocktailsRecipeCard = ({
         </div>
         <div className={styles.cardText}>
           <span className={styles.subTitle}>Measures</span>:{' '}
-          {measures.map((item: string, index: number) => {
+          {measures.map((item: string | null, index: number) => {
             return item ? (
               <span key={index}>{(index ? ', ' : '') + item}</span>
             ) : null;

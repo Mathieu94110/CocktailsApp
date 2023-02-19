@@ -34,7 +34,7 @@ export const Home = () => {
 
   // Initial fetch call
   useEffect(() => {
-    async function fetchCocktails() {
+    const fetchCocktails = async (): Promise<void> => {
       if (!state.cocktails.length && searchInputValue) {
         try {
           setIsLoading(true);
@@ -51,7 +51,7 @@ export const Home = () => {
           setIsLoading(false);
         }
       }
-    }
+    };
     fetchCocktails();
     setIsInitialFetchDone(true);
   }, []);
@@ -59,7 +59,7 @@ export const Home = () => {
   // Dynamic fetch calls
   // Here calls depending on search mode, no call is emitted on first load
   useEffect(() => {
-    async function fetchCocktails() {
+    const fetchCocktails = async (): Promise<void> => {
       try {
         setIsLoading(true);
         if (searchInputValue) {
@@ -107,7 +107,7 @@ export const Home = () => {
       } finally {
         setIsLoading(false);
       }
-    }
+    };
     if (isInitialFetchDone) {
       fetchCocktails();
     }
@@ -170,7 +170,9 @@ export const Home = () => {
                 ))}
               </div>
             ) : (
-              <p>Aucun résultat trouvé</p>
+              <div className={styles.noCocktailsResults}>
+                <p>Aucun résultat trouvé</p>
+              </div>
             )}
             {state.cocktails.length > 6 && (
               <Pagination

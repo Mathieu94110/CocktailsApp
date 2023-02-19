@@ -29,7 +29,7 @@
   }
   
   @mixin lg {
-    @media (min-width: 993px) and (max-width: 1200px) {
+    @media (min-width: 993px) and (max-width: 1600px) {
       @content;
     }
   }
@@ -41,7 +41,7 @@
   }
   
   @mixin xl {
-    @media (min-width: 1201px) {
+    @media (min-width: 1601px) {
       @content;
     }
   }

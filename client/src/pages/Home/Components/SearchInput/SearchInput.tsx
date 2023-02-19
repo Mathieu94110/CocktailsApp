@@ -9,16 +9,16 @@ export const SearchInput = ({
   setFilter: (text: string) => void;
   currentFilter: string;
 }) => {
-  const [debouncedOutput, setDebouncedOutput] = useState('');
-
-  async function onChangeDebouncedEvent(text: string) {
+  const [debouncedOutput, setDebouncedOutput] = useState<string>('');
+  
+  const onChangeDebouncedEvent = async (text: string): Promise<void> => {
     setDebouncedOutput(text.trim());
-  }
-
+  };
+  // Here onChangeDebounced is used to authorize api call after 800ms delay between each new entries
   const onChangeDebounced = useDebounce(onChangeDebouncedEvent);
 
   useEffect(() => {
-    if (debouncedOutput) setFilter(debouncedOutput);
+    setFilter(debouncedOutput);
   }, [debouncedOutput]);
 
   return (
@@ -31,8 +31,8 @@ export const SearchInput = ({
         className="flex-fill"
         type="text"
         placeholder={currentFilter}
+        aria-label="search-input"
       />
     </div>
   );
 };
-

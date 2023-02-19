@@ -6,66 +6,66 @@ import { CocktailInterface } from 'interfaces';
 import styles from './Recipe.module.scss';
 
 export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
-  const [favorited, setFavorited] = useState(false);
+  const [favorited, setFavorited] = useState<boolean>(false);
   const userFrom = localStorage.getItem('userId');
   const navigate = useNavigate();
   const { pushToast } = useToasts();
-  const goToRecipe = () => navigate(`/recipe/${cocktails.idDrink}`);
 
-  const variables = {
-    idDrink: cocktails.idDrink,
-    userFrom: userFrom,
-    strDrink: cocktails.strDrink,
-    strDrinkThumb: cocktails.strDrinkThumb,
-    strCategory: cocktails.strCategory,
-    strAlcoholic: cocktails.strAlcoholic,
-  };
-
-  async function toggleOnFavorite() {
+  const toggleOnFavorite = async (): Promise<void> => {
+    const coktailInfos: Partial<CocktailInterface> & {
+      userFrom: string | null;
+    } = {
+      idDrink: cocktails.idDrink,
+      userFrom: userFrom,
+      strDrink: cocktails.strDrink,
+      strDrinkThumb: cocktails.strDrinkThumb,
+      strCategory: cocktails.strCategory,
+      strAlcoholic: cocktails.strAlcoholic,
+    };
     if (favorited) {
-      const response = await removeFromFavorites(variables);
+      const response = await removeFromFavorites(coktailInfos);
       if (response.ok) {
         setFavorited(!favorited);
         pushToast({
           title: 'Succès',
           type: 'success',
-          content: `${variables.strDrink} a été retiré de vos favoris`,
+          content: `${coktailInfos.strDrink} a été retiré de vos favoris`,
           duration: 2,
         });
       } else {
         pushToast({
           title: 'Erreur',
           type: 'danger',
-          content: `Erreur lors de la suppression de ${variables.strDrink} de vos favoris`,
+          content: `Erreur lors de la suppression de ${coktailInfos.strDrink} de vos favoris`,
           duration: 2,
         });
       }
     } else {
-      const response = await addToFavorites(variables);
+      const response = await addToFavorites(coktailInfos);
       if (response.ok) {
         setFavorited(!favorited);
         pushToast({
           title: 'Succès',
           type: 'success',
-          content: `${variables.strDrink} a été ajouté à vos favoris`,
+          content: `${coktailInfos.strDrink} a été ajouté à vos favoris`,
           duration: 2,
         });
       } else {
         pushToast({
           title: 'Erreur',
           type: 'danger',
-          content: `Erreur lors de l'ajout de ${variables.strDrink} à vos favoris`,
+          content: `Erreur lors de l'ajout de ${coktailInfos.strDrink} à vos favoris`,
           duration: 2,
         });
       }
     }
-  }
+  };
 
-  async function fetchFavoredCocktail() {
-    const variable: { userFrom: string } = {
+  const fetchFavoredCocktail = async (): Promise<void> => {
+    const userId: { userFrom: string } = {
       userFrom: localStorage.getItem('userId')!,
     };
-    const response = await getFavorites(variable);
+    const response = await getFavorites(userId);
     if (response.success) {
       const cocktailOnFavorite = response.favorites.filter(
         (item: CocktailInterface) => item.idDrink === cocktails.idDrink
@@ -83,7 +83,7 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
         duration: 2,
       });
     }
-  }
+  };
 
   useEffect(() => {
     fetchFavoredCocktail();
@@ -95,7 +95,9 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
         <img
           src={cocktails.strDrinkThumb}
           alt={cocktails.strDrink}
-          onClick={goToRecipe}
+          onClick={() =>
+            navigate(`/recipe/${cocktails.idDrink}`)
+          }
         />
       </div>
       <div
@@ -103,6 +105,7 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
       >
         <h3 className="text-center">{cocktails.strDrink}</h3>
         <i
+          data-testid="heart-icon"
           onClick={toggleOnFavorite}
           className={`fa-solid fa-heart ${favorited ? 'text-primary' : ''}`}
         ></i>

@@ -52,6 +52,8 @@
   .recipeContent {
     height: 60px;
   }
+}
+@media screen and (max-width: 2000px) {
   .imageContainer {
     height: 120px;
     border: 1px solid var(--gray-2);
