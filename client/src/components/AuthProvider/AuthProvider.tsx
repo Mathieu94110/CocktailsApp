@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { AuthContext } from 'context';
-import { signin as login, signout as logout } from 'api/auth';
+import AuthApi from 'api/auth';
 import { UsersInterface } from 'interfaces';
 
 export const AuthProvider = ({ children }: { children: any }) => {
@@ -9,14 +9,14 @@ export const AuthProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState<any>(initialUser);
 
   const signin = async (credentials: UsersInterface): Promise<void> => {
-    const newUser: UsersInterface = await login(credentials);
+    const newUser: UsersInterface = await AuthApi.signin(credentials);
     if (newUser._id) {
       window.localStorage.setItem('userId', newUser._id);
     }
     setUser(newUser);
   };
   const signout = async (): Promise<void> => {
-    await logout();
+    await AuthApi.signout();
     setUser(null);
   };
   return (

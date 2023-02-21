@@ -7,7 +7,7 @@ import {
   Recipe,
   SearchInput,
 } from './Components';
-import { searchCocktails, searchByFilters, searchByLetter } from 'api';
+import SearchApi from 'api/search';
 import { CocktailStateContext, CocktailsDispatcherContext } from 'context';
 import { options } from 'constant';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
@@ -38,7 +38,7 @@ export const Home = () => {
       if (!state.cocktails.length && searchInputValue) {
         try {
           setIsLoading(true);
-          const response: CocktailInterface[] = await searchCocktails(
+          const response: CocktailInterface[] = await SearchApi.searchCocktails(
             searchInputValue
           );
           dispatch({
@@ -63,7 +63,7 @@ export const Home = () => {
       try {
         setIsLoading(true);
         if (searchInputValue) {
-          const response: CocktailInterface[] = await searchCocktails(
+          const response: CocktailInterface[] = await SearchApi.searchCocktails(
             searchInputValue
           );
           if (searchInputValue && !dropDownFilters.length) {
@@ -72,10 +72,8 @@ export const Home = () => {
               payload: response ? response : [],
             });
           } else if (searchInputValue && dropDownFilters.length) {
-            const newCocktailsList: CocktailInterface[] = await searchByFilters(
-              dropDownFilters,
-              response
-            );
+            const newCocktailsList: CocktailInterface[] =
+              await SearchApi.searchByFilters(dropDownFilters, response);
             if (newCocktailsList) {
               dispatch({
                 type: 'CURRENT_COCKTAILS',
@@ -85,12 +83,12 @@ export const Home = () => {
           }
         }
         if (letter) {
-          const response: CocktailInterface[] = await searchByLetter(letter);
+          const response: CocktailInterface[] = await SearchApi.searchByLetter(
+            letter
+          );
           if (dropDownFilters.length) {
-            const newCocktailsList: CocktailInterface[] = await searchByFilters(
-              dropDownFilters,
-              response
-            );
+            const newCocktailsList: CocktailInterface[] =
+              await SearchApi.searchByFilters(dropDownFilters, response);
             dispatch({
               type: 'CURRENT_COCKTAILS',
               payload: newCocktailsList ? newCocktailsList : [],

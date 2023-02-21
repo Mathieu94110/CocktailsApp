@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFavorites, addToFavorites, removeFromFavorites } from 'api';
+import FavoritesApi from 'api/favorites';
 import { useToasts } from 'context';
 import { CocktailInterface } from 'interfaces';
 import styles from './Recipe.module.scss';
 
-export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
+export const Recipe = ({ cocktails }: { cocktails: Partial<CocktailInterface> }) => {
   const [favorited, setFavorited] = useState<boolean>(false);
   const userFrom = localStorage.getItem('userId');
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
       strAlcoholic: cocktails.strAlcoholic,
     };
     if (favorited) {
-      const response = await removeFromFavorites(coktailInfos);
+      const response = await FavoritesApi.removeFromFavorites(coktailInfos);
       if (response.ok) {
         setFavorited(!favorited);
         pushToast({
@@ -41,7 +41,7 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
         });
       }
     } else {
-      const response = await addToFavorites(coktailInfos);
+      const response = await FavoritesApi.addToFavorites(coktailInfos);
       if (response.ok) {
         setFavorited(!favorited);
         pushToast({
@@ -65,8 +65,8 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
     const userId: { userFrom: string } = {
       userFrom: localStorage.getItem('userId')!,
     };
-    const response = await getFavorites(userId);
-    if (response.success) {
+    const response = await FavoritesApi.getFavorites(userId);
+    if (response && response.success) {
       const cocktailOnFavorite = response.favorites.filter(
         (item: CocktailInterface) => item.idDrink === cocktails.idDrink
       );
@@ -95,9 +95,7 @@ export const Recipe = ({ cocktails }: { cocktails: CocktailInterface }) => {
         <img
           src={cocktails.strDrinkThumb}
           alt={cocktails.strDrink}
-          onClick={() =>
-            navigate(`/recipe/${cocktails.idDrink}`)
-          }
+          onClick={() => navigate(`/recipe/${cocktails.idDrink}`)}
         />
       </div>
       <div

@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
-import { createUser } from 'api';
+import AuthApi from 'api/auth';
 import { UsersInterface } from 'interfaces';
+import { useToasts } from 'context';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -40,14 +41,20 @@ export const Signup = () => {
     defaultValues,
     resolver: yupResolver(validationSchema),
   });
+  const { pushToast } = useToasts();
 
   const submit = handleSubmit(async (user: UsersInterface) => {
     try {
       clearErrors();
-      await createUser(user);
+      await AuthApi.createUser(user);
       navigate('/signin');
-    } catch (message: any) {
-      setError('generic', { type: 'generic', message });
+    } catch {
+      pushToast({
+        title: 'Erreur',
+        type: 'danger',
+        content: 'Problème rencontré lors de la création du compte',
+        duration: 2,
+      });
     }
   });
   return (
@@ -63,7 +70,9 @@ export const Signup = () => {
             type="text"
             {...register('name')}
           />
-          {errors.name && <p className="auth-form-error">{errors.name.message}</p>}
+          {errors.name && (
+            <p className="auth-form-error">{errors.name.message}</p>
+          )}
         </div>
         <div className="auth-form-items">
           <label className="mb-10" htmlFor="email">
@@ -74,7 +83,9 @@ export const Signup = () => {
             type="text"
             {...register('email')}
           />
-          {errors.email && <p className="auth-form-error">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="auth-form-error">{errors.email.message}</p>
+          )}
         </div>
         <div className="auth-form-items">
           <label className="mb-10" htmlFor="password">

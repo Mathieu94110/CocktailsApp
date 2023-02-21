@@ -1,7 +1,7 @@
 import { CocktailInterface } from 'interfaces';
 
-export const removeFromFavorites = async (
-  favoriteInfos:Partial<CocktailInterface> & {
+const removeFromFavorites = async (
+  favoriteInfos: Partial<CocktailInterface> & {
     userFrom: string | null;
   }
 ): Promise<Response> => {
@@ -15,7 +15,7 @@ export const removeFromFavorites = async (
   return response;
 };
 
-export const addToFavorites = async (
+const addToFavorites = async (
   favoriteInfos: Partial<CocktailInterface> & {
     userFrom: string | null;
   }
@@ -30,7 +30,7 @@ export const addToFavorites = async (
   return response;
 };
 
-export const getFavorites = async (userInfos: {
+const getFavorites = async (userInfos: {
   userFrom: string;
 }): Promise<{ success: boolean; favorites: CocktailInterface[] }> => {
   const data = await fetch('/api/favorites/getFavoredCocktail', {
@@ -40,6 +40,17 @@ export const getFavorites = async (userInfos: {
     },
     body: JSON.stringify(userInfos),
   });
-  const response = await data.json();
+  let response;
+  if (data) {
+    response = await data.json();
+  }
   return response;
 };
+
+const FavoritesApi = {
+  removeFromFavorites,
+  addToFavorites,
+  getFavorites,
+};
+
+export default FavoritesApi;

@@ -1,9 +1,7 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Navigate } from 'react-router-dom';
-import { AuthContext } from 'context';
 import { Loading } from 'components';
-import { getFavorites, removeFromFavorites } from 'api';
+import FavoritesApi from 'api/favorites';
 import { useToasts } from 'context';
 import { CocktailInterface } from 'interfaces';
 import styles from './Favorites.module.scss';
@@ -11,7 +9,6 @@ import styles from './Favorites.module.scss';
 export const Favorites = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [favorites, setFavorites] = useState<CocktailInterface[]>([]);
-  const { user } = useContext<any>(AuthContext);
   const { pushToast } = useToasts();
   const userInfos: { userFrom: string } = {
     userFrom: localStorage.getItem('userId')!, //here userId always exist
@@ -19,14 +16,14 @@ export const Favorites = () => {
   const navigate = useNavigate();
 
   const fetchFavoredCocktail = async (): Promise<void> => {
-    const response = await getFavorites(userInfos);
+    const response = await FavoritesApi.getFavorites(userInfos);
     if (response.success) {
-      setIsLoading(false);
       setFavorites(response.favorites);
+      setIsLoading(false);
     } else {
       pushToast({
         title: 'Erreur',
-        type: 'success',
+        type: 'danger',
         content: 'Problème rencontré lors de la récupération de vos favoris',
         duration: 2,
       });
@@ -43,7 +40,7 @@ export const Favorites = () => {
       idDrink: favorite.idDrink,
       userFrom: userFrom,
     };
-    const response = await removeFromFavorites(favoriteInfos);
+    const response = await FavoritesApi.removeFromFavorites(favoriteInfos);
     if (response.ok) {
       setFavorites(favorites.filter((f) => f.idDrink !== favorite.idDrink));
       pushToast({
@@ -79,7 +76,7 @@ export const Favorites = () => {
               />
             )}
           </td>
-          <td>{favorite.strDrink}</td>
+          <td data-testid="strDrink">{favorite.strDrink}</td>
           <td>{favorite.strCategory}</td>
           <td>{favorite.strAlcoholic}</td>
           <td>
@@ -132,7 +129,6 @@ export const Favorites = () => {
           )}
         </>
       )}
-      {!user && <Navigate to="/"></Navigate>}
     </div>
   );
 };

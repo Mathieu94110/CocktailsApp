@@ -8,8 +8,11 @@ export const searchCocktails = async (
 ): Promise<CocktailInterface[]> => {
   try {
     const data = await fetch(`${coktailsApiUrl}search.php?s=${name}`);
-    const response = await data.json();
-    return response.drinks;
+    if (data.ok) {
+      const response = await data.json();
+      return response.drinks;
+    }
+    return [];
   } catch (err) {
     throw new Error('Error fetch cocktails');
   }
@@ -41,3 +44,10 @@ export const searchByLetter = async (
     throw new Error('Error fetch cocktails by first letter');
   }
 };
+const SearchApi = {
+  searchCocktails,
+  searchByFilters,
+  searchByLetter,
+};
+
+export default SearchApi;
