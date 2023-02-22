@@ -2,11 +2,11 @@ import { CocktailInterface } from 'interfaces';
 
 const removeFromFavorites = async (
   favoriteInfos: Partial<CocktailInterface> & {
-    userFrom: string | null;
+    userFrom: string;
   }
 ): Promise<Response> => {
   const response = await fetch('/api/favorites/removeFromFavorites', {
-    method: 'POST',
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -14,10 +14,9 @@ const removeFromFavorites = async (
   });
   return response;
 };
-
 const addToFavorites = async (
   favoriteInfos: Partial<CocktailInterface> & {
-    userFrom: string | null;
+    userFrom: string;
   }
 ): Promise<Response> => {
   const response = await fetch('/api/favorites/addToFavorites', {
@@ -30,16 +29,10 @@ const addToFavorites = async (
   return response;
 };
 
-const getFavorites = async (userInfos: {
-  userFrom: string;
-}): Promise<{ success: boolean; favorites: CocktailInterface[] }> => {
-  const data = await fetch('/api/favorites/getFavoredCocktail', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userInfos),
-  });
+const getFavorites = async (
+  userFrom: string
+): Promise<{ success: boolean; favorites: CocktailInterface[] }> => {
+  const data = await fetch('/api/favorites/getFavoredCocktail/' + userFrom);
   let response;
   if (data) {
     response = await data.json();

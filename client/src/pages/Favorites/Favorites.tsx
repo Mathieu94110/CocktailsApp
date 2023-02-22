@@ -10,13 +10,11 @@ export const Favorites = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [favorites, setFavorites] = useState<CocktailInterface[]>([]);
   const { pushToast } = useToasts();
-  const userInfos: { userFrom: string } = {
-    userFrom: localStorage.getItem('userId')!, //here userId always exist
-  };
+  const userFrom: string = localStorage.getItem('userId')!; //here userId always exist
   const navigate = useNavigate();
 
   const fetchFavoredCocktail = async (): Promise<void> => {
-    const response = await FavoritesApi.getFavorites(userInfos);
+    const response = await FavoritesApi.getFavorites(userFrom);
     if (response.success) {
       setFavorites(response.favorites);
       setIsLoading(false);
@@ -32,13 +30,13 @@ export const Favorites = () => {
 
   const handleClickDeleteFavorite = async (
     favorite: CocktailInterface,
-    userFrom: string
+    userId: string
   ): Promise<void> => {
     const favoriteInfos: Partial<CocktailInterface> & {
-      userFrom: string | null;
+      userFrom: string;
     } = {
       idDrink: favorite.idDrink,
-      userFrom: userFrom,
+      userFrom: userId,
     };
     const response = await FavoritesApi.removeFromFavorites(favoriteInfos);
     if (response.ok) {
@@ -62,44 +60,7 @@ export const Favorites = () => {
   useEffect(() => {
     fetchFavoredCocktail();
   }, []);
-  const renderCards = favorites.map(
-    (favorite: CocktailInterface, index: number) => {
-      return (
-        <tr key={index}>
-          <td>
-            {' '}
-            {favorite.strDrinkThumb && (
-              <img
-                src={favorite.strDrinkThumb}
-                alt={favorite.strDrink}
-                className={styles.favoriteImg}
-              />
-            )}
-          </td>
-          <td data-testid="strDrink">{favorite.strDrink}</td>
-          <td>{favorite.strCategory}</td>
-          <td>{favorite.strAlcoholic}</td>
-          <td>
-            <button
-              onClick={() =>
-                handleClickDeleteFavorite(favorite, userInfos.userFrom)
-              }
-              className={`${styles.RecipeButtons} mr-5 mb-5 btn btn-reverse-danger`}
-            >
-              {' '}
-              Suppprimer{' '}
-            </button>
-            <button
-              className={`${styles.RecipeButtons} mr-5 btn btn-reverse-primary`}
-              onClick={() => navigate(`/recipe/${favorite.idDrink}`)}
-            >
-              Recette
-            </button>
-          </td>
-        </tr>
-      );
-    }
-  );
+
   return (
     <div className="flex-fill m-20 position-relative">
       <h1> Vos favoris </h1>
@@ -115,12 +76,47 @@ export const Favorites = () => {
               <thead>
                 <tr>
                   <th></th>
-                  <th>Nom du cocktail</th>
+                  <th data-testid="custom-element">Nom du cocktail</th>
                   <th>Catégorie</th>
                   <td>Alcool</td>
                 </tr>
               </thead>
-              <tbody>{renderCards}</tbody>
+              <tbody>
+                {favorites.map((favorite: CocktailInterface, index: number) => (
+                  <tr key={index} data-testid="favorites-items">
+                    <td>
+                      {' '}
+                      {favorite.strDrinkThumb && (
+                        <img
+                          src={favorite.strDrinkThumb}
+                          alt={favorite.strDrink}
+                          className={styles.favoriteImg}
+                        />
+                      )}
+                    </td>
+                    <td data-testid="strDrink">{favorite.strDrink}</td>
+                    <td>{favorite.strCategory}</td>
+                    <td>{favorite.strAlcoholic}</td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          handleClickDeleteFavorite(favorite, userFrom)
+                        }
+                        className={`${styles.RecipeButtons} mr-5 mb-5 btn btn-reverse-danger`}
+                      >
+                        {' '}
+                        Suppprimer{' '}
+                      </button>
+                      <button
+                        className={`${styles.RecipeButtons} mr-5 btn btn-reverse-primary`}
+                        onClick={() => navigate(`/recipe/${favorite.idDrink}`)}
+                      >
+                        Recette
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           ) : (
             <div className="flex-fill center-content">

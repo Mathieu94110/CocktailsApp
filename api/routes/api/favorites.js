@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { Favorite } = require('../../database/models/favorite.model');
+const { Favorite } = require("../../database/models/favorite.model");
 
-router.post('/addToFavorites', (req, res) => {
+router.post("/addToFavorites", (req, res) => {
   const favorite = new Favorite(req.body);
   favorite.save((err, doc) => {
     if (err) return res.json({ success: false, err });
@@ -10,7 +10,7 @@ router.post('/addToFavorites', (req, res) => {
   });
 });
 
-router.post('/removeFromFavorites', (req, res) => {
+router.delete("/removeFromFavorites", (req, res) => {
   Favorite.findOneAndDelete({
     idDrink: req.body.idDrink,
     userFrom: req.body.userFrom,
@@ -20,12 +20,12 @@ router.post('/removeFromFavorites', (req, res) => {
   });
 });
 
-router.post('/getFavoredCocktail', (req, res) => {
+router.get("/getFavoredCocktail/:userInfos", (req, res) => {
   //Need to find all of the Users that I am subscribing to From Subscriber Collection
-  Favorite.find({ userFrom: req.body.userFrom }).exec((err, favorites) => {
+  let { userInfos } = req.params;
+  Favorite.find({ userFrom: userInfos }).exec((err, favorites) => {
     if (err) return res.status(400).send(err);
     return res.status(200).json({ success: true, favorites });
   });
 });
-
 module.exports = router;

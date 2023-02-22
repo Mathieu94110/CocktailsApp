@@ -10,7 +10,7 @@ export const SearchInput = ({
   currentFilter: string;
 }) => {
   const [debouncedOutput, setDebouncedOutput] = useState<string>('');
-  
+
   const onChangeDebouncedEvent = async (text: string): Promise<void> => {
     setDebouncedOutput(text.trim());
   };
@@ -29,7 +29,7 @@ export const SearchInput = ({
       <input
         onChange={(e) => onChangeDebounced(e.target.value)}
         className="flex-fill"
-        type="text"
+        type="search"
         placeholder={currentFilter}
         aria-label="search-input"
       />

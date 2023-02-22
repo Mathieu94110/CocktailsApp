@@ -5,15 +5,19 @@ import { useToasts } from 'context';
 import { CocktailInterface } from 'interfaces';
 import styles from './Recipe.module.scss';
 
-export const Recipe = ({ cocktails }: { cocktails: Partial<CocktailInterface> }) => {
+export const Recipe = ({
+  cocktails,
+}: {
+  cocktails: Partial<CocktailInterface>;
+}) => {
   const [favorited, setFavorited] = useState<boolean>(false);
-  const userFrom = localStorage.getItem('userId');
+  const userFrom = localStorage.getItem('userId')!;
   const navigate = useNavigate();
   const { pushToast } = useToasts();
 
   const toggleOnFavorite = async (): Promise<void> => {
     const coktailInfos: Partial<CocktailInterface> & {
-      userFrom: string | null;
+      userFrom: string;
     } = {
       idDrink: cocktails.idDrink,
       userFrom: userFrom,
@@ -65,7 +69,7 @@ export const Recipe = ({ cocktails }: { cocktails: Partial<CocktailInterface> })
     const userId: { userFrom: string } = {
       userFrom: localStorage.getItem('userId')!,
     };
-    const response = await FavoritesApi.getFavorites(userId);
+    const response = await FavoritesApi.getFavorites(userFrom);
     if (response && response.success) {
       const cocktailOnFavorite = response.favorites.filter(
         (item: CocktailInterface) => item.idDrink === cocktails.idDrink
