@@ -24,9 +24,11 @@ export const Pagination = ({
   return (
     <div className={styles.paginationContainer}>
       <ul className={styles.pagination}>
-        <li onClick={previousPage} className={styles.paginateItems}>
-          Prev
-        </li>
+        {currentPageNumber > 1 && (
+          <li onClick={previousPage} className={styles.paginateItems}>
+            Prev
+          </li>
+        )}
         {pageNumbers.map((number: number, index: number) => (
           <li
             key={index}
@@ -39,9 +41,11 @@ export const Pagination = ({
             {number}
           </li>
         ))}
-        <li onClick={nextPage} className={styles.paginateItems}>
-          Next
-        </li>
+        {currentPageNumber < pageNumbers.length && (
+          <li onClick={nextPage} className={styles.paginateItems}>
+            Next
+          </li>
+        )}
       </ul>
     </div>
   );

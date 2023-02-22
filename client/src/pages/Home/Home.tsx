@@ -81,6 +81,7 @@ export const Home = () => {
               });
             }
           }
+          setCurrentPage(1);
         }
         if (letter) {
           const response: CocktailInterface[] = await SearchApi.searchByLetter(
@@ -99,6 +100,7 @@ export const Home = () => {
               payload: response ? response : [],
             });
           }
+          setCurrentPage(1);
         }
       } catch (e) {
         console.error(e);
@@ -117,13 +119,17 @@ export const Home = () => {
 
   const previousPage = (): void => {
     if (currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((current: number) => {
+        return current - 1;
+      });
     }
   };
 
   const nextPage = (): void => {
     if (currentPage !== Math.ceil(state.cocktails.length / postsPerPage)) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage((current: number) => {
+        return current + 1;
+      });
     }
   };
 
