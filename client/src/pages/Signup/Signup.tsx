@@ -35,7 +35,6 @@ export const Signup = () => {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-    setError,
     clearErrors,
   } = useForm({
     defaultValues,
