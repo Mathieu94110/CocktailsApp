@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useDebounce } from 'helpers';
+import { useDebounce } from 'hooks';
 import styles from './SearchInput.module.scss';
 
 export const SearchInput = ({

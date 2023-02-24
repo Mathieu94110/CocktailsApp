@@ -43,7 +43,7 @@ const Toasts = () => {
     setToasts((v) => [...v, toast]);
   };
 
-  const onRemove = (toast: ToastItem) => {
+  const removeToast = (toast: ToastItem) => {
     clearTimeout(toast.timer);
     setToasts((v) => v.filter((t) => t !== toast));
   };
@@ -53,7 +53,7 @@ const Toasts = () => {
       <AnimatePresence>
         {toasts.map((toast) => (
           <motion.div
-            onClick={() => onRemove(toast)}
+            onClick={() => removeToast(toast)}
             key={toast.id}
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}

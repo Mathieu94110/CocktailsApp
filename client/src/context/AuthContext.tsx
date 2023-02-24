@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { AuthContext } from 'context';
+import { AuthContextInterface, UsersInterface } from 'interfaces';
 import AuthApi from 'api/auth';
-import { UsersInterface } from 'interfaces';
+
+export const AuthContext = createContext<AuthContextInterface | null>(null);
 
 export const AuthProvider = ({ children }: { children: any }) => {
   const initialUser = useLoaderData();

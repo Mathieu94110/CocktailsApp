@@ -55,15 +55,15 @@ export const DropdownFilters = ({
     setShowMenu(!showMenu);
   };
 
-  const deleteOption = (option: CategoriesInterface) => {
+  const removeOption = (option: CategoriesInterface) => {
     return selectedValue?.filter(
       (o: CategoriesInterface) => o.value !== option.value
     );
   };
 
-  const handleClickDeleteTag = (e: React.MouseEvent, option: CategoriesInterface) => {
+  const removeTag = (e: React.MouseEvent, option: CategoriesInterface) => {
     e.stopPropagation();
-    const newValue = deleteOption(option);
+    const newValue = removeOption(option);
     setSelectedValue(newValue);
     onChange(newValue);
   };
@@ -79,7 +79,7 @@ export const DropdownFilters = ({
             <div key={option.id} className={styles.dropdownTagItem}>
               {option.text}
               <span
-                onClick={(e) => handleClickDeleteTag(e, option)}
+                onClick={(e) => removeTag(e, option)}
                 className={styles.dropdownTagClose}
               >
                 <i className="fa-solid fa-xmark ml-5 d-flex align-items-center"></i>
@@ -92,7 +92,7 @@ export const DropdownFilters = ({
     return selectedValue.label;
   };
 
-  const handleOptionClick = (option: CategoriesInterface) => {
+  const toggleOption = (option: CategoriesInterface) => {
     let newValue;
     if (isMulti) {
       if (
@@ -100,7 +100,7 @@ export const DropdownFilters = ({
           (o: CategoriesInterface) => o.value === option.value
         ) >= 0
       ) {
-        newValue = deleteOption(option);
+        newValue = removeOption(option);
       } else {
         newValue = [...selectedValue, option];
       }
@@ -166,7 +166,7 @@ export const DropdownFilters = ({
           {getOptions().map((option: CategoriesInterface) => (
             <div className="my-10" key={option.id}>
               <input
-                onChange={() => handleOptionClick(option)}
+                onChange={() => toggleOption(option)}
                 type="checkbox"
                 checked={isSelected(option)}
               />
