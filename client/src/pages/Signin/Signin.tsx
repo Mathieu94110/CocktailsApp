@@ -5,6 +5,7 @@ import { AuthContext } from 'context';
 import { UsersInterface } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Button } from 'components/Button/Button';
 
 export const Signin = () => {
   const { signin, user } = useContext<any>(AuthContext);
@@ -85,9 +86,10 @@ export const Signin = () => {
               <p className="auth-form-error">{errors.generic.message}</p>
             )}
             <div>
-              <button disabled={isSubmitting} className="btn btn-primary">
+
+              <Button disabled={isSubmitting} className="btn-primary">
                 Connexion
-              </button>
+              </Button>
             </div>
           </form>
         </div>

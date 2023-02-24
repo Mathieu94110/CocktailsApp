@@ -5,6 +5,7 @@ import FavoritesApi from 'api/favorites';
 import { useToasts } from 'context';
 import { CocktailInterface } from 'interfaces';
 import styles from './Favorites.module.scss';
+import { Button } from 'components/Button/Button';
 
 export const Favorites = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -98,21 +99,21 @@ export const Favorites = () => {
                     <td>{favorite.strCategory}</td>
                     <td>{favorite.strAlcoholic}</td>
                     <td>
-                      <button
+                      <Button
+                        className={`${styles.RecipeButtons}  mb-5 btn-reverse-danger`}
                         onClick={() =>
                           handleClickDeleteFavorite(favorite, userFrom)
                         }
-                        className={`${styles.RecipeButtons} mr-5 mb-5 btn btn-reverse-danger`}
                       >
-                        {' '}
-                        Suppprimer{' '}
-                      </button>
-                      <button
-                        className={`${styles.RecipeButtons} mr-5 btn btn-reverse-primary`}
+                        Supprimer
+                      </Button>
+
+                      <Button
+                        className={`${styles.RecipeButtons} btn-reverse-primary`}
                         onClick={() => navigate(`/recipe/${favorite.idDrink}`)}
                       >
                         Recette
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 ))}

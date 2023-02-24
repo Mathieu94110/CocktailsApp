@@ -5,6 +5,7 @@ import { UsersInterface } from 'interfaces';
 import { useToasts } from 'context';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Button } from 'components/Button/Button';
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -103,9 +104,9 @@ export const Signup = () => {
           <p className="auth-form-error">{errors.generic.message}</p>
         )}
         <div>
-          <button disabled={isSubmitting} className="btn btn-primary">
+          <Button disabled={isSubmitting} className="btn-primary">
             Inscription
-          </button>
+          </Button>
         </div>
       </form>
     </div>
