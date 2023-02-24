@@ -1,11 +1,13 @@
 import { Suspense, useReducer } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Header, Footer, AuthProvider, Loading } from 'components';
+import { Loading } from 'components';
+import { Header, Footer } from 'layouts';
 import cocktailsReducer from 'reducers/cocktailsReducer';
 import {
   CocktailStateContext,
   CocktailsDispatcherContext,
   ToastContextProvider,
+  AuthProvider
 } from 'context';
 import styles from './App.module.scss';
 import { CocktailInterface } from 'interfaces';
@@ -13,6 +15,7 @@ import { CocktailInterface } from 'interfaces';
 const App = () => {
   const [state, dispatch] = useReducer(cocktailsReducer, {
     cocktails: [] as CocktailInterface[],
+    suggests: [] as CocktailInterface[],
   });
 
   return (

@@ -53,6 +53,7 @@ export interface CocktailInterface {
 }
 export interface CocktailsInitialInterface {
   cocktails: CocktailInterface[];
+  suggests: CocktailInterface[];
 }
 
 export interface ValidQueriesInterface {

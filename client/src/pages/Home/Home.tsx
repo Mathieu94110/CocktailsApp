@@ -7,15 +7,14 @@ import {
   Recipe,
   SearchInput,
 } from './Components';
-import SearchApi from 'api/search';
-import { CocktailStateContext, CocktailsDispatcherContext } from 'context';
-import { options } from 'constant';
+import { useFetchInitialsCocktails, useFetchCocktails } from 'hooks';
+import { CocktailStateContext } from 'context';
+import { options } from 'data/constant';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
 import styles from './Home.module.scss';
 
 export const Home = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isInitialFetchDone, setIsInitialFetchDone] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchInputValue, setSearchInputValue] = useState<string>('margarita');
   const [letter, setLetter] = useState<string>('');
   const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>([]);
@@ -23,8 +22,6 @@ export const Home = () => {
   const [postsPerPage] = useState<number>(6);
 
   const state = useContext(CocktailStateContext);
-  const dispatch = useContext(CocktailsDispatcherContext);
-
   const indexOfLastCocktail: number = currentPage * postsPerPage;
   const indexOfFirstCocktail: number = indexOfLastCocktail - postsPerPage;
   const currentCocktails: CocktailInterface[] = state.cocktails.slice(
@@ -33,86 +30,27 @@ export const Home = () => {
   );
 
   // Initial fetch call
-  useEffect(() => {
-    const fetchCocktails = async (): Promise<void> => {
-      if (!state.cocktails.length && searchInputValue) {
-        try {
-          setIsLoading(true);
-          const response: CocktailInterface[] = await SearchApi.searchCocktails(
-            searchInputValue
-          );
-          dispatch({
-            type: 'CURRENT_COCKTAILS',
-            payload: response ? response : [],
-          });
-        } catch (e) {
-          console.error(e);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-    fetchCocktails();
-    setIsInitialFetchDone(true);
-  }, []);
+  const { isInitialFetchDone } = useFetchInitialsCocktails(searchInputValue);
 
   // Dynamic fetch calls
-  // Here calls depending on search mode, no call is emitted on first load
-  useEffect(() => {
-    const fetchCocktails = async (): Promise<void> => {
-      try {
-        setIsLoading(true);
-        if (searchInputValue) {
-          const response: CocktailInterface[] = await SearchApi.searchCocktails(
-            searchInputValue
-          );
-          if (searchInputValue && !dropDownFilters.length) {
-            dispatch({
-              type: 'CURRENT_COCKTAILS',
-              payload: response ? response : [],
-            });
-          } else if (searchInputValue && dropDownFilters.length) {
-            const newCocktailsList: CocktailInterface[] =
-              await SearchApi.searchByFilters(dropDownFilters, response);
-            if (newCocktailsList) {
-              dispatch({
-                type: 'CURRENT_COCKTAILS',
-                payload: newCocktailsList ? newCocktailsList : [],
-              });
-            }
-          }
-          setCurrentPage(1);
-        }
-        if (letter) {
-          const response: CocktailInterface[] = await SearchApi.searchByLetter(
-            letter
-          );
-          if (dropDownFilters.length) {
-            const newCocktailsList: CocktailInterface[] =
-              await SearchApi.searchByFilters(dropDownFilters, response);
-            dispatch({
-              type: 'CURRENT_COCKTAILS',
-              payload: newCocktailsList ? newCocktailsList : [],
-            });
-          } else {
-            dispatch({
-              type: 'CURRENT_COCKTAILS',
-              payload: response ? response : [],
-            });
-          }
-          setCurrentPage(1);
-        }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if (isInitialFetchDone) {
-      fetchCocktails();
-    }
-  }, [searchInputValue, dropDownFilters, letter]);
+  // Here calls depending on search mode, no call is emit on first load
+  const { restartPage, fetchLoading } = useFetchCocktails(
+    searchInputValue,
+    dropDownFilters,
+    letter,
+    isInitialFetchDone
+  );
 
+  useEffect(() => {
+    if (isInitialFetchDone) {
+      setIsLoading(false);
+    } else if (restartPage) {
+      setCurrentPage(1);
+    } else if (fetchLoading) {
+      setIsLoading(fetchLoading);
+    }
+  }, [isInitialFetchDone, restartPage, fetchLoading]);
+  //
   const paginate = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
   };
