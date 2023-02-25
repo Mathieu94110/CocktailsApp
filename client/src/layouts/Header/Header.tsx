@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NavLink, useNavigate, useMatch } from 'react-router-dom';
 import { AuthContext } from 'context';
 import { HeaderMenu } from './HeaderMenu/HeaderMenu';
@@ -11,6 +11,8 @@ export const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const navigate = useNavigate();
   const matchHomepage = useMatch('/');
+  const recipePattern = '/recipe/:id';
+  const matchRecipePage = useMatch(recipePattern);
   const goFavorite = () => navigate('/favorites');
   const goToHome = () => navigate('/');
 
@@ -45,6 +47,7 @@ export const Header = () => {
               <HeaderMenu
                 logout={() => signout()}
                 matchHomepage={matchHomepage}
+                matchRecipePage={matchRecipePage}
                 hideMenu={() => setShowMenu(false)}
               />
             </>

@@ -15,7 +15,13 @@ export const Favorites = () => {
   const navigate = useNavigate();
 
   const fetchFavoredCocktail = async (): Promise<void> => {
-    const response = await FavoritesApi.getFavorites(userFrom);
+    console.log('start');
+   // const response = await FavoritesApi.getFavorites(userFrom);
+   let response: any = await fetch('http://localhost:1234/x', {
+    method: 'POST'
+   })
+   console.log('---------------------------------')
+   response = response.json()
     if (response.success) {
       setFavorites(response.favorites);
       setIsLoading(false);

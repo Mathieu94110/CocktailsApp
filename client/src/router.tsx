@@ -70,7 +70,7 @@ export const router = createHashRouter([
             `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${params.id}`
           );
           const recipe = await res.json();
-          return recipe.drinks;
+          return recipe.drinks[0];
         },
       },
     ],

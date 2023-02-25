@@ -69,7 +69,10 @@ export const Recipe = ({
     const userId: { userFrom: string } = {
       userFrom: localStorage.getItem('userId')!,
     };
-    const response = await FavoritesApi.getFavorites(userFrom);
+    // const response = await FavoritesApi.getFavorites(userFrom);
+    let response: any = await fetch('http://localhost:1234/a', {
+      method: 'POST'
+     })
     if (response && response.success) {
       const cocktailOnFavorite = response.favorites.filter(
         (item: CocktailInterface) => item.idDrink === cocktails.idDrink

@@ -30,9 +30,6 @@
   border-radius: 20px;
   background-color: #fff;
 }
-.text-primary {
-  color: var(--primary);
-}
-.active {
+.text-primary, .active {
   color: var(--primary);
 }
