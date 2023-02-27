@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useMatch } from 'react-router-dom';
 import FavoritesApi from 'api/favorites';
 import { useToasts } from 'context';
 import { CocktailInterface } from 'interfaces';
@@ -69,10 +69,10 @@ export const Recipe = ({
     const userId: { userFrom: string } = {
       userFrom: localStorage.getItem('userId')!,
     };
-    // const response = await FavoritesApi.getFavorites(userFrom);
-    let response: any = await fetch('http://localhost:1234/a', {
-      method: 'POST'
-     })
+    const response = await FavoritesApi.getFavorites(userFrom);
+    // let response: any = await fetch('http://localhost:1234/a', {
+    //   method: 'POST',
+    // });
     if (response && response.success) {
       const cocktailOnFavorite = response.favorites.filter(
         (item: CocktailInterface) => item.idDrink === cocktails.idDrink
@@ -97,7 +97,11 @@ export const Recipe = ({
   }, [favorited, cocktails]);
 
   return (
-    <div className={styles.recipe}>
+    <div
+      className={`${styles.recipe} ${
+        useMatch(`/recipe/${cocktails.idDrink}`) && 'border-primary' 
+      }`}
+    >
       <div className={styles.imageContainer}>
         <img
           src={cocktails.strDrinkThumb}

@@ -1,8 +1,7 @@
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
 import { filterListByCategories } from 'utils';
 
-const coktailsApiUrl =
-  'https://www.thecocktaildb.com/api/json/v1/1';
+const coktailsApiUrl = 'https://www.thecocktaildb.com/api/json/v1/1';
 
 export const searchCocktails = async (
   name: string

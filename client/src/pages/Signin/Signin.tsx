@@ -2,10 +2,11 @@ import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from 'context';
+import { Button } from 'components';
 import { UsersInterface } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button } from 'components/Button/Button';
+
 
 export const Signin = () => {
   const { signin, user } = useContext<any>(AuthContext);

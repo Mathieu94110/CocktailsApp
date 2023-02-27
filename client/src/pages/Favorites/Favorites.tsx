@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Loading } from 'components';
+import { Loading, Button } from 'components';
 import FavoritesApi from 'api/favorites';
 import { useToasts } from 'context';
 import { CocktailInterface } from 'interfaces';
 import styles from './Favorites.module.scss';
-import { Button } from 'components/Button/Button';
 
 export const Favorites = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -15,13 +14,13 @@ export const Favorites = () => {
   const navigate = useNavigate();
 
   const fetchFavoredCocktail = async (): Promise<void> => {
-    console.log('start');
-   // const response = await FavoritesApi.getFavorites(userFrom);
-   let response: any = await fetch('http://localhost:1234/x', {
-    method: 'POST'
-   })
-   console.log('---------------------------------')
-   response = response.json()
+    // console.log('start');
+    const response = await FavoritesApi.getFavorites(userFrom);
+    // let response: any = await fetch('http://localhost:1234/x', {
+    //   method: 'POST',
+    // });
+    // console.log('---------------------------------');
+    // response = response.json();
     if (response.success) {
       setFavorites(response.favorites);
       setIsLoading(false);

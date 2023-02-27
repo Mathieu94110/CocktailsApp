@@ -1,8 +1,8 @@
 import { rest } from 'msw';
 
 export const handlers = [
-  rest.post('http://localhost:1234/a', (req, res, ctx) =>  res(ctx.text('a'))), 
-  rest.post('http://localhost:1234/x', (req, res, ctx) =>  res(ctx.text('hi'))), 
+  // rest.post('http://localhost:1234/a', (req, res, ctx) =>  res(ctx.text('a'))),
+  // rest.post('http://localhost:1234/x', (req, res, ctx) =>  res(ctx.text('hi'))),
   rest.get('/api/favorites/getFavoredCocktail/:userInfos', (req, res, ctx) => {
     const { userInfos } = req.params;
     return res(

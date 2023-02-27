@@ -2,63 +2,49 @@
 
 .card {
   margin: auto;
-  background-color: #fff;;
+  background-color: #fff;
   color: #272727;
   padding: 20px;
   border-radius: 10px;
   border: 0px;
-  border-color: tomato;
+  border-color: #fff;
   border-style: solid;
   transition: 200ms;
   max-width: 380px;
   height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px;
+  box-shadow: var(--text-color) 0px 12px 28px;
   @include mixin.sm-lt {
     margin: auto;
   }
-}
-
-.card:hover {
-  transition: 200ms;
-  border: 3px;
-  border-style: solid;
-  cursor: pointer;
-}
-
-.cardHeader {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-}
-
-.cardTitleGroup {
-  justify-content: center;
+  :hover {
+    cursor: pointer;
+  }
 }
 
 .cardTitle {
   flex: 0.5;
   font-size: large;
-  margin-bottom: 0;
-  margin-top: 0;
+  margin: 20px 0;
 }
-.cardAlcool {
-  flex: 0.3;
-  font-size: small;
-  margin-top: 0;
-}
-
 .cardImage {
   border-radius: 10px;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin: 10px auto;
+  width: 200px;
+  height: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .cardText {
   max-width: 340px;
   font-size: medium;
   margin-bottom: 10px;
+  :nth-child(2) {
+    font-weight: 500;
+    color: var(--text-color);
+  }
 }
 
 .cardText:last-child {

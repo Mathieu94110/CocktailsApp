@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
+import { useToasts } from 'context';
+import { Button } from 'components';
 import AuthApi from 'api/auth';
 import { UsersInterface } from 'interfaces';
-import { useToasts } from 'context';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button } from 'components/Button/Button';
 
 export const Signup = () => {
   const navigate = useNavigate();

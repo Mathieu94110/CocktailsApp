@@ -15,18 +15,25 @@ export const HeaderMenu = ({
 }) => {
   return (
     <ul onClick={hideMenu} className={`${styles.MenuContainer} card p-20`}>
-      <li>
-        {matchRecipePage ? (
-          <>
+      {matchRecipePage ? (
+        <>
+          <li>
             <NavLink to="/favorites">Favoris</NavLink>
+          </li>
+          <li>
             <NavLink to="/">Accueil</NavLink>
-          </>
-        ) : matchHomepage ? (
+          </li>
+        </>
+      ) : matchHomepage ? (
+        <li>
           <NavLink to="/favorites">Favoris</NavLink>
-        ) : (
+        </li>
+      ) : (
+        <li>
           <NavLink to="/">Accueil</NavLink>
-        )}
-      </li>
+        </li>
+      )}
+
       <li onClick={logout}>Déconnexion</li>
     </ul>
   );

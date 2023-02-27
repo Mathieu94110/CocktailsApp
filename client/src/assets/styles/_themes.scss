@@ -33,3 +33,6 @@
 .text-primary, .active {
   color: var(--primary);
 }
+.border-primary{
+  border: 3px dashed var(--primary);
+}

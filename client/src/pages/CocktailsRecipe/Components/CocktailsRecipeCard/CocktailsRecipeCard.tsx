@@ -66,51 +66,56 @@ export const CocktailsRecipeCard = ({
   return (
     <div>
       <div className={styles.card}>
-        <div className={styles.cardHeader}>
-          <div>
-            <span className={styles.subTitle}>Category</span>: {strCategory}
-          </div>
-          <div className={styles.cardtitleGroup}>
-            <h5 className={styles.cardTitle}>
-              <span className={styles.subTitle}>Title</span>: {strDrink}
-            </h5>
-            <div className={styles.cardAlcool}>
-              <span className={styles.subTitle}>Alcool</span>: {strAlcoholic}
-            </div>
-          </div>
-        </div>
         <img className={styles.cardImage} src={strDrinkThumb} alt={strDrink} />
+
+        <h5 className={styles.cardTitle}>
+          <span className={styles.subTitle}>Title:</span>{' '}
+          <span>{strDrink}</span>
+        </h5>
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>Instructions</span>:{' '}
-          {strInstructions}
+          <span className={styles.subTitle}>Category:</span>{' '}
+          <span>{strCategory}</span>
         </div>
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>Glass</span>: {strGlass}
+          <span className={styles.subTitle}>Alcool:</span>{' '}
+          <span>{strAlcoholic}</span>
         </div>
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>IBA</span>:{' '}
-          {strIBA ? strIBA : 'No data'}
+          <span className={styles.subTitle}>Instructions:</span>{' '}
+          <span>{strInstructions}</span>
+        </div>
+        <div className={styles.cardText}>
+          <span className={styles.subTitle}>Glass:</span>{' '}
+          <span>{strGlass}</span>
+        </div>
+        <div className={styles.cardText}>
+          <span className={styles.subTitle}>IBA:</span>{' '}
+          <span> {strIBA ? strIBA : 'No data'}</span>
         </div>
 
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>Tags</span>:{' '}
-          {strTags ? strTags : 'No data'}
+          <span className={styles.subTitle}>Tags:</span>{' '}
+          <span> {strTags ? strTags : 'No data'}</span>
         </div>
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>Ingredients</span>:{' '}
-          {ingredients.map((item: string | null, index: number) => {
-            return item ? (
-              <span key={index}>{(index ? ', ' : '') + item}</span>
-            ) : null;
-          })}
+          <span className={styles.subTitle}>Ingredients:</span>{' '}
+          <span>
+            {ingredients.map((item: string | null, index: number) => {
+              return item ? (
+                <span key={index}>{(index ? ', ' : '') + item}</span>
+              ) : null;
+            })}
+          </span>
         </div>
         <div className={styles.cardText}>
           <span className={styles.subTitle}>Measures</span>:{' '}
-          {measures.map((item: string | null, index: number) => {
-            return item ? (
-              <span key={index}>{(index ? ', ' : '') + item}</span>
-            ) : null;
-          })}
+          <span>
+            {measures.map((item: string | null, index: number) => {
+              return item ? (
+                <span key={index}>{(index ? ', ' : '') + item}</span>
+              ) : null;
+            })}
+          </span>
         </div>
       </div>
     </div>
