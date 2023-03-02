@@ -3,26 +3,32 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import { CocktailsRecipeCard } from './Components/CocktailsRecipeCard/CocktailsRecipeCard';
 import { Recipe } from 'pages/Home/Components';
 import { Loading, Button } from 'components';
+import {
+  CocktailStateContext,
+  CocktailsDispatcherContext,
+  useToasts,
+} from 'context';
+import { toggleFavorite } from 'utils';
 import SearchApi from 'api/search';
-import { CocktailStateContext, CocktailsDispatcherContext } from 'context';
 import { categories, glasses } from 'data/constant';
 import { CocktailInterface } from 'interfaces';
-import { ActionKind } from 'types';
 import styles from './CocktailsRecipe.module.scss';
 
 export const CocktailsRecipe = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const state = useContext(CocktailStateContext);
   const recipe = useLoaderData() as CocktailInterface;
   const dispatch = useContext(CocktailsDispatcherContext);
   const navigate = useNavigate();
-  const state = useContext(CocktailStateContext);
+  const { pushToast } = useToasts();
+  const favoritesState: Partial<CocktailInterface>[] = state.favorites;
 
   const checkSuggestCategory = async (value: CocktailInterface) => {
-    const { strGlass, strCategory, ...rest } = value;
-    if (glasses.indexOf(value.strGlass) !== -1) {
-      return { strGlass: value.strGlass };
-    } else if (categories.indexOf(value.strCategory) !== -1) {
-      return { strCategory: value.strCategory };
+    const { strGlass, strCategory } = value;
+    if (glasses.indexOf(strGlass) !== -1) {
+      return { strGlass: strGlass };
+    } else if (categories.indexOf(strCategory) !== -1) {
+      return { strCategory: strCategory };
     } else {
       return {};
     }
@@ -36,12 +42,11 @@ export const CocktailsRecipe = () => {
         const search = await checkSuggestCategory(recipe);
         if ('strGlass' in search) {
           const formatedGlassValue = search.strGlass!.split(' ').join('_');
-          console.log(formatedGlassValue);
           const response = await SearchApi.getSuggestsByGlass(
             formatedGlassValue
           );
           dispatch({
-            type: ActionKind.SuggestsCocktails,
+            type: 'GET_SUGGESTED_COCKTAILS',
             payload: response ? response : [],
           });
         } else if (
@@ -52,7 +57,7 @@ export const CocktailsRecipe = () => {
           const response: CocktailInterface[] =
             await SearchApi.getSuggestsByCategory(search.strCategory!);
           dispatch({
-            type: ActionKind.SuggestsCocktails,
+            type: 'GET_SUGGESTED_COCKTAILS',
             payload: response ? response : [],
           });
         }
@@ -64,6 +69,53 @@ export const CocktailsRecipe = () => {
     };
     fetchSuggests();
   }, []);
+
+  const toggleOnFavorites = async (
+    cocktail: Partial<CocktailInterface>
+  ): Promise<void> => {
+    const response = await toggleFavorite(cocktail, favoritesState);
+    if (response.ok) {
+      if (response.url.includes('addToFavorites')) {
+        dispatch({
+          type: 'ADD_FAVORITE_COCKTAIL',
+          payload: cocktail,
+        });
+        pushToast({
+          title: 'Succès',
+          type: 'success',
+          content: `${cocktail.strDrink} a été ajouté à vos favoris !`,
+          duration: 2,
+        });
+      } else {
+        dispatch({
+          type: 'REMOVE_FAVORITE_COCKTAIL',
+          payload: cocktail,
+        });
+        pushToast({
+          title: 'Succès',
+          type: 'success',
+          content: `${cocktail.strDrink} a été retiré de vos favoris`,
+          duration: 2,
+        });
+      }
+    } else {
+      if (response.url.includes('addToFavorites')) {
+        pushToast({
+          title: 'Erreur',
+          type: 'danger',
+          content: `Erreur rencontrée lors de l'ajout de ${cocktail.strDrink} à vos favoris !`,
+          duration: 2,
+        });
+      } else {
+        pushToast({
+          title: 'Erreur',
+          type: 'danger',
+          content: `Erreur rencontrée lors de la suppression de ${cocktail.strDrink} de vos favoris`,
+          duration: 2,
+        });
+      }
+    }
+  };
   return (
     <>
       <div className={styles.backButtonContainer}>
@@ -90,7 +142,12 @@ export const CocktailsRecipe = () => {
           ) : state.suggests.length ? (
             <div className={`${styles.grid} card`}>
               {state.suggests.map((c: CocktailInterface, index: number) => (
-                <Recipe key={index} cocktails={c} />
+                <Recipe
+                  key={index}
+                  cocktails={c}
+                  favorites={favoritesState}
+                  toggleFavorite={toggleOnFavorites}
+                />
               ))}
             </div>
           ) : (

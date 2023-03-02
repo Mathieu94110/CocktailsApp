@@ -36,6 +36,7 @@ const getFavorites = async (
   // const data = await fetch('http://localhost:1234/xxx');
   // const test = await data.json();
   // console.log('data getFavorites', test);
+  // console.log(data);
   let response;
   if (data) {
     response = await data.json();

@@ -15,6 +15,7 @@ import { CocktailInterface } from 'interfaces';
 const App = () => {
   const [state, dispatch] = useReducer(cocktailsReducer, {
     cocktails: [] as CocktailInterface[],
+    favorites: [] as Partial<CocktailInterface>[],
     suggests: [] as CocktailInterface[],
   });
 

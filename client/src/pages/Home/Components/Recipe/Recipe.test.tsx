@@ -6,6 +6,7 @@ import { Recipe } from './Recipe';
 import { CocktailInterface } from 'interfaces';
 
 const navigate = jest.fn();
+const toggleFavorite = jest.fn();
 
 const fakeCocktail: Partial<CocktailInterface> = {
   idDrink: '11007',
@@ -13,10 +14,22 @@ const fakeCocktail: Partial<CocktailInterface> = {
   strDrinkThumb:
     'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
 };
+const favoritesCocktails: Partial<CocktailInterface>[] = [
+  {
+    idDrink: '11007',
+    strDrink: 'Margarita',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg',
+  },
+];
 
 const setup = () => {
   const { findByRole, getByRole, getByTestId } = render(
-    <Recipe cocktails={fakeCocktail} />,
+    <Recipe
+      cocktails={fakeCocktail}
+      favorites={favoritesCocktails}
+      toggleFavorite={toggleFavorite}
+    />,
     {
       wrapper: BrowserRouter,
     }

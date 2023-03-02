@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from 'react';
 import SearchApi from 'api/search';
 import { CocktailsDispatcherContext } from 'context';
 import { CategoriesInterface, CocktailInterface } from 'interfaces';
-import { ActionKind } from 'types';
 
 export function useFetchCocktails(
   searchInputValue: string,
@@ -24,7 +23,7 @@ export function useFetchCocktails(
           );
           if (searchInputValue && !dropDownFilters.length) {
             dispatch({
-              type: ActionKind.CurrentCocktails,
+              type: 'GET_CURRENT_COCKTAILS',
               payload: response ? response : [],
             });
           } else if (searchInputValue && dropDownFilters.length) {
@@ -32,7 +31,7 @@ export function useFetchCocktails(
               await SearchApi.searchByFilters(dropDownFilters, response);
             if (newCocktailsList) {
               dispatch({
-                type: ActionKind.CurrentCocktails,
+                type: 'GET_CURRENT_COCKTAILS',
                 payload: newCocktailsList ? newCocktailsList : [],
               });
             }
@@ -47,12 +46,12 @@ export function useFetchCocktails(
             const newCocktailsList: CocktailInterface[] =
               await SearchApi.searchByFilters(dropDownFilters, response);
             dispatch({
-              type: ActionKind.CurrentCocktails,
+              type: 'GET_CURRENT_COCKTAILS',
               payload: newCocktailsList ? newCocktailsList : [],
             });
           } else {
             dispatch({
-              type: ActionKind.CurrentCocktails,
+              type: 'GET_CURRENT_COCKTAILS',
               payload: response ? response : [],
             });
           }

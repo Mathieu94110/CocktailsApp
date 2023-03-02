@@ -1,18 +1,38 @@
-import { Actions } from 'types';
+import { ACTIONTYPE } from 'types';
 import { CocktailsInitialInterface } from 'interfaces';
 
 const cocktailsReducer = (
   state: CocktailsInitialInterface,
-  action: Actions
+  action: ACTIONTYPE
 ) => {
   switch (action.type) {
-    case 'CURRENT_COCKTAILS': {
+    case 'GET_CURRENT_COCKTAILS': {
       return {
         ...state,
         cocktails: [...action.payload],
       };
     }
-    case 'SUGGESTS_COCKTAILS': {
+    case 'GET_FAVORITES_COCKTAILS': {
+      return {
+        ...state,
+        favorites: [...action.payload],
+      };
+    }
+    case 'REMOVE_FAVORITE_COCKTAIL': {
+      return {
+        ...state,
+        favorites: state.favorites.filter(
+          (favorite) => favorite.idDrink !== action.payload.idDrink
+        ),
+      };
+    }
+    case 'ADD_FAVORITE_COCKTAIL': {
+      return {
+        ...state,
+        favorites: [...state.favorites, { ...action.payload }],
+      };
+    }
+    case 'GET_SUGGESTED_COCKTAILS': {
       return {
         ...state,
         suggests: [...action.payload],
