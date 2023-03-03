@@ -26,7 +26,7 @@ const getCurrentUser = async (): Promise<UsersInterface> => {
   }
 };
 
-const createUser = async (newUser: UsersInterface): Promise<UsersInterface> => {
+const createUser = async (newUser: UsersInterface): Promise<Response> => {
   const data = await fetch('/api/users', {
     method: 'POST',
     headers: {
@@ -34,16 +34,8 @@ const createUser = async (newUser: UsersInterface): Promise<UsersInterface> => {
     },
     body: JSON.stringify(newUser),
   });
-  const response = await data.json();
-  if (data.ok) {
-    return response;
-  } else {
-    if (response) {
-      throw response;
-    } else {
-      throw new Error('Error on createUser api');
-    }
-  }
+
+  return data;
 };
 
 const signout = async (): Promise<void> => {

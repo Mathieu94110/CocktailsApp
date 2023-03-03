@@ -46,8 +46,13 @@ export const Signup = () => {
   const submit = handleSubmit(async (user: UsersInterface) => {
     try {
       clearErrors();
-      await AuthApi.createUser(user);
-      navigate('/signin');
+      const data = await AuthApi.createUser(user);
+      const response = await data.json();
+      console.log(response);
+      if (data.ok) {
+        navigate('/signin');
+      }
+      return response;
     } catch {
       pushToast({
         title: 'Erreur',
@@ -66,6 +71,7 @@ export const Signup = () => {
             Nom
           </label>
           <input
+            data-cy="registration-name"
             className="auth-form-inputs"
             type="text"
             {...register('name')}
@@ -79,6 +85,7 @@ export const Signup = () => {
             Email
           </label>
           <input
+            data-cy="registration-email"
             className="auth-form-inputs"
             type="text"
             {...register('email')}
@@ -92,6 +99,7 @@ export const Signup = () => {
             Mot de passe
           </label>
           <input
+            data-cy="registration-password"
             className="auth-form-inputs"
             type="password"
             {...register('password')}
@@ -104,7 +112,11 @@ export const Signup = () => {
           <p className="auth-form-error">{errors.generic.message}</p>
         )}
         <div>
-          <Button disabled={isSubmitting} className="btn-primary">
+          <Button
+            disabled={isSubmitting}
+            className="btn-primary"
+            data-cy="registration-btn"
+          >
             Inscription
           </Button>
         </div>

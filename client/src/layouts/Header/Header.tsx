@@ -76,6 +76,7 @@ export const Header = () => {
             <li>
               <NavLink
                 to="signup"
+                data-cy='registration'
                 className={({ isActive }) =>
                   isActive ? `${styles.active} mr-15` : `${styles.links} mr-15`
                 }

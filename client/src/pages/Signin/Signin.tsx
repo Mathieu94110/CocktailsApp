@@ -66,6 +66,7 @@ export const Signin = () => {
               <input
                 className="auth-form-inputs"
                 type="text"
+                data-cy='email'
                 {...register('email')}
               />
               {errors.email && (
@@ -77,6 +78,7 @@ export const Signin = () => {
               <input
                 className="auth-form-inputs"
                 type="password"
+                data-cy='password'
                 {...register('password')}
               />
               {errors.password && (
