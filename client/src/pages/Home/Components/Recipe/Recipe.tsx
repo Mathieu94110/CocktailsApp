@@ -38,7 +38,7 @@ export const Recipe = ({
     >
       <div className={styles.imageContainer}>
         <img
-          data-cy='recipe-img'
+          data-cy="recipe-img"
           src={cocktails.strDrinkThumb}
           alt={cocktails.strDrink}
           onClick={() => navigate(`/recipe/${cocktails.idDrink}`)}
@@ -47,9 +47,11 @@ export const Recipe = ({
       <div
         className={`${styles.recipeContent} d-flex flex-column space-between align-items-center pb-10 pt-5`}
       >
-        <h3 className="text-center">{cocktails.strDrink}</h3>
+        <h3 className="text-center" data-cy="recipe-stDrink">
+          {cocktails.strDrink}
+        </h3>
         <i
-          data-cy='heart-icon'
+          data-cy="heart-icon"
           data-testid="heart-icon"
           onClick={handleClick}
           className={`fa-solid fa-heart ${favorited ? 'text-primary' : ''}`}

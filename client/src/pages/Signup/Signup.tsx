@@ -48,7 +48,6 @@ export const Signup = () => {
       clearErrors();
       const data = await AuthApi.createUser(user);
       const response = await data.json();
-      console.log(response);
       if (data.ok) {
         navigate('/signin');
       }

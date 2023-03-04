@@ -9,7 +9,8 @@ export const SearchInput = ({
   setFilter: (text: string) => void;
   currentFilter: string;
 }) => {
-  const [debouncedOutput, setDebouncedOutput] = useState<string>('');
+  // DebouncedOutput is initialized to null in order to prevent searchInputValue from parent to be empty after first loading
+  const [debouncedOutput, setDebouncedOutput] = useState<string | null>(null);
 
   const onChangeDebouncedEvent = async (text: string): Promise<void> => {
     setDebouncedOutput(text.trim());
@@ -18,7 +19,7 @@ export const SearchInput = ({
   const onChangeDebounced = useDebounce(onChangeDebouncedEvent);
 
   useEffect(() => {
-    setFilter(debouncedOutput);
+    if (debouncedOutput) setFilter(debouncedOutput);
   }, [debouncedOutput]);
 
   return (

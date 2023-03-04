@@ -74,7 +74,7 @@ export const DropdownFilters = ({
     }
     if (isMulti) {
       return (
-        <div className={styles.dropdownTags}>
+        <div className={styles.dropdownTags} data-cy="dropdown-tags-items">
           {selectedValue.map((option: CategoriesInterface) => (
             <div key={option.id} className={styles.dropdownTagItem}>
               {option.text}
@@ -148,6 +148,7 @@ export const DropdownFilters = ({
         ref={inputRef}
         onClick={handleInputClick}
         className={styles.dropdownInput}
+        data-cy="dropdown-container"
       >
         <div className={styles.dropdownSelectedValue}>{getDisplay()}</div>
         <div className={styles.dropdownTools}>

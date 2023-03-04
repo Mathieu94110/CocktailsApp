@@ -11,7 +11,20 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add('login', () => {
+  cy.visit('/');
+  cy.get('[data-cy="email"]').focus().type('byby@gmail.com', {
+    delay: 50,
+  });
+  cy.get('[data-cy="password"]').focus().type('byby', {
+    delay: 50,
+  });
+  cy.get('form').submit();
+});
+
+Cypress.Commands.add('getByCy', (name) => {
+  return cy.get(`[data-cy="${name}"]`) as Chainable<Element>;
+});
 //
 //
 // -- This is a child command --
@@ -35,4 +48,12 @@
 //     }
 //   }
 // }
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      login(): Chainable<void>;
+      getByCy(name: string): Chainable<Element>;
+    }
+  }
+}
 import '@testing-library/cypress/add-commands';

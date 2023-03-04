@@ -33,10 +33,6 @@ const getFavorites = async (
   userFrom: string
 ): Promise<{ success: boolean; favorites: CocktailInterface[] }> => {
   const data = await fetch('/api/favorites/getFavoredCocktail/' + userFrom);
-  // const data = await fetch('http://localhost:1234/xxx');
-  // const test = await data.json();
-  // console.log('data getFavorites', test);
-  // console.log(data);
   let response;
   if (data) {
     response = await data.json();

@@ -20,9 +20,6 @@ export function useFetchFavorites(
             success: boolean;
             favorites: Partial<CocktailInterface>[];
           } = await FavoritesApi.getFavorites(userFrom);
-          //   // let response: any = await fetch('http://localhost:1234/a', {
-          //   //   method: 'POST',
-          //   // });
           dispatch({
             type: 'GET_FAVORITES_COCKTAILS',
             payload: response.favorites,

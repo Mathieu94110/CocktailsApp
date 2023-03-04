@@ -37,7 +37,6 @@ export const Home = () => {
   const cocktailsState = state.cocktails;
   const favoritesState = state.favorites;
   const dispatch = useContext(CocktailsDispatcherContext);
-  // const userFrom = localStorage.getItem('userId')!;
   const indexOfLastCocktail: number = currentPage * postsPerPage;
   const indexOfFirstCocktail: number = indexOfLastCocktail - postsPerPage;
   const currentCocktails: CocktailInterface[] = cocktailsState.slice(
@@ -75,7 +74,7 @@ export const Home = () => {
   };
 
   const previousPage = (): void => {
-    if (currentPage !== 1) {
+    if (currentPage >= 2) {
       setCurrentPage((current: number) => {
         return current - 1;
       });
@@ -170,7 +169,7 @@ export const Home = () => {
         {isLoading && !cocktailsState.length ? (
           <Loading />
         ) : (
-          <div className={styles.cocktailsResults}>
+          <div className={styles.cocktailsResults} data-cy={letter}>
             {cocktailsState.length ? (
               <div className={styles.grid} data-cy="cocktails-list">
                 {currentCocktails.map((c: CocktailInterface, index: number) => (
@@ -184,7 +183,7 @@ export const Home = () => {
               </div>
             ) : (
               <div className={styles.noCocktailsResults}>
-                <p>Aucun résultat trouvé</p>
+                <p data-cy="no-results-text">Aucun résultat trouvé</p>
               </div>
             )}
             {cocktailsState.length > 6 && (
