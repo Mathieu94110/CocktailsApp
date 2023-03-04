@@ -172,7 +172,7 @@ export const Home = () => {
         ) : (
           <div className={styles.cocktailsResults}>
             {cocktailsState.length ? (
-              <div className={styles.grid}>
+              <div className={styles.grid} data-cy="cocktails-list">
                 {currentCocktails.map((c: CocktailInterface, index: number) => (
                   <Recipe
                     key={index}

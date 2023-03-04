@@ -1,0 +1,32 @@
+[
+  {
+    "strDink": "Margarita",
+    "idDrink": "420",
+    "alcoholic": "alcoholic"
+  },
+  {
+    "strDink": "Blue Margarita",
+    "idDrink": "421",
+    "alcoholic": "alcoholic"
+  },
+  {
+    "strDink": "Tommy's Margarita",
+    "idDrink": "422",
+    "alcoholic": "alcoholic"
+  },
+  {
+    "strDink": "Whitecap Margarita",
+    "idDrink": "423",
+    "alcoholic": "alcoholic"
+  },
+  {
+    "strDink": "Strawberry Margarita",
+    "idDrink": "424",
+    "alcoholic": "alcoholic"
+  },
+  {
+    "strDink": "Smashed Watermelon Margarita",
+    "idDrink": "425",
+    "alcoholic": "alcoholic"
+  }
+]

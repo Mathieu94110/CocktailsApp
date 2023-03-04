@@ -38,6 +38,7 @@ export const Recipe = ({
     >
       <div className={styles.imageContainer}>
         <img
+          data-cy='recipe-img'
           src={cocktails.strDrinkThumb}
           alt={cocktails.strDrink}
           onClick={() => navigate(`/recipe/${cocktails.idDrink}`)}
@@ -48,6 +49,7 @@ export const Recipe = ({
       >
         <h3 className="text-center">{cocktails.strDrink}</h3>
         <i
+          data-cy='heart-icon'
           data-testid="heart-icon"
           onClick={handleClick}
           className={`fa-solid fa-heart ${favorited ? 'text-primary' : ''}`}
