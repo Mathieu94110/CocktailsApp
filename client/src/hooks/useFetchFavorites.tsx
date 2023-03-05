@@ -22,7 +22,7 @@ export function useFetchFavorites(
           } = await FavoritesApi.getFavorites(userFrom);
           dispatch({
             type: 'GET_FAVORITES_COCKTAILS',
-            payload: response.favorites,
+            payload: response ? response.favorites : [],
           });
         } catch (e) {
           console.error(e);

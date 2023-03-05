@@ -12,6 +12,7 @@ describe('recipe component', () => {
   });
   it('should navigate on cocktail recipe page on image click', () => {
     cy.get('[data-cy="recipe-img"]').last().click();
+    cy.wait(1000);
     cy.hash().should('match', /recipe\/.+$/);
   });
 });

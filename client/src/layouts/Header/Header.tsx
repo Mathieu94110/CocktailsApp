@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState, useContext } from 'react';
 import { NavLink, useNavigate, useMatch } from 'react-router-dom';
 import { AuthContext } from 'context';
 import { HeaderMenu } from './HeaderMenu/HeaderMenu';
@@ -47,7 +47,11 @@ export const Header = () => {
                       : 'fa-solid fa-house mr-5'
                   }
                 ></i>
-                {matchHomepage ? <span>Favoris</span> : <span>Accueil</span>}
+                {matchHomepage ? (
+                  <span data-cy="favorites-btn-desktop">Favoris</span>
+                ) : (
+                  <span>Accueil</span>
+                )}
               </Button>
             )}
             <Button className="btn-reverse-danger" onClick={() => signout()}>
@@ -76,7 +80,7 @@ export const Header = () => {
             <li>
               <NavLink
                 to="signup"
-                data-cy='registration'
+                data-cy="registration"
                 className={({ isActive }) =>
                   isActive ? `${styles.active} mr-15` : `${styles.links} mr-15`
                 }

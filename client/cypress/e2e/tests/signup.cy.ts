@@ -30,12 +30,14 @@ describe('test signup page', () => {
   // On below we should change email every time
   it('should restration succeed', () => {
     cy.get('[data-cy="registration"]').click();
-    cy.get('[data-cy="registration-name"]').focus().type('toto9422212', {
+    cy.get('[data-cy="registration-name"]').focus().type('toto842522125', {
       delay: 100,
     });
-    cy.get('[data-cy="registration-email"]').focus().type('toto2122@aol.com', {
-      delay: 50,
-    });
+    cy.get('[data-cy="registration-email"]')
+      .focus()
+      .type('toto812525@aol.com', {
+        delay: 50,
+      });
 
     cy.get('[data-cy="registration-password"]').focus().type('toto', {
       delay: 50,

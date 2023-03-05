@@ -17,7 +17,7 @@ export const HeaderMenu = ({
     <ul onClick={hideMenu} className={`${styles.MenuContainer} card p-20`}>
       {matchRecipePage ? (
         <>
-          <li>
+          <li data-cy="favorites-btn-mobile">
             <NavLink to="/favorites">Favoris</NavLink>
           </li>
           <li>
@@ -25,7 +25,7 @@ export const HeaderMenu = ({
           </li>
         </>
       ) : matchHomepage ? (
-        <li>
+        <li data-cy="favorites-btn-mobile">
           <NavLink to="/favorites">Favoris</NavLink>
         </li>
       ) : (

@@ -1,0 +1,24 @@
+{
+  "favorites": [
+    {
+      "strDink": "Margarita",
+      "idDrink": "420",
+      "alcoholic": "alcoholic"
+    },
+    {
+      "strDink": "Whitecap Margarita",
+      "idDrink": "423",
+      "alcoholic": "alcoholic"
+    },
+    {
+      "strDink": "Strawberry Margarita",
+      "idDrink": "424",
+      "alcoholic": "alcoholic"
+    },
+    {
+      "strDink": "Queen Charlotte",
+      "idDrink": "210",
+      "alcoholic": "alcoholic"
+    }
+  ]
+}

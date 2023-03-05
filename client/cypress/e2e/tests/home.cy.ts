@@ -3,9 +3,49 @@ import cocktails from '../../fixtures/cocktails.json';
 const BASE_URL =
   'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=margarita';
 
+const testUserId = '63b5c92082ebbfdb325c5db1';
+
 describe('home', () => {
   beforeEach(() => {
     cy.login();
+  });
+
+  it('should get favorites request succeed and getting the 4 favorites', () => {
+    cy.intercept('GET', `/api/favorites/getFavoredCocktail/${testUserId}`, {
+      fixture: 'favorites-cocktails.json',
+    }).as('user-favorites');
+    cy.wait('@user-favorites').its('response.statusCode').should('eq', 200);
+
+    cy.get('@user-favorites')
+      .its('response.body')
+      .should('have.property', 'favorites')
+      .and('have.length', 4)
+
+      .and((fav) => {
+        expect(fav[0]).to.deep.eq({
+          strDink: 'Margarita',
+          idDrink: '420',
+          alcoholic: 'alcoholic',
+        });
+
+        expect(fav[1]).to.deep.eq({
+          strDink: 'Whitecap Margarita',
+          idDrink: '423',
+          alcoholic: 'alcoholic',
+        });
+
+        expect(fav[2]).to.deep.eq({
+          strDink: 'Strawberry Margarita',
+          idDrink: '424',
+          alcoholic: 'alcoholic',
+        });
+
+        expect(fav[3]).to.deep.eq({
+          strDink: 'Queen Charlotte',
+          idDrink: '210',
+          alcoholic: 'alcoholic',
+        });
+      });
   });
 
   it('fetched cocktails with value margarita successfully', () => {
@@ -38,7 +78,7 @@ describe('home', () => {
       .and('contain', 'Aucun résultat trouvé');
   });
 
-  it('should search input after typing have provided new value and cocktail list be reloaded with filtered search values', () => {
+  it('should search input after typing have provide new value and cocktail list be reloaded with filtered search values', () => {
     cy.get('input[type=search]')
       .should('have.value', '')
       .type('po', { delay: 50 })

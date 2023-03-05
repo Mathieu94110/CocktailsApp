@@ -32,22 +32,4 @@ describe.only('Favorites', () => {
     });
     await screen.findByText(/Vous n'avez pas enregistré de favoris/i);
   });
-
-
-  
-  // it('should load the user favorite', async () => {
-  // render(<MemoryRouter initialEntries={['/']}> <Favorites /></MemoryRouter>);
-  //  const favs = await screen.getByText('Nom du cocktail')
-  //  expect(favs).toBeVisible()
-  // await waitFor(() => getByText('Nom du cocktail') )
-  // const firstTitle = screen.getByTestId('custom-element');
-  // expect(firstTitle).toContain('Nom du cocktail');
-  // const favorites = await screen.findAllByTestId('favorites-items');
-  // expect(favorites).toHaveLength(3);
-  // screen.debug();
-  // const favorites = await screen.findAllByTestId('favorites-items');
-  // debug(favorites);
-  // await waitFor(() => expect(title).toContain('Nom du cocktail'));
-  // await waitFor(() => expect(favorites).toHaveLength(3));
-  // });
 });

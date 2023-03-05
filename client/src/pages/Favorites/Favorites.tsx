@@ -64,10 +64,14 @@ export const Favorites = () => {
               <td>Alcool</td>
             </tr>
           </thead>
-          <tbody>
+          <tbody data-cy="favorites-table">
             {favoritesState.map(
               (favorite: Partial<CocktailInterface>, index: number) => (
-                <tr key={index} data-testid="favorites-items">
+                <tr
+                  key={index}
+                  data-testid="favorites-items"
+                  data-cy="favorites-items"
+                >
                   <td>
                     {' '}
                     {favorite.strDrinkThumb && (
@@ -83,6 +87,7 @@ export const Favorites = () => {
                   <td>{favorite.strAlcoholic}</td>
                   <td>
                     <Button
+                      data-cy="delete-favorite-btn"
                       className={`${styles.RecipeButtons}  mb-5 btn-reverse-danger`}
                       onClick={() => handleClickDeleteFavorite(favorite)}
                     >

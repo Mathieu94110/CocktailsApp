@@ -28,7 +28,7 @@ describe('SearchInput', () => {
     expect(searchInput).toHaveAttribute('placeholder', 'margarita');
   });
 
-  it('should call the setFilter props onChange', async () => {
+  it('should not call the setFilter props onChange on the first time', async () => {
     const { searchInput } = setup();
     const promise = Promise.resolve();
     const mockOnChangeHandler = jest.fn(() => promise);
@@ -37,7 +37,6 @@ describe('SearchInput', () => {
     );
     fireEvent.change(searchInput, { target: { value: 'tequila' } });
     await act(() => promise);
-    expect(mockOnChangeHandler).toHaveBeenCalled();
-    expect(mockOnChangeHandler).toHaveBeenCalledTimes(1);
+    expect(mockOnChangeHandler).toHaveBeenCalledTimes(0);
   });
 });
