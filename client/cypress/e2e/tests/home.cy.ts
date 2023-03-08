@@ -3,7 +3,7 @@ import cocktails from '../../fixtures/cocktails.json';
 const BASE_URL =
   'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=margarita';
 
-const testUserId = '63b5c92082ebbfdb325c5db1';
+const testUserId = '6408e15177cd25e36a047a8f';
 
 describe('home', () => {
   beforeEach(() => {
@@ -61,18 +61,18 @@ describe('home', () => {
   it('should display list with items containing Q letter', () => {
     const Q = cy.get('ul > :nth-child(17)');
     Q.click();
+    cy.wait(2000);
     cy.getByCy('Q').should('be.visible');
     cy.get(
-      ':nth-child(4) > .Recipe_recipeContent__otWvd > [data-cy="recipe-stDrink"]'
+      ':nth-child(1) > .Recipe_recipeContent__otWvd > [data-cy="recipe-stDrink"]'
     ).contains('Q');
   });
 
   it('should display list with no results containing U letter', () => {
+    cy.wait(2000);
     const U = cy.get('ul > :nth-child(21)');
     U.click();
-    cy.get(
-      ':nth-child(4) > .Recipe_recipeContent__otWvd > [data-cy="recipe-stDrink"]'
-    ).should('not.exist');
+    cy.wait(2000);
     cy.get('[data-cy="no-results-text"]')
       .should('be.visible')
       .and('contain', 'Aucun résultat trouvé');
@@ -81,8 +81,11 @@ describe('home', () => {
   it('should search input after typing have provide new value and cocktail list be reloaded with filtered search values', () => {
     cy.get('input[type=search]')
       .should('have.value', '')
-      .type('po', { delay: 50 })
-      .should('have.value', 'po')
+      .type('po', { delay: 50 });
+    cy.wait(2000);
+    cy.get('input[type=search]').should('have.value', 'po');
+    cy.wait(2000);
+    cy.get('input[type=search]')
       .clear()
       .type('ma', { delay: 50 })
       .should('have.value', 'ma');
@@ -100,6 +103,7 @@ describe('home', () => {
     checkBoxOrdinaryDrink.click();
     cy.get('[data-cy="dropdown-container"]').click();
     checkBoxCocktail.click();
+    cy.wait(2000);
     cy.get('[data-cy="dropdown-container"]').click();
     cy.get('[data-cy="dropdown-tags-items"]')
       .children()

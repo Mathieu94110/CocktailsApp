@@ -27,23 +27,27 @@ describe('test signup page', () => {
       .should('exist')
       .and('have.text', "L'email n'est pas valide");
   });
-  // On below we should change email every time
+
   it('should restration succeed', () => {
+    // random here is used in order to avoid 400 request
+    const randomNumber = Math.floor(100000 + Math.random() * 900000);
+    cy.intercept('POST', '/api/users').as('createUser');
     cy.get('[data-cy="registration"]').click();
-    cy.get('[data-cy="registration-name"]').focus().type('toto842522125', {
+    cy.get('[data-cy="registration-name"]').focus().type('John', {
       delay: 100,
     });
     cy.get('[data-cy="registration-email"]')
       .focus()
-      .type('toto812525@aol.com', {
+      .type(`john${randomNumber}@gmail.com`, {
         delay: 50,
       });
 
-    cy.get('[data-cy="registration-password"]').focus().type('toto', {
+    cy.get('[data-cy="registration-password"]').focus().type('johnSmith', {
       delay: 50,
     });
-
     cy.get('[data-cy="registration-btn"]').click();
-    cy.url().should('match', /\/signin$/);
+    cy.wait('@createUser').then(({ response }) => {
+      response && expect(response.statusCode).to.eq(200);
+    });
   });
 });

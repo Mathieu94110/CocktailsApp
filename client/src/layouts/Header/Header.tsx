@@ -28,7 +28,7 @@ export const Header = () => {
               <>
                 <Button onClick={goToHome} className="btn-reverse-primary">
                   <i className="fa-solid fa-house mr-5"></i>
-                  <span>Accueil</span>
+                  <span data-cy="home-link">Accueil</span>
                 </Button>
                 <Button onClick={goFavorite} className="btn-reverse-primary">
                   <i className="fa-solid fa-basket-shopping mr-5"></i>
@@ -50,7 +50,7 @@ export const Header = () => {
                 {matchHomepage ? (
                   <span data-cy="favorites-btn-desktop">Favoris</span>
                 ) : (
-                  <span>Accueil</span>
+                  <span data-cy="home-link">Accueil</span>
                 )}
               </Button>
             )}

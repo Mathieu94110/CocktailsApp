@@ -21,7 +21,9 @@ export const HeaderMenu = ({
             <NavLink to="/favorites">Favoris</NavLink>
           </li>
           <li>
-            <NavLink to="/">Accueil</NavLink>
+            <NavLink to="/" data-cy="home-link">
+              Accueil
+            </NavLink>
           </li>
         </>
       ) : matchHomepage ? (
@@ -30,10 +32,11 @@ export const HeaderMenu = ({
         </li>
       ) : (
         <li>
-          <NavLink to="/">Accueil</NavLink>
+          <NavLink to="/" data-cy="home-link">
+            Accueil
+          </NavLink>
         </li>
       )}
-
       <li onClick={logout}>Déconnexion</li>
     </ul>
   );

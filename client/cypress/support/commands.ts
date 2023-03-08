@@ -13,10 +13,10 @@
 // -- This is a parent command --
 Cypress.Commands.add('login', () => {
   cy.visit('/');
-  cy.get('[data-cy="email"]').focus().type('byby@gmail.com', {
+  cy.get('[data-cy="email"]').focus().type('user-test@gmail.com', {
     delay: 50,
   });
-  cy.get('[data-cy="password"]').focus().type('byby', {
+  cy.get('[data-cy="password"]').focus().type('test', {
     delay: 50,
   });
   cy.get('form').submit();
