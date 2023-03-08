@@ -1,3 +1,5 @@
+# Cocktails_application
+
 # Getting Started
 
 This project was bootstrapped with Create React App including typescript template.

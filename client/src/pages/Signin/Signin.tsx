@@ -7,7 +7,6 @@ import { UsersInterface } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-
 export const Signin = () => {
   const { signin, user } = useContext<any>(AuthContext);
 
@@ -56,17 +55,16 @@ export const Signin = () => {
         <Navigate to="/"></Navigate>
       ) : (
         <div className="flex-fill d-flex align-items-center justify-content-center">
-          <form
-            onSubmit={submit}
-            className="auth-form card"
-          >
+          <form onSubmit={submit} className="auth-form card">
             <h2 className="mb-10">Connexion</h2>
             <div className="auth-form-items">
-              <label className="mb-10" htmlFor="email">Email</label>
+              <label className="mb-10" htmlFor="email">
+                Email
+              </label>
               <input
                 className="auth-form-inputs"
                 type="text"
-                data-cy='email'
+                data-cy="email"
                 {...register('email')}
               />
               {errors.email && (
@@ -74,11 +72,13 @@ export const Signin = () => {
               )}
             </div>
             <div className="auth-form-items">
-              <label className="mb-10" htmlFor="password">Mot de passe</label>
+              <label className="mb-10" htmlFor="password">
+                Mot de passe
+              </label>
               <input
                 className="auth-form-inputs"
                 type="password"
-                data-cy='password'
+                data-cy="password"
                 {...register('password')}
               />
               {errors.password && (
@@ -89,8 +89,7 @@ export const Signin = () => {
               <p className="auth-form-error">{errors.generic.message}</p>
             )}
             <div>
-
-              <Button disabled={isSubmitting} className="btn-primary">
+              <Button disabled={isSubmitting} className="btn-primary mt-10">
                 Connexion
               </Button>
             </div>
