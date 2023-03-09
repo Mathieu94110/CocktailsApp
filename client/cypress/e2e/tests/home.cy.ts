@@ -9,7 +9,9 @@ describe('home', () => {
   beforeEach(() => {
     cy.login();
   });
-
+  afterEach(() => {
+    cy.logout();
+  });
   it('should get favorites request succeed and getting the 4 favorites', () => {
     cy.intercept('GET', `/api/favorites/getFavoredCocktail/${testUserId}`, {
       fixture: 'favorites-cocktails.json',
@@ -66,6 +68,7 @@ describe('home', () => {
     cy.getByCy('Q').should('be.visible');
     cy.getByCy('Q').contains('Queen Bee');
   });
+
   it('should display list with no results containing U letter', () => {
     cy.wait(2000);
     const U = cy.get('ul > :nth-child(21)');

@@ -30,31 +30,36 @@ export const Header = () => {
                   <i className="fa-solid fa-house mr-5"></i>
                   <span data-cy="home-link">Accueil</span>
                 </Button>
-                <Button onClick={goFavorite} className="btn-reverse-primary">
+                <Button
+                  onClick={goFavorite}
+                  className="btn-reverse-primary"
+                  data-cy="favorites-link"
+                >
                   <i className="fa-solid fa-basket-shopping mr-5"></i>
                   <span>Favoris</span>
                 </Button>
               </>
-            ) : (
+            ) : matchHomepage ? (
               <Button
-                onClick={matchHomepage ? goFavorite : goToHome}
+                onClick={goFavorite}
                 className="btn-reverse-primary"
+                data-cy="favorites-link"
               >
-                <i
-                  className={
-                    matchHomepage
-                      ? 'fa-solid fa-basket-shopping mr-5'
-                      : 'fa-solid fa-house mr-5'
-                  }
-                ></i>
-                {matchHomepage ? (
-                  <span data-cy="favorites-btn-desktop">Favoris</span>
-                ) : (
-                  <span data-cy="home-link">Accueil</span>
-                )}
+                <i className={'fa-solid fa-basket-shopping mr-5'}></i>
+                <span>Favoris</span>
+              </Button>
+            ) : (
+              <Button onClick={goToHome} className="btn-reverse-primary">
+                <i className={'fa-solid fa-house mr-5'}></i>
+
+                <span data-cy="home-link">Accueil</span>
               </Button>
             )}
-            <Button className="btn-reverse-danger" onClick={() => signout()}>
+            <Button
+              className="btn-reverse-danger"
+              data-cy="logout-button"
+              onClick={() => signout()}
+            >
               Déconnexion
             </Button>
           </div>

@@ -2,6 +2,9 @@ describe('recipe component', () => {
   beforeEach(() => {
     cy.login();
   });
+  afterEach(() => {
+    cy.logout();
+  });
   it('should heart icon been active/ not active onClick', () => {
     cy.get('[data-cy="heart-icon"]')
       .last()

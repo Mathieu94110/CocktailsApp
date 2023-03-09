@@ -18,7 +18,9 @@ export const HeaderMenu = ({
       {matchRecipePage ? (
         <>
           <li data-cy="favorites-btn-mobile">
-            <NavLink to="/favorites">Favoris</NavLink>
+            <NavLink to="/favorites" data-cy="favorites-link">
+              Favoris
+            </NavLink>
           </li>
           <li>
             <NavLink to="/" data-cy="home-link">
@@ -27,8 +29,10 @@ export const HeaderMenu = ({
           </li>
         </>
       ) : matchHomepage ? (
-        <li data-cy="favorites-btn-mobile">
-          <NavLink to="/favorites">Favoris</NavLink>
+        <li>
+          <NavLink to="/favorites" data-cy="favorites-link">
+            Favoris
+          </NavLink>
         </li>
       ) : (
         <li>
@@ -37,7 +41,9 @@ export const HeaderMenu = ({
           </NavLink>
         </li>
       )}
-      <li onClick={logout}>Déconnexion</li>
+      <li onClick={logout} data-cy="logout-button">
+        Déconnection
+      </li>
     </ul>
   );
 };

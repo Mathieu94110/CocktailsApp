@@ -13,13 +13,20 @@
 // -- This is a parent command --
 Cypress.Commands.add('login', () => {
   cy.visit('/');
+  cy.get('[data-cy="email"]').clear();
   cy.get('[data-cy="email"]').focus().type('user-test@gmail.com', {
     delay: 50,
   });
+  cy.get('[data-cy="password"]').clear();
   cy.get('[data-cy="password"]').focus().type('test', {
     delay: 50,
   });
   cy.get('form').submit();
+});
+
+Cypress.Commands.add('logout', () => {
+  cy.get('[data-cy="logout-button"]').click();
+  cy.wait(2000);
 });
 
 Cypress.Commands.add('getByCy', (name) => {
@@ -52,6 +59,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       login(): Chainable<void>;
+      logout(): Chainable<void>;
       getByCy(name: string): Chainable<Element>;
     }
   }
