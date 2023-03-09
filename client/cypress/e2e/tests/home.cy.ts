@@ -59,15 +59,13 @@ describe('home', () => {
   });
 
   it('should display list with items containing Q letter', () => {
+    cy.wait(2000);
     const Q = cy.get('ul > :nth-child(17)');
     Q.click();
     cy.wait(2000);
     cy.getByCy('Q').should('be.visible');
-    cy.get(
-      ':nth-child(1) > .Recipe_recipeContent__otWvd > [data-cy="recipe-stDrink"]'
-    ).contains('Q');
+    cy.getByCy('Q').contains('Queen Bee');
   });
-
   it('should display list with no results containing U letter', () => {
     cy.wait(2000);
     const U = cy.get('ul > :nth-child(21)');
