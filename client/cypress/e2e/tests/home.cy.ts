@@ -55,42 +55,33 @@ describe('home', () => {
     cy.fixture('cocktails').as('cocktails');
     cy.get('@cocktails').should('have.length', 6);
     cy.wrap(cocktails).should('have.length', 6);
-    cy.get('[data-cy="cocktails-list"]').within(() => {
+    cy.getByTestId('cocktails-list').within(() => {
       cy.contains('Smashed Watermelon Margarita').should('exist');
     });
   });
 
   it('should display list with items containing Q letter', () => {
-    cy.wait(2000);
+    cy.wait(1000);
     const Q = cy.get('ul > :nth-child(17)');
     Q.click();
-    cy.wait(2000);
-    cy.getByCy('Q').should('be.visible');
-    cy.getByCy('Q').contains('Queen Bee');
+    cy.getByTestId('Q').should('be.visible');
+    cy.getByTestId('Q').contains('Queen Bee');
   });
 
   it('should display list with no results containing U letter', () => {
-    cy.wait(2000);
     const U = cy.get('ul > :nth-child(21)');
     U.click();
-    cy.wait(2000);
-    cy.get('[data-cy="no-results-text"]')
+
+    cy.getByTestId('no-results-text')
       .should('be.visible')
       .and('contain', 'Aucun résultat trouvé');
   });
 
   it('should search input after typing have provide new value and cocktail list be reloaded with filtered search values', () => {
-    cy.get('input[type=search]')
-      .should('have.value', '')
-      .type('po', { delay: 50 });
-    cy.wait(2000);
+    cy.get('input[type=search]').should('have.value', '').type('po');
     cy.get('input[type=search]').should('have.value', 'po');
-    cy.wait(2000);
-    cy.get('input[type=search]')
-      .clear()
-      .type('ma', { delay: 50 })
-      .should('have.value', 'ma');
-    cy.get('[data-cy="cocktails-list"]')
+    cy.get('input[type=search]').clear().type('ma').should('have.value', 'ma');
+    cy.getByTestId('cocktails-list')
       .children()
       .should('exist')
       .and('have.length', 6)
@@ -98,15 +89,14 @@ describe('home', () => {
   });
 
   it('should selected filters been displayed on the dropdown-container list', () => {
-    cy.get('[data-cy="dropdown-container"]').click();
+    cy.getByTestId('dropdown-container').click();
     const checkBoxOrdinaryDrink = cy.get(':nth-child(4) > input');
     const checkBoxCocktail = cy.get(':nth-child(5) > input');
     checkBoxOrdinaryDrink.click();
-    cy.get('[data-cy="dropdown-container"]').click();
+    cy.getByTestId('dropdown-container').click();
     checkBoxCocktail.click();
-    cy.wait(2000);
-    cy.get('[data-cy="dropdown-container"]').click();
-    cy.get('[data-cy="dropdown-tags-items"]')
+    cy.getByTestId('dropdown-container').click();
+    cy.getByTestId('dropdown-tags-items')
       .children()
       .should('have.length', 2)
       .and((filters) => {
@@ -116,14 +106,14 @@ describe('home', () => {
   });
 
   it('should results for margarita pass from 6 to 4 with Ordinary Drink filter', () => {
-    cy.get('[data-cy="cocktails-list"]')
+    cy.getByTestId('cocktails-list')
       .children()
       .should('exist')
       .and('have.length', 6);
-    cy.get('[data-cy="dropdown-container"]').click();
+    cy.getByTestId('dropdown-container').click();
     const checkBoxOrdinaryDrink = cy.get(':nth-child(4) > input');
     checkBoxOrdinaryDrink.click();
-    cy.get('[data-cy="cocktails-list"]')
+    cy.getByTestId('cocktails-list')
       .children()
       .should('exist')
       .and('have.length', 4);

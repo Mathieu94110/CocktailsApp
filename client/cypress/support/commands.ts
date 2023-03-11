@@ -13,23 +13,16 @@
 // -- This is a parent command --
 Cypress.Commands.add('login', () => {
   cy.visit('/');
-  cy.get('[data-cy="email"]').clear();
-  cy.get('[data-cy="email"]').focus().type('user-test@gmail.com', {
-    delay: 50,
-  });
-  cy.get('[data-cy="password"]').clear();
-  cy.get('[data-cy="password"]').focus().type('test', {
-    delay: 50,
-  });
+  cy.get('[data-cy="email"]').type('user-test@gmail.com');
+  cy.get('[data-cy="password"]').type('test');
   cy.get('form').submit();
 });
 
 Cypress.Commands.add('logout', () => {
   cy.get('[data-cy="logout-button"]').click();
-  cy.wait(2000);
 });
 
-Cypress.Commands.add('getByCy', (name) => {
+Cypress.Commands.add('getByTestId', (name) => {
   return cy.get(`[data-cy="${name}"]`) as Chainable<Element>;
 });
 //
@@ -60,7 +53,7 @@ declare global {
     interface Chainable {
       login(): Chainable<void>;
       logout(): Chainable<void>;
-      getByCy(name: string): Chainable<Element>;
+      getByTestId(name: string): Chainable<Element>;
     }
   }
 }

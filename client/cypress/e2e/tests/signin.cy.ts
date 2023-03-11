@@ -10,36 +10,21 @@ describe('test signin page', () => {
   });
 
   it('should user not be recognized', () => {
-    cy.get('[data-cy="email"]').clear();
-    cy.get('[data-cy="email"]').focus().type('badUserEmail@gmail.com', {
-      delay: 50,
-    });
-    cy.get('[data-cy="password"]').clear();
-    cy.get('[data-cy="password"]').focus().type('byby', {
-      delay: 50,
-    });
+    cy.getByTestId('email').type('badUserEmail@gmail.com');
+    cy.getByTestId('password').type('byby');
     cy.get('form').submit();
-    cy.wait(3000);
     cy.get('.auth-form-error')
       .should('exist')
       .and('have.text', "Problème d'adresse mail ou de mot de passe");
   });
 
   it('should user connected successfully', () => {
-    cy.get('[data-cy="email"]').clear();
-    cy.get('[data-cy="email"]').focus().type('byby@gmail.com', {
-      delay: 50,
-    });
-    cy.get('[data-cy="password"]').clear();
-    cy.get('[data-cy="password"]').focus().type('byby', {
-      delay: 50,
-    });
+    cy.getByTestId('email').type('byby@gmail.com');
+    cy.getByTestId('password').type('byby');
     cy.get('form').submit();
-    cy.wait(1000);
     cy.get('h1')
       .contains(/Découvrez des nouvelles recettes/)
       .should('exist');
-    cy.wait(1000);
     cy.logout();
   });
 });

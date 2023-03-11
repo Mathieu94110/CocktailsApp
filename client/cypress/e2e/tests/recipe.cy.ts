@@ -6,7 +6,7 @@ describe('recipe component', () => {
     cy.logout();
   });
   it('should heart icon been active/ not active onClick', () => {
-    cy.get('[data-cy="heart-icon"]')
+    cy.getByTestId('heart-icon')
       .last()
       .click()
       .should('have.class', 'text-primary')
@@ -14,8 +14,7 @@ describe('recipe component', () => {
       .should('not.have.class', 'text-primary');
   });
   it('should navigate on cocktail recipe page on image click', () => {
-    cy.get('[data-cy="recipe-img"]').last().click();
-    cy.wait(1000);
+    cy.getByTestId('recipe-img').last().click();
     cy.hash().should('match', /recipe\/.+$/);
   });
 });
