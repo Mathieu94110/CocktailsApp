@@ -16,7 +16,7 @@ export const Favorites = () => {
   const { pushToast } = useToasts();
   const navigate = useNavigate();
   const favoritesState = state.favorites;
-  const userFrom: string = localStorage.getItem('userId')!; //here userId always exist
+  const userFrom: string = localStorage.getItem('userId')!;
 
   const handleClickDeleteFavorite = async (
     favorite: Partial<CocktailInterface>

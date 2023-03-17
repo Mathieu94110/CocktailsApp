@@ -1,11 +1,11 @@
 import FavoritesApi from 'api/favorites';
 import { CocktailInterface } from 'interfaces';
-const userFrom = localStorage.getItem('userId')!;
 
 export const toggleFavorite = async (
   cocktails: Partial<CocktailInterface>,
   favoritesState: Partial<CocktailInterface>[]
 ): Promise<Response> => {
+  const userFrom = localStorage.getItem('userId')!;
   const favorited = favoritesState.some(
     (cocktail) => cocktail.idDrink === cocktails.idDrink
   );

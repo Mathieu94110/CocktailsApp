@@ -7,16 +7,8 @@ import {
   Recipe,
   SearchInput,
 } from './Components';
-import {
-  useFetchInitialsCocktails,
-  useFetchCocktails,
-  useFetchFavorites,
-} from 'hooks';
-import {
-  CocktailStateContext,
-  CocktailsDispatcherContext,
-  useToasts,
-} from 'context';
+import { useFetchInitialsCocktails, useFetchCocktails, useFetchFavorites } from 'hooks';
+import { CocktailStateContext, CocktailsDispatcherContext, useToasts } from 'context';
 import { toggleFavorite } from 'utils';
 import { options } from 'data/constant';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
@@ -26,9 +18,7 @@ export const Home = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchInputValue, setSearchInputValue] = useState<string>('margarita');
   const [letter, setLetter] = useState<string>('');
-  const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>(
-    []
-  );
+  const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage] = useState<number>(6);
 
@@ -60,7 +50,7 @@ export const Home = () => {
   );
 
   useEffect(() => {
-    if (isInitialFetchDone && isFetchFavoriteDone) {
+    if (isInitialFetchDone && isFetchFavoriteDone && currentCocktails.length) {
       setIsLoading(false);
     } else if (restartPage) {
       setCurrentPage(1);
@@ -99,9 +89,7 @@ export const Home = () => {
     setSearchInputValue(value);
   };
 
-  const toggleOnFavorites = async (
-    cocktail: Partial<CocktailInterface>
-  ): Promise<void> => {
+  const toggleOnFavorites = async (cocktail: Partial<CocktailInterface>): Promise<void> => {
     const response = await toggleFavorite(cocktail, favoritesState);
     if (response.ok) {
       if (response.url.includes('addToFavorites')) {
@@ -149,9 +137,7 @@ export const Home = () => {
   return (
     <div className={styles.container}>
       <h1 className="my-10">Découvrez des nouvelles recettes</h1>
-      <div
-        className={`card flex-fill d-flex flex-column px-10 ${styles.contentCard}`}
-      >
+      <div className={`card flex-fill d-flex flex-column px-10 ${styles.contentCard}`}>
         <CategoryFilters
           isSearchable
           isMulti
@@ -162,15 +148,12 @@ export const Home = () => {
           }
         />
         <AlphabeticalFilter setLetter={switchToSearchLetterMode} />
-        <SearchInput
-          setFilter={switchToSearchInputMode}
-          currentFilter={searchInputValue}
-        />
-        {isLoading && !cocktailsState.length ? (
+        <SearchInput setFilter={switchToSearchInputMode} currentFilter={searchInputValue} />
+        {isLoading && !isInitialFetchDone ? (
           <Loading />
         ) : (
           <div className={styles.cocktailsResults} data-cy={letter}>
-            {cocktailsState.length ? (
+            {!!cocktailsState.length && (
               <div className={styles.grid} data-cy="cocktails-list">
                 {currentCocktails.map((c: CocktailInterface, index: number) => (
                   <Recipe
@@ -181,7 +164,8 @@ export const Home = () => {
                   />
                 ))}
               </div>
-            ) : (
+            )}
+            {!currentCocktails.length && !isLoading && (
               <div className={styles.noCocktailsResults}>
                 <p data-cy="no-results-text">Aucun résultat trouvé</p>
               </div>

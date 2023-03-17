@@ -3,8 +3,6 @@ import { CocktailsDispatcherContext } from 'context';
 import { CocktailInterface } from 'interfaces';
 import FavoritesApi from 'api/favorites';
 
-const userFrom = localStorage.getItem('userId')!;
-
 export function useFetchFavorites(
   favoritesState: Partial<CocktailInterface>[]
 ) {
@@ -14,6 +12,7 @@ export function useFetchFavorites(
 
   useEffect(() => {
     const fetchFavorites = async (): Promise<void> => {
+      const userFrom = localStorage.getItem('userId')!;
       if (userFrom && favoritesState) {
         try {
           const response: {

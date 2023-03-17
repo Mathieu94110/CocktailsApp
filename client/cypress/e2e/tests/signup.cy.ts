@@ -3,21 +3,19 @@ describe('test signup page', () => {
     cy.visit('/');
   });
   it('should after registration link click registration page been displayed as expected', () => {
-    cy.get('[data-cy="registration"]').click();
+    cy.get('[data-cy="registration"]', { timeout: 2000 }).click();
     cy.contains('h2', /Inscription/).should('exist');
     cy.getByTestId('registration-btn')
       .should('have.class', 'btn-primary')
       .and('have.text', 'Inscription');
   });
   it('should email provided during restration be invalid', () => {
-    cy.getByTestId('registration').click();
+    cy.get('[data-cy="registration"]', { timeout: 2000 }).click();
     cy.getByTestId('registration-name').type('toto9422');
     cy.getByTestId('registration-email').type('toto');
     cy.getByTestId('registration-password').type('toto');
     cy.get('form').submit();
-    cy.get('.auth-form-error')
-      .should('exist')
-      .and('have.text', "L'email n'est pas valide");
+    cy.get('.auth-form-error').should('exist').and('have.text', "L'email n'est pas valide");
   });
 
   it('should restration succeed', () => {

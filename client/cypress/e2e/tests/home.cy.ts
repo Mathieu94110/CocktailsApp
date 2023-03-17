@@ -17,31 +17,26 @@ describe('home', () => {
       fixture: 'favorites-cocktails.json',
     }).as('user-favorites');
     cy.wait('@user-favorites').its('response.statusCode').should('eq', 200);
-
     cy.get('@user-favorites')
       .its('response.body')
       .should('have.property', 'favorites')
       .and('have.length', 4)
-
       .and((fav) => {
         expect(fav[0]).to.deep.eq({
           strDink: 'Margarita',
           idDrink: '420',
           alcoholic: 'alcoholic',
         });
-
         expect(fav[1]).to.deep.eq({
           strDink: 'Whitecap Margarita',
           idDrink: '423',
           alcoholic: 'alcoholic',
         });
-
         expect(fav[2]).to.deep.eq({
           strDink: 'Strawberry Margarita',
           idDrink: '424',
           alcoholic: 'alcoholic',
         });
-
         expect(fav[3]).to.deep.eq({
           strDink: 'Queen Charlotte',
           idDrink: '210',
@@ -69,9 +64,9 @@ describe('home', () => {
   });
 
   it('should display list with no results containing U letter', () => {
+    cy.wait(1000);
     const U = cy.get('ul > :nth-child(21)');
     U.click();
-
     cy.getByTestId('no-results-text')
       .should('be.visible')
       .and('contain', 'Aucun résultat trouvé');
