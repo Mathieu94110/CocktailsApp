@@ -2,11 +2,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { Button } from 'components';
 import FavoritesApi from 'api/favorites';
-import {
-  useToasts,
-  CocktailStateContext,
-  CocktailsDispatcherContext,
-} from 'context';
+import { useToasts, CocktailStateContext, CocktailsDispatcherContext } from 'context';
 import { CocktailInterface } from 'interfaces';
 import styles from './Favorites.module.scss';
 
@@ -18,9 +14,7 @@ export const Favorites = () => {
   const favoritesState = state.favorites;
   const userFrom: string = localStorage.getItem('userId')!;
 
-  const handleClickDeleteFavorite = async (
-    favorite: Partial<CocktailInterface>
-  ): Promise<void> => {
+  const handleClickDeleteFavorite = async (favorite: Partial<CocktailInterface>): Promise<void> => {
     const favoriteInfos: Partial<CocktailInterface> & {
       userFrom: string;
     } = {
@@ -65,49 +59,43 @@ export const Favorites = () => {
             </tr>
           </thead>
           <tbody data-cy="favorites-table">
-            {favoritesState.map(
-              (favorite: Partial<CocktailInterface>, index: number) => (
-                <tr
-                  key={index}
-                  data-testid="favorites-items"
-                  data-cy="favorites-items"
-                >
-                  <td>
-                    {' '}
-                    {favorite.strDrinkThumb && (
-                      <img
-                        src={favorite.strDrinkThumb}
-                        alt={favorite.strDrink}
-                        className={styles.favoriteImg}
-                      />
-                    )}
-                  </td>
-                  <td data-testid="strDrink">{favorite.strDrink}</td>
-                  <td>{favorite.strCategory}</td>
-                  <td>{favorite.strAlcoholic}</td>
-                  <td>
-                    <Button
-                      data-cy="delete-favorite-btn"
-                      className={`${styles.RecipeButtons}  mb-5 btn-reverse-danger`}
-                      onClick={() => handleClickDeleteFavorite(favorite)}
-                    >
-                      Supprimer
-                    </Button>
+            {favoritesState.map((favorite: Partial<CocktailInterface>, index: number) => (
+              <tr key={index} data-testid="favorites-items" data-cy="favorites-items">
+                <td>
+                  {' '}
+                  {favorite.strDrinkThumb && (
+                    <img
+                      src={favorite.strDrinkThumb}
+                      alt={favorite.strDrink}
+                      className={styles.favoriteImg}
+                    />
+                  )}
+                </td>
+                <td data-testid="strDrink">{favorite.strDrink}</td>
+                <td>{favorite.strCategory}</td>
+                <td>{favorite.strAlcoholic}</td>
+                <td>
+                  <Button
+                    data-cy="delete-favorite-btn"
+                    className={`${styles.RecipeButtons}  mb-5 btn-reverse-danger`}
+                    onClick={() => handleClickDeleteFavorite(favorite)}
+                  >
+                    Supprimer
+                  </Button>
 
-                    <Button
-                      className={`${styles.RecipeButtons} btn-reverse-primary`}
-                      onClick={() => navigate(`/recipe/${favorite.idDrink}`)}
-                    >
-                      Recette
-                    </Button>
-                  </td>
-                </tr>
-              )
-            )}
+                  <Button
+                    className={`${styles.RecipeButtons} btn-reverse-primary`}
+                    onClick={() => navigate(`/recipe/${favorite.idDrink}`)}
+                  >
+                    Recette
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       ) : (
-        <div className="flex-fill center-content">
+        <div className={`${styles.noFavorites} center-content`}>
           <h2>Vous n'avez pas enregistré de favoris</h2>
         </div>
       )}

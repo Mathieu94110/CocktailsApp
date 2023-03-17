@@ -7,7 +7,7 @@ import {
   Recipe,
   SearchInput,
 } from './Components';
-import { useFetchInitialsCocktails, useFetchCocktails, useFetchFavorites } from 'hooks';
+import { useFetchCocktails, useFetchFavorites } from 'hooks';
 import { CocktailStateContext, CocktailsDispatcherContext, useToasts } from 'context';
 import { toggleFavorite } from 'utils';
 import { options } from 'data/constant';
@@ -15,7 +15,6 @@ import { CocktailInterface, CategoriesInterface } from 'interfaces';
 import styles from './Home.module.scss';
 
 export const Home = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchInputValue, setSearchInputValue] = useState<string>('margarita');
   const [letter, setLetter] = useState<string>('');
   const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>([]);
@@ -34,30 +33,19 @@ export const Home = () => {
     indexOfLastCocktail
   );
 
-  // Initial Coktails fetch call
-  const { isInitialFetchDone } = useFetchInitialsCocktails(searchInputValue);
+  const { isFetchFavorites } = useFetchFavorites(favoritesState);
 
-  // Favorites fetch calls
-  const { isFetchFavoriteDone } = useFetchFavorites(favoritesState);
-
-  // Dynamic Coktails fetch calls
-  // Here calls depending on search mode, no call is emit on first load
-  const { restartPage, fetchLoading } = useFetchCocktails(
+  const { fetchCocktailsLoading, restartPage } = useFetchCocktails(
     searchInputValue,
     dropDownFilters,
-    letter,
-    isInitialFetchDone
+    letter
   );
 
   useEffect(() => {
-    if (isInitialFetchDone && isFetchFavoriteDone && currentCocktails.length) {
-      setIsLoading(false);
-    } else if (restartPage) {
+    if (restartPage) {
       setCurrentPage(1);
-    } else if (fetchLoading) {
-      setIsLoading(fetchLoading);
     }
-  }, [isInitialFetchDone, restartPage, fetchLoading]);
+  }, [restartPage]);
 
   const paginate = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
@@ -149,39 +137,39 @@ export const Home = () => {
         />
         <AlphabeticalFilter setLetter={switchToSearchLetterMode} />
         <SearchInput setFilter={switchToSearchInputMode} currentFilter={searchInputValue} />
-        {isLoading && !isInitialFetchDone ? (
-          <Loading />
-        ) : (
-          <div className={styles.cocktailsResults} data-cy={letter}>
-            {!!cocktailsState.length && (
-              <div className={styles.grid} data-cy="cocktails-list">
-                {currentCocktails.map((c: CocktailInterface, index: number) => (
-                  <Recipe
-                    key={index}
-                    cocktails={c}
-                    favorites={favoritesState}
-                    toggleFavorite={toggleOnFavorites}
-                  />
-                ))}
-              </div>
-            )}
-            {!currentCocktails.length && !isLoading && (
-              <div className={styles.noCocktailsResults}>
+        <div className={styles.cocktailsResults} data-cy={letter}>
+          {fetchCocktailsLoading || !isFetchFavorites ? (
+            <Loading />
+          ) : (
+            <>
+              {!!cocktailsState.length && !fetchCocktailsLoading && (
+                <div className={styles.grid} data-cy="cocktails-list">
+                  {currentCocktails.map((c: CocktailInterface, index: number) => (
+                    <Recipe
+                      key={index}
+                      cocktails={c}
+                      favorites={favoritesState}
+                      toggleFavorite={toggleOnFavorites}
+                    />
+                  ))}
+                </div>
+              )}
+              {!currentCocktails.length && !fetchCocktailsLoading && (
                 <p data-cy="no-results-text">Aucun résultat trouvé</p>
-              </div>
-            )}
-            {cocktailsState.length > 6 && (
-              <Pagination
-                postsPerPage={postsPerPage}
-                totalPosts={cocktailsState.length}
-                paginate={paginate}
-                previousPage={previousPage}
-                nextPage={nextPage}
-                currentPageNumber={currentPage}
-              />
-            )}
-          </div>
-        )}
+              )}
+              {cocktailsState.length > 6 && !fetchCocktailsLoading && (
+                <Pagination
+                  postsPerPage={postsPerPage}
+                  totalPosts={cocktailsState.length}
+                  paginate={paginate}
+                  previousPage={previousPage}
+                  nextPage={nextPage}
+                  currentPageNumber={currentPage}
+                />
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

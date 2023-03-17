@@ -1,9 +1,9 @@
-const UserModel = require('../../database/models/user.model');
-const bcrypt = require('bcrypt');
+const UserModel = require("../../database/models/user.model");
+const bcrypt = require("bcrypt");
 
-const router = require('express').Router();
+const router = require("express").Router();
 
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   const { name, email, password } = req.body;
   const newUser = new UserModel({
     name,
@@ -12,11 +12,11 @@ router.post('/', async (req, res) => {
   });
   newUser.save((err, user) => {
     if (err) {
-      console.log(err);
+      console.error(err);
       if (err.code === 11000) {
-        res.status(400).json('Email déjà utilisé');
+        res.status(400).json("Email déjà utilisé");
       } else {
-        res.status(400).json('Oops une erreur est survenue');
+        res.status(400).json("Oops une erreur est survenue");
       }
     } else {
       res.json(user);

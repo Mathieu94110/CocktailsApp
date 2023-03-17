@@ -3,11 +3,8 @@ import { CocktailsDispatcherContext } from 'context';
 import { CocktailInterface } from 'interfaces';
 import FavoritesApi from 'api/favorites';
 
-export function useFetchFavorites(
-  favoritesState: Partial<CocktailInterface>[]
-) {
-  const [isFetchFavoriteDone, setIsFetchFavoriteDone] =
-    useState<boolean>(false);
+export function useFetchFavorites(favoritesState: Partial<CocktailInterface>[]) {
+  const [isFetchFavorites, setIsFetchFavorites] = useState<boolean>(false);
   const dispatch = useContext(CocktailsDispatcherContext);
 
   useEffect(() => {
@@ -29,8 +26,8 @@ export function useFetchFavorites(
       }
     };
     fetchFavorites();
-    setIsFetchFavoriteDone(true);
+    setIsFetchFavorites(true);
   }, []);
 
-  return { isFetchFavoriteDone };
+  return { isFetchFavorites };
 }

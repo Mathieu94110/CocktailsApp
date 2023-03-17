@@ -1,34 +1,33 @@
 import { useState, useEffect, useContext } from 'react';
 import SearchApi from 'api/search';
-import { CocktailsDispatcherContext } from 'context';
 import { CategoriesInterface, CocktailInterface } from 'interfaces';
+import { CocktailsDispatcherContext } from 'context';
 
 export function useFetchCocktails(
   searchInputValue: string,
   dropDownFilters: CategoriesInterface[],
-  letter: string,
-  isInitialFetchDone: boolean
+  letter: string
 ) {
   const [restartPage, setRestartPage] = useState<boolean>(false);
-  const [fetchLoading, setFetchLoading] = useState<boolean>(false);
+  const [fetchCocktailsLoading, setFetchCocktailsLoading] = useState<boolean>(false);
   const dispatch = useContext(CocktailsDispatcherContext);
 
   useEffect(() => {
     const fetchCocktails = async (): Promise<void> => {
       try {
-        setFetchLoading(true);
+        setFetchCocktailsLoading(true);
         if (searchInputValue) {
-          const response: CocktailInterface[] = await SearchApi.searchCocktails(
-            searchInputValue
-          );
+          const response: CocktailInterface[] = await SearchApi.searchCocktails(searchInputValue);
           if (searchInputValue && !dropDownFilters.length) {
             dispatch({
               type: 'GET_CURRENT_COCKTAILS',
               payload: response ? response : [],
             });
           } else if (searchInputValue && dropDownFilters.length) {
-            const newCocktailsList: CocktailInterface[] =
-              await SearchApi.searchByFilters(dropDownFilters, response);
+            const newCocktailsList: CocktailInterface[] = await SearchApi.searchByFilters(
+              dropDownFilters,
+              response
+            );
             if (newCocktailsList) {
               dispatch({
                 type: 'GET_CURRENT_COCKTAILS',
@@ -39,12 +38,12 @@ export function useFetchCocktails(
           setRestartPage(true);
         }
         if (letter) {
-          const response: CocktailInterface[] = await SearchApi.searchByLetter(
-            letter
-          );
+          const response: CocktailInterface[] = await SearchApi.searchByLetter(letter);
           if (dropDownFilters.length) {
-            const newCocktailsList: CocktailInterface[] =
-              await SearchApi.searchByFilters(dropDownFilters, response);
+            const newCocktailsList: CocktailInterface[] = await SearchApi.searchByFilters(
+              dropDownFilters,
+              response
+            );
             dispatch({
               type: 'GET_CURRENT_COCKTAILS',
               payload: newCocktailsList ? newCocktailsList : [],
@@ -60,12 +59,10 @@ export function useFetchCocktails(
       } catch (e) {
         console.error(e);
       } finally {
-        setFetchLoading(false);
+        setFetchCocktailsLoading(false);
       }
     };
-    if (isInitialFetchDone) {
-      fetchCocktails();
-    }
-  }, [searchInputValue, dropDownFilters, letter, isInitialFetchDone]);
-  return { fetchLoading, restartPage };
+    fetchCocktails();
+  }, [searchInputValue, dropDownFilters, letter]);
+  return { fetchCocktailsLoading, restartPage };
 }
