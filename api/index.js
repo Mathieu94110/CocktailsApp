@@ -1,9 +1,11 @@
 const express = require("express");
 const cookie = require("cookie-parser");
+const morgan = require("morgan");
 
 const app = express();
 const routes = require("./routes");
 app.use(express.static(`${__dirname}/../client/build`));
+app.use(morgan("tiny"));
 app.use(cookie());
 app.use(express.json());
 
