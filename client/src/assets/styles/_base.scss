@@ -94,3 +94,11 @@ input {
   border-radius: 20px;
   border: 3px solid var(--gray-2);
 }
+
+.auth-body-wrapper {
+  height: calc(100vh - 100px);
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+}

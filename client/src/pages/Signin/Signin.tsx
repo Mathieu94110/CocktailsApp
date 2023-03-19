@@ -11,10 +11,7 @@ export const Signin = () => {
   const { signin, user } = useContext<any>(AuthContext);
 
   const validationSchema = yup.object({
-    email: yup
-      .string()
-      .required('Il faut préciser votre email')
-      .email("L'email n'est pas valide"),
+    email: yup.string().required('Il faut préciser votre email').email("L'email n'est pas valide"),
     password: yup
       .string()
       .required('Il faut préciser votre mot de passe')
@@ -54,7 +51,7 @@ export const Signin = () => {
       {user ? (
         <Navigate to="/"></Navigate>
       ) : (
-        <div className="flex-fill d-flex align-items-center justify-content-center">
+        <div className="auth-body-wrapper">
           <form onSubmit={submit} className="auth-form card">
             <h2 className="mb-10">Connexion</h2>
             <div className="auth-form-items">
@@ -67,9 +64,7 @@ export const Signin = () => {
                 data-cy="email"
                 {...register('email')}
               />
-              {errors.email && (
-                <p className="auth-form-error">{errors.email.message}</p>
-              )}
+              {errors.email && <p className="auth-form-error">{errors.email.message}</p>}
             </div>
             <div className="auth-form-items">
               <label className="mb-10" htmlFor="password">
@@ -81,13 +76,9 @@ export const Signin = () => {
                 data-cy="password"
                 {...register('password')}
               />
-              {errors.password && (
-                <p className="auth-form-error">{errors.password.message}</p>
-              )}
+              {errors.password && <p className="auth-form-error">{errors.password.message}</p>}
             </div>
-            {errors.generic && (
-              <p className="auth-form-error">{errors.generic.message}</p>
-            )}
+            {errors.generic && <p className="auth-form-error">{errors.generic.message}</p>}
             <div>
               <Button disabled={isSubmitting} className="btn-primary mt-10">
                 Connexion

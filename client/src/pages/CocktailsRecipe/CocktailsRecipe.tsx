@@ -3,11 +3,7 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import { CocktailsRecipeCard } from './Components/CocktailsRecipeCard/CocktailsRecipeCard';
 import { Recipe } from 'pages/Home/Components';
 import { Loading, Button } from 'components';
-import {
-  CocktailStateContext,
-  CocktailsDispatcherContext,
-  useToasts,
-} from 'context';
+import { CocktailStateContext, CocktailsDispatcherContext, useToasts } from 'context';
 import { toggleFavorite } from 'utils';
 import SearchApi from 'api/search';
 import { categories, glasses } from 'data/constant';
@@ -42,20 +38,18 @@ export const CocktailsRecipe = () => {
         const search = await checkSuggestCategory(recipe);
         if ('strGlass' in search) {
           const formatedGlassValue = search.strGlass!.split(' ').join('_');
-          const response = await SearchApi.getSuggestsByGlass(
-            formatedGlassValue
-          );
+          const response = await SearchApi.getSuggestsByGlass(formatedGlassValue);
           dispatch({
             type: 'GET_SUGGESTED_COCKTAILS',
             payload: response ? response : [],
           });
         } else if (
-          ('strCategory' in search &&
-            search.strCategory !== 'Punch/Party Drink') ||
+          ('strCategory' in search && search.strCategory !== 'Punch/Party Drink') ||
           ('strCategory' in search && search.strCategory !== 'Coffee/Tea')
         ) {
-          const response: CocktailInterface[] =
-            await SearchApi.getSuggestsByCategory(search.strCategory!);
+          const response: CocktailInterface[] = await SearchApi.getSuggestsByCategory(
+            search.strCategory!
+          );
           dispatch({
             type: 'GET_SUGGESTED_COCKTAILS',
             payload: response ? response : [],
@@ -70,9 +64,7 @@ export const CocktailsRecipe = () => {
     fetchSuggests();
   }, []);
 
-  const toggleOnFavorites = async (
-    cocktail: Partial<CocktailInterface>
-  ): Promise<void> => {
+  const toggleOnFavorites = async (cocktail: Partial<CocktailInterface>): Promise<void> => {
     const response = await toggleFavorite(cocktail, favoritesState);
     if (response.ok) {
       if (response.url.includes('addToFavorites')) {
@@ -130,13 +122,11 @@ export const CocktailsRecipe = () => {
       </div>
       <div className={styles.cocktailsRecipe}>
         <div className={styles.cocktailsRecipeCard}>
-          <h2 className="text-center my-20 text-primary">
-            Recette {recipe.strDrink}
-          </h2>
+          <h2 className={styles.cocktailsRecipeTitle}>Recette {recipe.strDrink}</h2>
           <CocktailsRecipeCard recipe={recipe} />
         </div>
         <div className={styles.cocktailsResults}>
-          <h2 className="text-center my-20 text-primary">Suggestions</h2>
+          <h2 className={styles.cocktailsRecipeTitle}>Suggestions</h2>
           {isLoading && !state.suggests.length ? (
             <Loading />
           ) : state.suggests.length ? (

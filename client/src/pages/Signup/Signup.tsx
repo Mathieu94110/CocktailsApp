@@ -11,14 +11,8 @@ export const Signup = () => {
   const navigate = useNavigate();
 
   const validationSchema = yup.object({
-    name: yup
-      .string()
-      .required('Il faut préciser votre nom')
-      .min(2, 'Au moins 2 caractères'),
-    email: yup
-      .string()
-      .required('Il faut préciser votre email')
-      .email("L'email n'est pas valide"),
+    name: yup.string().required('Il faut préciser votre nom').min(2, 'Au moins 2 caractères'),
+    email: yup.string().required('Il faut préciser votre email').email("L'email n'est pas valide"),
     password: yup
       .string()
       .required('Il faut préciser votre mot de passe')
@@ -62,7 +56,7 @@ export const Signup = () => {
     }
   });
   return (
-    <div className="flex-fill d-flex align-items-center justify-content-center">
+    <div className="auth-body-wrapper">
       <form onSubmit={submit} className="auth-form card">
         <h2 className="mb-10">Inscription</h2>
         <div className="auth-form-items">
@@ -75,9 +69,7 @@ export const Signup = () => {
             type="text"
             {...register('name')}
           />
-          {errors.name && (
-            <p className="auth-form-error">{errors.name.message}</p>
-          )}
+          {errors.name && <p className="auth-form-error">{errors.name.message}</p>}
         </div>
         <div className="auth-form-items">
           <label className="mb-10" htmlFor="email">
@@ -89,9 +81,7 @@ export const Signup = () => {
             type="text"
             {...register('email')}
           />
-          {errors.email && (
-            <p className="auth-form-error">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="auth-form-error">{errors.email.message}</p>}
         </div>
         <div className="auth-form-items">
           <label className="mb-10" htmlFor="password">
@@ -103,19 +93,11 @@ export const Signup = () => {
             type="password"
             {...register('password')}
           />
-          {errors.password && (
-            <p className="auth-form-error">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="auth-form-error">{errors.password.message}</p>}
         </div>
-        {errors.generic && (
-          <p className="auth-form-error">{errors.generic.message}</p>
-        )}
+        {errors.generic && <p className="auth-form-error">{errors.generic.message}</p>}
         <div>
-          <Button
-            disabled={isSubmitting}
-            className="btn-primary"
-            data-cy="registration-btn"
-          >
+          <Button disabled={isSubmitting} className="btn-primary" data-cy="registration-btn">
             Inscription
           </Button>
         </div>

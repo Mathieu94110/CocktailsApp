@@ -1,3 +1,5 @@
+@use '../../../../assets/styles/mixins' as mixin;
+
 .recipe {
   position: relative;
   border-radius: 20px;
@@ -27,12 +29,21 @@
       color: var(--primary);
     }
   }
+  @include mixin.xs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h3 {
+      font-size: 12px;
+    }
+  }
 }
 
 .imageContainer {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   overflow: hidden;
+  text-align: center;
   img {
     transition: 1s transform;
     width: 100%;
@@ -54,7 +65,7 @@
     height: 60px;
   }
 }
-@media screen and (max-width: 2000px) {
+@media screen and (min-width: 769px) and (max-width: 2000px) {
   .imageContainer {
     height: 120px;
     border: 1px solid var(--gray-2);
