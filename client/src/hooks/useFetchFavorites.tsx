@@ -4,7 +4,7 @@ import { CocktailInterface } from 'interfaces';
 import FavoritesApi from 'api/favorites';
 
 export function useFetchFavorites(favoritesState: Partial<CocktailInterface>[]) {
-  const [isFetchFavorites, setIsFetchFavorites] = useState<boolean>(false);
+  const [isFavoritesFetched, setIsFavoritesFetched] = useState<boolean>(false);
   const dispatch = useContext(CocktailsDispatcherContext);
 
   useEffect(() => {
@@ -26,8 +26,8 @@ export function useFetchFavorites(favoritesState: Partial<CocktailInterface>[]) 
       }
     };
     fetchFavorites();
-    setIsFetchFavorites(true);
+    setIsFavoritesFetched(true);
   }, []);
 
-  return { isFetchFavorites };
+  return { isFavoritesFetched };
 }

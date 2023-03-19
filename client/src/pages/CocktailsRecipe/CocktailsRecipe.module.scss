@@ -5,6 +5,7 @@
   margin-left: 40px;
   @include mixin.sm-lt {
     height: 50px;
+    line-height: 50px;
   }
   .backButton {
     padding: 10px 15px;
@@ -27,10 +28,24 @@
   height: calc(100vh - 220px);
   @include mixin.sm-lt {
     display: block;
-    height: auto;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
   }
   @include mixin.xs {
-    margin: 10px;
+    margin: 0 10px 10px;
+    font-size: 12px;
+  }
+}
+.cocktailsRecipeTitle {
+  text-align: center;
+  margin: 20px 0;
+  color: var(--primary);
+  @include mixin.xs {
+    text-align: center;
+    margin: 0 10px 10px;
+    color: var(--primary);
   }
 }
 .cocktailsRecipeCard {
@@ -49,7 +64,6 @@
   margin: 20px;
 }
 
-// added
 .cocktailsResults {
   padding: 0 20px;
   width: 50%;
@@ -80,12 +94,18 @@
   grid-template-columns: repeat(auto-fill, var(--column-width));
   justify-content: center;
   overflow: auto;
-  @include mixin.sm-lt {
-    margin-bottom: 20px;
+  @media screen and (max-width: 1600px) {
+    gap: 15px;
   }
-}
-@media screen and (max-width: 1600px) {
-  .grid {
-    gap: 10px;
+  @include mixin.sm-lt {
+    height: auto;
+    margin-bottom: 20px;
+    display: flex;
+    img {
+      border: none;
+    }
+  }
+  @include mixin.xs {
+    padding: 0 0 1em 0;
   }
 }

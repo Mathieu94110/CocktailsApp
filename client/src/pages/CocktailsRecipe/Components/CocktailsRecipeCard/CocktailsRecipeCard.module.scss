@@ -17,17 +17,19 @@
   box-shadow: var(--text-color) 0px 12px 28px;
   @include mixin.sm-lt {
     margin: auto;
+    height: 400px;
+    padding: 10px;
+  }
+  @include mixin.xs {
+    margin: auto;
+    height: 250px;
+    padding: 10px;
   }
   :hover {
     cursor: pointer;
   }
 }
 
-.cardTitle {
-  flex: 0.5;
-  font-size: large;
-  margin: 20px 0;
-}
 .cardImage {
   border-radius: 10px;
   margin: 10px auto;
@@ -35,6 +37,9 @@
   height: auto;
   display: flex;
   justify-content: center;
+  @include mixin.sm-lt {
+    width: 80px;
+  }
 }
 
 .cardText {
@@ -44,6 +49,10 @@
   :nth-child(2) {
     font-weight: 500;
     color: var(--text-color);
+    font-size: small;
+  }
+  @include mixin.xs {
+    margin-bottom: 4px;
   }
 }
 
@@ -56,4 +65,8 @@
   font-weight: 600;
   color: var(--primary);
   text-align: left;
+  @include mixin.sm-lt {
+    font-weight: 500;
+    font-size: medium;
+  }
 }

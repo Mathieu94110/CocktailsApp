@@ -33,7 +33,7 @@ export const Home = () => {
     indexOfLastCocktail
   );
 
-  const { isFetchFavorites } = useFetchFavorites(favoritesState);
+  const { isFavoritesFetched } = useFetchFavorites(favoritesState);
 
   const { fetchCocktailsLoading, restartPage } = useFetchCocktails(
     searchInputValue,
@@ -124,7 +124,7 @@ export const Home = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className="my-10">Découvrez des nouvelles recettes</h1>
+      <h1 className="my-10 ml-10">Découvrez des nouvelles recettes</h1>
       <div className={`card flex-fill d-flex flex-column px-10 ${styles.contentCard}`}>
         <CategoryFilters
           isSearchable
@@ -138,7 +138,7 @@ export const Home = () => {
         <AlphabeticalFilter setLetter={switchToSearchLetterMode} />
         <SearchInput setFilter={switchToSearchInputMode} currentFilter={searchInputValue} />
         <div className={styles.cocktailsResults} data-cy={letter}>
-          {fetchCocktailsLoading || !isFetchFavorites ? (
+          {fetchCocktailsLoading || !isFavoritesFetched ? (
             <Loading />
           ) : (
             <>

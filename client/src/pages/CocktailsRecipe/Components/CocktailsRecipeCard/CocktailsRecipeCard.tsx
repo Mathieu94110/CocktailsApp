@@ -1,11 +1,7 @@
 import { CocktailInterface } from 'interfaces';
 import styles from './CocktailsRecipeCard.module.scss';
 
-export const CocktailsRecipeCard = ({
-  recipe,
-}: {
-  recipe: CocktailInterface;
-}) => {
+export const CocktailsRecipeCard = ({ recipe }: { recipe: CocktailInterface }) => {
   const {
     strCategory,
     strDrink,
@@ -68,29 +64,23 @@ export const CocktailsRecipeCard = ({
       <div className={styles.card}>
         <img className={styles.cardImage} src={strDrinkThumb} alt={strDrink} />
 
-        <h5 className={styles.cardTitle}>
-          <span className={styles.subTitle}>Title:</span>{' '}
-          <span>{strDrink}</span>
-        </h5>
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>Category:</span>{' '}
-          <span>{strCategory}</span>
+          <span className={styles.subTitle}>Title:</span> <span>{strDrink}</span>
         </div>
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>Alcool:</span>{' '}
-          <span>{strAlcoholic}</span>
+          <span className={styles.subTitle}>Category:</span> <span>{strCategory}</span>
         </div>
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>Instructions:</span>{' '}
-          <span>{strInstructions}</span>
+          <span className={styles.subTitle}>Alcool:</span> <span>{strAlcoholic}</span>
         </div>
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>Glass:</span>{' '}
-          <span>{strGlass}</span>
+          <span className={styles.subTitle}>Instructions:</span> <span>{strInstructions}</span>
         </div>
         <div className={styles.cardText}>
-          <span className={styles.subTitle}>IBA:</span>{' '}
-          <span> {strIBA ? strIBA : 'No data'}</span>
+          <span className={styles.subTitle}>Glass:</span> <span>{strGlass}</span>
+        </div>
+        <div className={styles.cardText}>
+          <span className={styles.subTitle}>IBA:</span> <span> {strIBA ? strIBA : 'No data'}</span>
         </div>
 
         <div className={styles.cardText}>
@@ -101,9 +91,7 @@ export const CocktailsRecipeCard = ({
           <span className={styles.subTitle}>Ingredients:</span>{' '}
           <span>
             {ingredients.map((item: string | null, index: number) => {
-              return item ? (
-                <span key={index}>{(index ? ', ' : '') + item}</span>
-              ) : null;
+              return item ? <span key={index}>{(index ? ', ' : '') + item}</span> : null;
             })}
           </span>
         </div>
@@ -111,9 +99,7 @@ export const CocktailsRecipeCard = ({
           <span className={styles.subTitle}>Measures</span>:{' '}
           <span>
             {measures.map((item: string | null, index: number) => {
-              return item ? (
-                <span key={index}>{(index ? ', ' : '') + item}</span>
-              ) : null;
+              return item ? <span key={index}>{(index ? ', ' : '') + item}</span> : null;
             })}
           </span>
         </div>

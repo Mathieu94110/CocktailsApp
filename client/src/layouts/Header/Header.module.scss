@@ -4,7 +4,7 @@
   position: relative;
   padding: 10px 20px;
   height: 50px;
-  background-color: #fff;;
+  background-color: #fff;
   box-shadow: var(--box-shadow-nav);
   color: var(--primary);
   img {
@@ -16,9 +16,10 @@
 }
 
 .headerList {
-  @include mixin.xs {
+  @media screen and (max-width: 610px) {
     display: none;
   }
+
   > a {
     text-decoration: none;
     font-weight: 500;
@@ -41,11 +42,17 @@
   text-decoration: none;
   font-weight: 500;
 }
-.links{
+.links {
   background-color: #fff;
-  color:var(--gray-1);
+  color: var(--gray-1);
 }
 
-.active{
-  color:var(--primary);
+.active {
+  color: var(--primary);
+}
+nav > ul {
+  display: flex;
+  @include mixin.xs {
+    display: block;
+  }
 }

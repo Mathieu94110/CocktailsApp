@@ -18,15 +18,15 @@
   grid-template-columns: repeat(3, 200px);
   grid-auto-columns: repeat(3, 200px);
   gap: 20px;
-  @include mixin.md-lt {
-    height: 560px;
-    grid-template-columns: repeat(2, 250px);
-    grid-auto-columns: repeat(2, 250px);
+  @include mixin.sm-lt {
+    height: auto;
+    grid-template-columns: repeat(2, 200px);
+    grid-auto-columns: repeat(2, 200px);
   }
   @include mixin.xs {
     height: auto;
-    grid-template-columns: 250px;
-    grid-auto-columns: 250px;
+    grid-template-columns: 200px;
+    grid-auto-columns: 200px;
   }
 }
 
@@ -48,7 +48,7 @@
 
 .contentCard {
   max-width: 1150px;
-  width: 100%;
+  margin: 0 10px;
 }
 
 .small {
