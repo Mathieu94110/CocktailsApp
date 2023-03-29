@@ -4,6 +4,10 @@
 
 This project was bootstrapped with Create React App including typescript template.
 
+## Live test
+
+http://vps-26aea99b.vps.ovh.net/
+
 - git clone the project
 - go to the client folder and run npm install
 - go to api folder and run npm install
@@ -19,3 +23,4 @@ This project was bootstrapped with Create React App including typescript templat
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
