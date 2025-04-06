@@ -6,26 +6,34 @@ const { key, keyPub } = require("../../keys");
 
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email et mot de passe sont requis" });
+  }
+
   try {
     const user = await UserModel.findOne({ email }).exec();
-    if (user) {
-      if (bcrypt.compareSync(password, user.password)) {
-        const token = jsonwebtoken.sign({}, key, {
-          subject: user._id.toString(),
-          expiresIn: 3600 * 24 * 30 * 6,
-          algorithm: "RS256",
-        });
-        res.cookie("token", token, { httpOnly: true });
-        res.json(user);
-      } else {
-        res.status(400).json("Mauvais email/password");
-      }
-    } else {
-      res.status(400).json("Mauvais email/password");
+    if (!user) {
+      return res.status(401).json({ message: "Mauvais email ou mot de passe" });
     }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Mauvais email ou mot de passe" });
+    }
+    const token = jsonwebtoken.sign({}, key, {
+      subject: user._id.toString(),
+      expiresIn: 3600 * 24 * 30 * 6, // Expiration du token
+      algorithm: "RS256",
+    });
+    res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+
   } catch (e) {
-    console.log(e);
-    res.status(400).json("Mauvais email/password");
+    console.error(e);
+    res.status(500).json({ message: "Erreur interne du serveur" });
   }
 });
 

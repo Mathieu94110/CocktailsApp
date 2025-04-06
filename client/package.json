@@ -63,7 +63,7 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "gh-pages": "^4.0.0",
+    "gh-pages": "^6.3.0",
     "http-proxy-middleware": "^2.0.6",
     "msw": "^1.1.0",
     "prettier": "^2.8.0",
