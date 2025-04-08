@@ -3,12 +3,12 @@ import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from 'context';
 import { Button } from 'components';
-import { UsersInterface } from 'interfaces';
+import { User } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export const Signin = () => {
-  const { signin, user } = useContext<any>(AuthContext);
+  const { signin, user } = useContext(AuthContext);
 
   const validationSchema = yup.object({
     email: yup.string().required('Il faut préciser votre email').email("L'email n'est pas valide"),
@@ -35,7 +35,7 @@ export const Signin = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const submit = handleSubmit(async (credentials: UsersInterface) => {
+  const submit = handleSubmit(async (credentials: User) => {
     try {
       clearErrors();
       await signin(credentials);

@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import App from './App';
 import { createHashRouter } from 'react-router-dom';
-import { rootLoader } from './loaders/rootLoader';
+import { currentUser } from './loaders/rootLoader';
 import { ProtectedRoute } from 'components';
 
 const HomePage = lazy(() =>
@@ -32,7 +32,7 @@ export const router = createHashRouter([
   {
     path: '/',
     element: <App />,
-    loader: rootLoader,
+    loader: currentUser,
     children: [
       {
         index: true,

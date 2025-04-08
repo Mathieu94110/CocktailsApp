@@ -1,6 +1,6 @@
 import ApiAuth from 'api/auth';
-import { UsersInterface } from 'interfaces';
 
-export const rootLoader = async (): Promise<UsersInterface> => {
-  return ApiAuth.getCurrentUser();
+export const currentUser = async () => {
+  const user = await ApiAuth.getCurrentUser();
+  return user ?? null;
 };

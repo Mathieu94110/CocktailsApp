@@ -1,25 +1,33 @@
 import { useState, createContext } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { AuthContextInterface, UsersInterface } from 'interfaces';
+import { User, UserContextType, UserProviderProps } from 'interfaces';
 import AuthApi from 'api/auth';
 
-export const AuthContext = createContext<AuthContextInterface | null>(null);
+export const userContextInitialValues = {
+  user: null,
+  signin: () => Promise.resolve(),
+  signout: () => Promise.resolve(),
+};
 
-export const AuthProvider = ({ children }: { children: any }) => {
-  const initialUser = useLoaderData();
-  const [user, setUser] = useState<any>(initialUser);
+export const AuthContext = createContext<UserContextType>(userContextInitialValues);
 
-  const signin = async (credentials: UsersInterface): Promise<void> => {
-    const newUser: UsersInterface = await AuthApi.signin(credentials);
+export const AuthProvider = (props: UserProviderProps) => {
+  const initialUser = useLoaderData() as User | null;
+  const [user, setUser] = useState(initialUser);
+
+  const signin = async (credentials: User): Promise<void> => {
+    const newUser: User = await AuthApi.signin(credentials);
     if (newUser._id) {
       window.localStorage.setItem('userId', newUser._id);
     }
     setUser(newUser);
   };
+
   const signout = async (): Promise<void> => {
     await AuthApi.signout();
     setUser(null);
   };
+
   return (
     <AuthContext.Provider
       value={{
@@ -28,7 +36,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
         signout,
       }}
     >
-      {children}
+      {props.children}
     </AuthContext.Provider>
   );
 };

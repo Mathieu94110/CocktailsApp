@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useToasts } from 'context';
 import { Button } from 'components';
 import AuthApi from 'api/auth';
-import { UsersInterface } from 'interfaces';
+import { User } from 'interfaces';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -37,7 +37,7 @@ export const Signup = () => {
   });
   const { pushToast } = useToasts();
 
-  const submit = handleSubmit(async (user: UsersInterface) => {
+  const submit = handleSubmit(async (user: User) => {
     try {
       clearErrors();
       const data = await AuthApi.createUser(user);

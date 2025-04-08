@@ -1,6 +1,6 @@
-import { UsersInterface } from 'interfaces';
+import { User } from 'interfaces';
 
-const signin = async (credentials: UsersInterface): Promise<UsersInterface> => {
+const signin = async (credentials: User): Promise<User> => {
   const response = await fetch('/api/auth', {
     method: 'POST',
     headers: {
@@ -16,7 +16,7 @@ const signin = async (credentials: UsersInterface): Promise<UsersInterface> => {
   }
 };
 
-const getCurrentUser = async (): Promise<UsersInterface> => {
+const getCurrentUser = async (): Promise<User> => {
   const response = await fetch('/api/auth/current');
   const body = await response.json();
   if (response.ok) {
@@ -26,7 +26,7 @@ const getCurrentUser = async (): Promise<UsersInterface> => {
   }
 };
 
-const createUser = async (newUser: UsersInterface): Promise<Response> => {
+const createUser = async (newUser: User): Promise<Response> => {
   const data = await fetch('/api/users', {
     method: 'POST',
     headers: {
