@@ -4,98 +4,97 @@ import {
   ValidQueriesInterface,
 } from 'interfaces';
 
-const requiredInfos = (
-  categories: CategoriesInterface['value'][]
-): ValidQueriesInterface => {
-  let validQueries: ValidQueriesInterface = {
+/**
+ * Function to determine the required information based on the selected categories.
+ * @param categories List of selected categories
+ * @returns An object containing valid queries
+ */
+const getRequiredInfos = (categories: string[]): ValidQueriesInterface => {
+  const validQueries: ValidQueriesInterface = {
     strAlcoholic: '',
     strCategory: '',
     strGlass: '',
   };
-  let i = 0;
-  while (i < categories.length) {
-    if (
-      categories.includes('Alcoholic') &&
-      !categories.includes('Non_Alcoholic')
-    ) {
-      validQueries.strAlcoholic = 'Alcoholic';
-    }
-    if (
-      !categories.includes('Alcoholic') &&
-      categories.includes('Non_Alcoholic')
-    ) {
-      validQueries.strAlcoholic = 'Non alcoholic';
-    }
-    if (
-      categories.includes('Ordinary_Drink') &&
-      !categories.includes('Cocktail')
-    ) {
-      validQueries.strCategory = 'Ordinary Drink';
-    }
-    if (
-      !categories.includes('Ordinary_Drink') &&
-      categories.includes('Cocktail')
-    ) {
-      validQueries.strCategory = 'Cocktail';
-    }
-    if (
-      !categories.includes('Cocktail_glass') &&
-      categories.includes('Champagne_flute')
-    ) {
-      validQueries.strGlass = 'Champagne flute';
-    }
-    if (
-      categories.includes('Cocktail_glass') &&
-      !categories.includes('Champagne_flute')
-    ) {
-      validQueries.strGlass = 'Cocktail glass';
-    }
-    i++;
-  }
+
+  const categoryMappings: Record<string, () => void> = {
+    alcoholic: () => {
+      if (categories.includes('alcoholic') && !categories.includes('nonAlcoholic')) {
+        validQueries.strAlcoholic = 'Alcoholic';
+      } else if (!categories.includes('alcoholic') && categories.includes('nonAlcoholic')) {
+        validQueries.strAlcoholic = 'Non alcoholic';
+      }
+    },
+    ordinaryDrink: () => {
+      if (categories.includes('ordinaryDrink') && !categories.includes('cocktail')) {
+        validQueries.strCategory = 'Ordinary Drink';
+      } else if (!categories.includes('ordinaryDrink') && categories.includes('cocktail')) {
+        validQueries.strCategory = 'Cocktail';
+      }
+    },
+    cocktailGlass: () => {
+      if (!categories.includes('cocktailGlass') && categories.includes('champagneFlute')) {
+        validQueries.strGlass = 'Champagne flute';
+      } else if (categories.includes('cocktailGlass') && !categories.includes('champagneFlute')) {
+        validQueries.strGlass = 'Cocktail glass';
+      }
+    },
+  };
+
+  // Apply category transformations
+  Object.keys(categoryMappings).forEach((category) => {
+    categoryMappings[category]();
+  });
 
   return validQueries;
 };
 
-const checkRequestQueries = (
-  categories: CategoriesInterface['value'][]
-): ValidQueriesInterface => {
-  const validInfos = requiredInfos(categories);
-  return validInfos;
+/**
+ * Checks and retrieves the valid queries based on the selected categories.
+ * @param categories Selected categories
+ * @returns Valid information for the query
+ */
+const getValidQueries = (categories: CategoriesInterface['value'][]): ValidQueriesInterface => {
+  return getRequiredInfos(categories);
 };
 
-const filteredListByQueries = (
-  products: CocktailInterface[],
-  filters: { [key: string]: string }
-) => {
+/**
+ * Filters the cocktails based on the provided filters.
+ * @param cocktails List of cocktails to filter
+ * @param filters Filtering criteria
+ * @returns Filtered list of cocktails
+ */
+const filtercocktailsByQueries = (
+  cocktails: CocktailInterface[],
+  filters: Record<string, string>
+): CocktailInterface[] => {
   const filterKeys = Object.keys(filters);
-  if (!products) return [];
-  return products.filter((product: any) => {
-    return filterKeys.every((key: string) => {
-      if (!filters[key].length) return true;
-      if (Array.isArray(product[key])) {
-        return product[key].some((keyEle: string) =>
-          filters[key].includes(keyEle)
-        );
-      }
-      return filters[key].includes(product[key]);
+
+  if (!cocktails?.length) return [];
+
+  return cocktails.filter((cocktail) => {
+
+    return filterKeys.every((key) => {
+      const filterValue = filters[key];
+      if (!filterValue) return true;
+      return cocktail[key as keyof CocktailInterface] === filterValue;
     });
   });
 };
 
-export const filterListByCategories = async (
-  categories: CategoriesInterface[],
+/**
+ * Filters the list of cocktails based on the selected categories.
+ * @param categories Categories to filter
+ * @param currentList Current cocktails list
+ * @returns Filtered cocktails list
+ */
+export const filterListByCategories = (
+  categories: any[],
   currentList: CocktailInterface[]
-): Promise<CocktailInterface[]> => {
-  const categoryValues: CategoriesInterface['value'][] = categories.map(
-    (category: CategoriesInterface) => category.value
-  );
-  const validQueries = checkRequestQueries(categoryValues);
+): CocktailInterface[] => {
+  const validQueries = getValidQueries(categories);
   const filteredQueries = Object.fromEntries(
-    Object.entries(validQueries).filter(([, v]) => v !== '')
+    Object.entries(validQueries).filter(([, value]) => value)
   );
-  const filteredList: CocktailInterface[] = await filteredListByQueries(
-    currentList,
-    filteredQueries
-  );
-  return filteredList;
+  // return filtered list by valid queries
+  return filtercocktailsByQueries(currentList, filteredQueries);
 };

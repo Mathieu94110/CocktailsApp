@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { CategoriesInterface } from 'interfaces';
 import styles from './DropdownFilters.module.scss';
+import { CocktailsFilters, CocktailsFiltersKey } from 'interfaces/filters';
 
 const Icon = () => {
   return (
@@ -18,10 +19,10 @@ export const DropdownFilters = ({
   onChange,
 }: {
   placeHolder: string;
-  options: CategoriesInterface[];
+  options: any[];
   isMulti: boolean;
   isSearchable: boolean;
-  onChange: (x: CategoriesInterface[]) => void;
+  onChange: (x: any[]) => void;
 }) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<any>(isMulti ? [] : null);
@@ -51,22 +52,25 @@ export const DropdownFilters = ({
       window.removeEventListener('click', handler);
     };
   });
+
   const handleInputClick = () => {
     setShowMenu(!showMenu);
   };
 
-  const removeOption = (option: CategoriesInterface) => {
+  const removeOption = (option: CocktailsFiltersKey) => {
     return selectedValue?.filter(
-      (o: CategoriesInterface) => o.value !== option.value
+      (o: CocktailsFiltersKey) => o !== option
     );
   };
 
-  const removeTag = (e: React.MouseEvent, option: CategoriesInterface) => {
+  const removeTag = (e: React.MouseEvent, option: CocktailsFiltersKey) => {
     e.stopPropagation();
     const newValue = removeOption(option);
     setSelectedValue(newValue);
     onChange(newValue);
   };
+
+  const getCocktailFilter = (option: CocktailsFiltersKey) => CocktailsFilters[option];
 
   const getDisplay = () => {
     if (!selectedValue || selectedValue.length === 0) {
@@ -75,29 +79,31 @@ export const DropdownFilters = ({
     if (isMulti) {
       return (
         <div className={styles.dropdownTags} data-cy="dropdown-tags-items">
-          {selectedValue.map((option: CategoriesInterface) => (
-            <div key={option.id} className={styles.dropdownTagItem}>
-              {option.text}
-              <span
-                onClick={(e) => removeTag(e, option)}
-                className={styles.dropdownTagClose}
-              >
-                <i className="fa-solid fa-xmark ml-5 d-flex align-items-center"></i>
-              </span>
-            </div>
-          ))}
+          <ul>
+            {selectedValue.map((option: CocktailsFiltersKey, index: number) => (
+              <li key={index} className={styles.dropdownTagItem}>
+                {getCocktailFilter(option)}
+                <span
+                  onClick={(e) => removeTag(e, option)}
+                  className={styles.dropdownTagClose}
+                >
+                  <i className="fa-solid fa-xmark ml-5 d-flex align-items-center"></i>
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       );
     }
     return selectedValue.label;
   };
 
-  const toggleOption = (option: CategoriesInterface) => {
+  const toggleOption = (option: CocktailsFiltersKey) => {
     let newValue;
     if (isMulti) {
       if (
         selectedValue.findIndex(
-          (o: CategoriesInterface) => o.value === option.value
+          (o: CocktailsFiltersKey) => o === option
         ) >= 0
       ) {
         newValue = removeOption(option);
@@ -111,11 +117,11 @@ export const DropdownFilters = ({
     onChange(newValue);
   };
 
-  const isSelected = (option: CategoriesInterface) => {
+  const isSelected = (option: CocktailsFiltersKey) => {
     if (isMulti) {
       return (
         selectedValue.filter(
-          (o: CategoriesInterface) => o.value === option.value
+          (o: CocktailsFiltersKey) => o === option
         ).length > 0
       );
     }
@@ -124,7 +130,7 @@ export const DropdownFilters = ({
       return false;
     }
 
-    return selectedValue.value === option.value;
+    return selectedValue.value === option;
   };
 
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,11 +140,12 @@ export const DropdownFilters = ({
   const getOptions = () => {
     if (!searchValue) {
       return options;
+
     }
 
     return options.filter(
-      (option: CategoriesInterface) =>
-        option.label.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
+      (option: CocktailsFiltersKey) =>
+        option.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0
     );
   };
 
@@ -164,14 +171,14 @@ export const DropdownFilters = ({
               <input onChange={onSearch} value={searchValue} ref={searchRef} />
             </div>
           )}
-          {getOptions().map((option: CategoriesInterface) => (
-            <div className="my-10" key={option.id}>
+          {getOptions().map((option: CocktailsFiltersKey, index: number) => (
+            <div className="my-10" key={index} onClick={() => toggleOption(option)}>
               <input
                 onChange={() => toggleOption(option)}
                 type="checkbox"
                 checked={isSelected(option)}
               />
-              <label>{option.text}</label>
+              <label>{getCocktailFilter(option)}</label>
             </div>
           ))}
         </div>

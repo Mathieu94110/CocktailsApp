@@ -11,7 +11,6 @@ export function useFetchCocktails(
   const [restartPage, setRestartPage] = useState<boolean>(false);
   const [fetchCocktailsLoading, setFetchCocktailsLoading] = useState<boolean>(false);
   const dispatch = useContext(CocktailsDispatcherContext);
-
   useEffect(() => {
     const fetchCocktails = async (): Promise<void> => {
       try {
@@ -55,6 +54,9 @@ export function useFetchCocktails(
             });
           }
           setRestartPage(true);
+        }
+        if (dropDownFilters && !letter && !searchInputValue) {
+          return;
         }
       } catch (e) {
         console.error(e);

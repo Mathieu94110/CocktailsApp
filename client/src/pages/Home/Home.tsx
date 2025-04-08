@@ -12,6 +12,7 @@ import { CocktailStateContext, CocktailsDispatcherContext, useToasts } from 'con
 import { toggleFavorite } from 'utils';
 import { options } from 'data/constant';
 import { CocktailInterface, CategoriesInterface } from 'interfaces';
+import { CocktailsFiltersKey, CocktailsFiltersKeys } from 'interfaces/filters';
 import styles from './Home.module.scss';
 
 export const Home = () => {
@@ -130,8 +131,8 @@ export const Home = () => {
           isSearchable
           isMulti
           placeHolder="Sélectionner les filtres"
-          options={options}
-          onChange={(categories: CategoriesInterface[]) =>
+          options={CocktailsFiltersKeys}
+          onChange={(categories: any[]) =>
             categories ? setDropDownFilters(categories) : setDropDownFilters([])
           }
         />
