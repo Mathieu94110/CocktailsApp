@@ -12,6 +12,8 @@
   align-items: center;
   justify-content: space-between;
   user-select: none;
+  font-weight: 500;
+  color: #fff;
 }
 
 .dropdownMenu {
@@ -22,8 +24,19 @@
   border-radius: 5px;
   overflow: auto;
   max-height: 150px;
-  background-color: #fff;
+  background-color: var(--gray-1);
   z-index: 2;
+}
+
+.dropdownMenuList {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownMenuListItem {
+  margin: 10px 0;
+  font-weight: 500;
+  color: #fff;
 }
 
 .dropdownContainer:hover,
@@ -39,11 +52,12 @@ i:hover {
 }
 
 .dropdownTagItem {
-  background-color: #ddd;
+  background-color: var(--primary);
   padding: 2px 4px;
   border-radius: 2px;
   display: flex;
   align-items: center;
+  margin-right: 4px;
 }
 
 .dropdownTagClose {
@@ -54,6 +68,10 @@ i:hover {
 .searchBox {
   padding: 5px;
   background-color: #eee;
+}
+
+.searchBox {
+  background-color: var(--gray-1);
 }
 
 .searchBox input {

@@ -1,32 +1,48 @@
-@use '../../assets/styles/mixins' as mixin;
+@use 'styles/mixins' as mixin;
 
 .container {
   max-width: 1200px;
-  margin: auto;
+  margin: 0 auto;
+  padding: 10px 0px 20px 0px;
   width: 100%;
-  padding-bottom: 10px;
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 100px);
+  position: relative;
+  overflow: auto;
+
+  @include mixin.xs {
+    height: auto;
+    flex-grow: 1;
+    margin: 0;
+  }
+
   @include mixin.md-lt {
     margin: 0px auto auto auto;
   }
 }
+
 .grid {
-  height: 589px;
   display: grid;
   place-content: center;
-  grid-template-columns: repeat(3, 200px);
-  grid-auto-columns: repeat(3, 200px);
+  grid-template-columns: repeat(3, 180px);
+  grid-auto-columns: repeat(3, 180px);
   gap: 20px;
+
   @include mixin.sm-lt {
     height: auto;
     grid-template-columns: repeat(2, 200px);
     grid-auto-columns: repeat(2, 200px);
   }
+
   @include mixin.xs {
     height: auto;
-    grid-template-columns: 200px;
-    grid-auto-columns: 200px;
+    grid-template-columns: 180px;
+    grid-auto-columns: 180px;
+  }
+
+  @include mixin.xs-lg {
+    gap: 10px;
   }
 }
 
@@ -36,10 +52,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 636px;
-  @include mixin.lg {
-    height: 406px;
-  }
+
   @include mixin.md-lt {
     min-height: 406px;
     height: auto;
@@ -49,18 +62,30 @@
 .contentCard {
   max-width: 1150px;
   margin: 0 10px;
+  background-color: var(--gray-1);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+
+  @include mixin.xs {
+    flex: 1 1 auto;
+  }
+
+  @include mixin.xs-lg {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.cocktailGif {
+  width: 130px;
+  height: 130px;
+
+  @include mixin.md-xxl {
+    width: 200px;
+    height: 200px;
+  }
 }
 
 .small {
   font-size: 12px;
   font-weight: 500;
-}
-@media screen and (max-width: 1600px) {
-  .grid {
-    gap: 10px;
-  }
-  .contentCard {
-    display: flex;
-    flex-direction: column;
-  }
 }

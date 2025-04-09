@@ -1,59 +1,73 @@
-@use '../../assets/styles/mixins' as mixin;
+@use 'styles/mixins' as mixin;
+
 .backButtonContainer {
-  height: 100px;
-  line-height: 100px;
+  height: 50px;
+  display: flex;
+  align-items: flex-end;
   margin-left: 40px;
+
   @include mixin.sm-lt {
     height: 50px;
     line-height: 50px;
   }
+
   .backButton {
-    padding: 10px 15px;
+    width: 35px;
+    height: 35px;
     cursor: pointer;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background-color 0.2s, color 0.2s;
     color: var(--primary);
     background-color: white;
-    border: 0px;
+    border: none;
     font-weight: 600;
+
     &:hover {
       background-color: var(--primary);
       color: white;
     }
   }
 }
+
 .cocktailsRecipe {
   display: flex;
-  margin: 0px 30px auto;
-  height: calc(100vh - 220px);
+  margin: 0px 30px;
+  height: calc(100vh - 160px);
+
   @include mixin.sm-lt {
     display: block;
     flex: 1 1 auto;
     display: flex;
+    margin: 0 10px 10px;
+    font-size: 12px;
+    height: auto;
     flex-direction: column;
     justify-content: space-evenly;
   }
-  @include mixin.xs {
-    margin: 0 10px 10px;
-    font-size: 12px;
-  }
 }
+
 .cocktailsRecipeTitle {
   text-align: center;
-  margin: 20px 0;
+  margin: 0 0 20px 0;
   color: var(--primary);
+
   @include mixin.xs {
     text-align: center;
     margin: 0 10px 10px;
     color: var(--primary);
   }
 }
+
 .cocktailsRecipeCard {
   width: 50%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 0 20px;
+  align-items: center;
+  padding: 0px 20px 36px 20px;
+
   @include mixin.sm-lt {
     width: auto;
     margin-bottom: 20px;
@@ -65,15 +79,16 @@
 }
 
 .cocktailsResults {
-  padding: 0 20px;
+  padding: 0px 20px 36px 20px;
   width: 50%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
   @include mixin.md-lt {
     height: auto;
   }
+
   @include mixin.sm-lt {
     width: auto;
   }
@@ -85,26 +100,33 @@
   flex-direction: column;
   justify-content: center;
 }
+
 .grid {
-  height: 600px;
+  height: 400px;
   --column-width: minmax(10em, auto);
   padding: 1em;
   display: grid;
   gap: 3em 1em;
   grid-template-columns: repeat(auto-fill, var(--column-width));
   justify-content: center;
+  flex: 1;
   overflow: auto;
-  @media screen and (max-width: 1600px) {
+  background-color: var(--gray-1);
+
+  @include mixin.xs-lg {
     gap: 15px;
   }
+
   @include mixin.sm-lt {
     height: auto;
     margin-bottom: 20px;
     display: flex;
+
     img {
       border: none;
     }
   }
+
   @include mixin.xs {
     padding: 0 0 1em 0;
   }

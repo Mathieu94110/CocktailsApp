@@ -1,10 +1,11 @@
-@use './mixins' as mixin;
+@use 'styles/mixins' as mixin;
 
 .btn {
   padding: 5px 15px;
   border-radius: 20px;
   cursor: pointer;
   transition: 0.2s opacity;
+
   &:hover {
     opacity: 0.8;
   }
@@ -21,18 +22,27 @@
   color: var(--primary);
   background-color: #fff;
 }
+
 .btn-reverse-danger {
   border: 2px solid var(--red-1);
   color: #fff;
   background-color: var(--red-1);
 }
+
 .card {
   border-radius: 20px;
   background-color: #fff;
 }
-.text-primary, .active {
+
+.text-primary,
+.active {
   color: var(--primary);
 }
-.border-primary{
+
+.border-primary {
   border: 3px dashed var(--primary);
+}
+
+.text-white {
+  color: #fff;
 }

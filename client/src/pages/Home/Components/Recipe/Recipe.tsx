@@ -32,9 +32,7 @@ export const Recipe = ({
 
   return (
     <div
-      className={`${styles.recipe} ${
-        useMatch(`/recipe/${cocktails.idDrink}`) && 'border-primary'
-      }`}
+      className={`${styles.recipe} ${useMatch(`/recipe/${cocktails.idDrink}`) && 'border-primary'}`}
     >
       <div className={styles.imageContainer}>
         <img
@@ -47,7 +45,7 @@ export const Recipe = ({
       <div
         className={`${styles.recipeContent} d-flex flex-column space-between align-items-center pb-10 pt-5`}
       >
-        <h3 className="text-center" data-cy="recipe-stDrink">
+        <h3 className={styles.recipeTitle} data-cy="recipe-stDrink">
           {cocktails.strDrink}
         </h3>
         <i

@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useMatch } from 'react-router-dom';
 import { AuthContext } from 'context';
 import { HeaderMenu } from './HeaderMenu/HeaderMenu';
 import { Button } from 'components';
-import cocktailsImg from 'assets/images/cocktails-logo.png';
+import cocktailsImg from 'images/cocktails-logo.png';
 import styles from './Header.module.scss';
 
 export const Header = () => {

@@ -12,7 +12,7 @@ import { CocktailStateContext, CocktailsDispatcherContext, useToasts } from 'con
 import { toggleFavorite } from 'utils';
 import { CocktailInterface } from 'interfaces';
 import { CocktailsFiltersKey, CocktailsFiltersKeys } from 'interfaces/filters.interface';
-import cocktailGifImg from 'assets/images/cocktail.gif';
+import cocktailGifImg from 'images/cocktail.gif';
 import styles from './Home.module.scss';
 
 export const Home = () => {
@@ -155,8 +155,8 @@ export const Home = () => {
                   ))}
                 </div>
               )}
-              {isInitiaState && !currentCocktails.length && <div className="cocktail-gif">
-                <img src={cocktailGifImg} height={200} width={200} />
+              {isInitiaState && !currentCocktails.length && <div>
+                <img className={styles.cocktailGif} src={cocktailGifImg} />
               </div>}
               {!isInitiaState && !currentCocktails.length && !fetchCocktailsLoading && (
                 <p data-cy="no-results-text" className='text-white'>Aucun résultat trouvé</p>

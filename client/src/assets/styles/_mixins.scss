@@ -4,20 +4,8 @@
   }
 }
 
-@mixin sm {
-  @media (min-width: 611px) and (max-width: 768px) {
-    @content;
-  }
-}
-
 @mixin sm-lt {
   @media (max-width: 768px) {
-    @content;
-  }
-}
-
-@mixin md {
-  @media (min-width: 769px) and (max-width: 992px) {
     @content;
   }
 }
@@ -28,14 +16,39 @@
   }
 }
 
-@mixin lg {
-  @media (min-width: 993px) and (max-width: 1600px) {
+@mixin lg-lt {
+  @media (max-width: 1200px) {
     @content;
   }
 }
 
-@mixin lg-lt {
-  @media (max-width: 1200px) {
+@mixin xs-lg {
+  @media (max-width: 1600px) {
+    @content;
+  }
+}
+
+@mixin md-xxl {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
+
+@mixin sm {
+  @media (min-width: 611px) and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: 769px) and (max-width: 992px) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: 993px) and (max-width: 1600px) {
     @content;
   }
 }

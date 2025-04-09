@@ -26,7 +26,7 @@ export const Pagination = ({
       <ul className={styles.pagination}>
         {currentPageNumber > 1 && (
           <li onClick={previousPage} className={styles.paginateItems}>
-            Prev
+            Précédent
           </li>
         )}
         {pageNumbers.map((number: number, index: number) => (
@@ -43,7 +43,7 @@ export const Pagination = ({
         ))}
         {currentPageNumber < pageNumbers.length && (
           <li onClick={nextPage} className={styles.paginateItems}>
-            Next
+            Suivant
           </li>
         )}
       </ul>

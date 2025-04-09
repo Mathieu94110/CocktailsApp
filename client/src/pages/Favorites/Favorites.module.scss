@@ -1,28 +1,34 @@
-@use '../../assets/styles/mixins' as mixin;
+@use 'styles/mixins' as mixin;
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
+
 tr {
   @include mixin.xs {
     :nth-child(2) {
       text-align: center;
     }
+
     :nth-child(3),
     :nth-child(4) {
       display: none;
     }
+
     :nth-child(5) {
       text-align: right;
     }
   }
 }
+
 td,
 th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+
   @include mixin.xs {
     padding: 2px;
   }
@@ -31,20 +37,25 @@ th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
 .favoriteImg {
   height: 100px;
+
   @include mixin.xs {
     height: 50px;
   }
 }
+
 .loaderContainer {
   height: 80vh;
 }
+
 .RecipeButtons {
   @include mixin.xs {
     padding: 2px 3px;
   }
 }
+
 .noFavorites {
   height: calc(100vh - 200px);
 }

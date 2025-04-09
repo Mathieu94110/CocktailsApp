@@ -1,10 +1,9 @@
-@use '../../../../assets/styles/mixins' as mixin;
+@use 'styles/mixins' as mixin;
 
 .alphabeticalFilter {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 5px 0px;
 }
 
 ul {
@@ -13,6 +12,7 @@ ul {
   max-width: inherit;
   word-wrap: break-word;
 }
+
 .alphabeticalFilterInput {
   min-width: 20px;
   padding: 2px;
@@ -23,10 +23,12 @@ ul {
   box-shadow: 4.0px 4.0px 4.0px hsl(0deg 0% 0% / 0.38);
   transition: all 0.3s ease-in-out;
   text-align: center;
+
   &:hover {
     cursor: pointer;
     transform: scale(1.2);
   }
+
   @include mixin.sm-lt {
     padding: 2px;
     margin: 3px;

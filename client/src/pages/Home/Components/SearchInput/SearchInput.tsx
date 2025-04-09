@@ -24,12 +24,12 @@ export const SearchInput = ({
 
   return (
     <div
-      className={`d-flex flex-row justify-content-center align-item-center my-10 ${styles.searchBar}`}
+      className={styles.searchInputContainer}
     >
-      <i className="fa-solid fa-magnifying-glass mr-15"></i>
+      <i className="fa-solid fa-magnifying-glass mr-15 text-white"></i>
       <input
         onChange={(e) => onChangeDebounced(e.target.value)}
-        className="flex-fill"
+        className={styles.searchInput}
         type="search"
         placeholder={currentFilter}
         aria-label="search-input"

@@ -1,30 +1,36 @@
-@use '../../../../assets/styles/mixins' as mixin;
+@use 'styles/mixins' as mixin;
 
 .card {
-  margin: auto;
-  background-color: #fff;
+  background-color: var(--gray-1);
   color: #272727;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   border: 0px;
   border-color: #fff;
   border-style: solid;
   transition: 200ms;
   max-width: 380px;
-  height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
+  display: flex;
+  flex: 1;
+  overflow: auto;
+  flex-direction: column;
+  justify-content: space-between;
   box-shadow: var(--text-color) 0px 12px 28px;
+
   @include mixin.sm-lt {
     margin: auto;
     height: 400px;
     padding: 10px;
   }
+
   @include mixin.xs {
     margin: auto;
     height: 250px;
     padding: 10px;
   }
+
   :hover {
     cursor: pointer;
   }
@@ -33,10 +39,11 @@
 .cardImage {
   border-radius: 10px;
   margin: 10px auto;
-  width: 200px;
+  width: 100px;
   height: auto;
   display: flex;
   justify-content: center;
+
   @include mixin.sm-lt {
     width: 80px;
   }
@@ -45,12 +52,14 @@
 .cardText {
   max-width: 340px;
   font-size: medium;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+
   :nth-child(2) {
     font-weight: 500;
-    color: var(--text-color);
+    color: #fff;
     font-size: small;
   }
+
   @include mixin.xs {
     margin-bottom: 4px;
   }
@@ -65,6 +74,7 @@
   font-weight: 600;
   color: var(--primary);
   text-align: left;
+
   @include mixin.sm-lt {
     font-weight: 500;
     font-size: medium;

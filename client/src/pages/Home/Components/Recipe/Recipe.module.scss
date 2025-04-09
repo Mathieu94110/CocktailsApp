@@ -1,11 +1,19 @@
-@use '../../../../assets/styles/mixins' as mixin;
+@use 'styles/mixins' as mixin;
 
 .recipe {
   position: relative;
   border-radius: 20px;
   cursor: pointer;
   height: fit-content;
-  > i {
+  color: #fff;
+  width: 100%;
+  min-width: 120px;
+
+  @include mixin.xs-lg {
+    height: auto;
+  }
+
+  >i {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -14,28 +22,38 @@
     cursor: pointer;
     transition: color 0.2s;
     z-index: 1;
+
     &:hover {
       color: var(--red-1);
     }
   }
+
   &:hover {
     img {
       transform: scale(1.1);
     }
   }
+
   i {
     font-size: 20px;
+
     &:hover {
       color: var(--primary);
     }
   }
+
   @include mixin.xs {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    h3 {
-      font-size: 12px;
-    }
+  }
+}
+
+.recipeTitle {
+  text-align: center;
+
+  @include mixin.sm-lt {
+    font-size: 10px;
   }
 }
 
@@ -44,9 +62,11 @@
   border-top-right-radius: 20px;
   overflow: hidden;
   text-align: center;
+
   img {
     transition: 1s transform;
-    width: 100%;
+    width: auto;
+    height: 70px;
   }
 }
 
@@ -56,23 +76,19 @@
   border: 1px solid var(--gray-2);
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-}
-@media screen and (max-width: 1600px) {
-  .recipe {
-    height: auto;
-  }
-  .recipeContent {
+
+  @include mixin.xs-lg {
     height: 60px;
   }
 }
+
 @media screen and (min-width: 769px) and (max-width: 2000px) {
   .imageContainer {
-    height: 120px;
     border: 1px solid var(--gray-2);
     text-align: center;
+
     img {
-      width: 150px;
-      height: auto;
+      height: 86px;
     }
   }
 }

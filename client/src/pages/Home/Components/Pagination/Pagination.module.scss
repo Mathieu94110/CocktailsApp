@@ -1,3 +1,5 @@
+@use 'styles/mixins' as mixin;
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -30,9 +32,4 @@
 .pagination .active:hover {
   color: #00a8ff;
   background: #fff;
-}
-@media screen and (max-width: 1600px) {
-  .pagination {
-    margin: 0px;
-  }
 }

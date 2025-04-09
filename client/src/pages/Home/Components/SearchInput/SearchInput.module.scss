@@ -1,10 +1,30 @@
-@use '../../../../assets/styles/mixins' as mixin;
-.searchBar {
+@use 'styles/mixins' as mixin;
+
+.searchInputContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
   padding: 8px 13px;
   border: 2px solid var(--gray-2);
   border-radius: 20px;
-  input {
-    outline: 0;
-    border: 0;
+}
+
+.searchInput {
+  outline: 0;
+  border: 0;
+  background-color: var(--gray-1);
+  flex: 1 1 auto;
+  color: #fff;
+  font-weight: 500;
+
+  &:focus {
+    caret-color: #fff;
+    outline: none;
   }
+}
+
+.fa-magnifying-glass {
+  color: #fff;
 }
