@@ -51,7 +51,7 @@ router.get("/current", async (req, res) => {
         return res.json(null);
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       return res.json(null);
     }
   } else {

@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
 import SearchApi from 'api/search';
-import { CategoriesInterface, CocktailInterface } from 'interfaces';
+import { CocktailInterface } from 'interfaces';
 import { CocktailsDispatcherContext } from 'context';
+import { CocktailsFiltersKey } from 'interfaces/filters.interface';
 
 export function useFetchCocktails(
   searchInputValue: string,
-  dropDownFilters: CategoriesInterface[],
+  dropDownFilters: CocktailsFiltersKey[],
   letter: string
 ) {
   const [restartPage, setRestartPage] = useState<boolean>(false);
@@ -56,6 +57,7 @@ export function useFetchCocktails(
           setRestartPage(true);
         }
         if (dropDownFilters && !letter && !searchInputValue) {
+          // Need to add functionality that works with filters only
           return;
         }
       } catch (e) {

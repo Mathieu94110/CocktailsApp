@@ -1,4 +1,5 @@
-import { CocktailInterface, CategoriesInterface } from 'interfaces';
+import { CocktailInterface } from 'interfaces';
+import { CocktailsFiltersKey } from 'interfaces/filters.interface';
 import { filterListByCategories } from 'utils';
 
 const coktailsApiUrl = 'https://www.thecocktaildb.com/api/json/v1/1';
@@ -19,7 +20,7 @@ export const searchCocktails = async (
 };
 
 export const searchByFilters = async (
-  categories: CategoriesInterface[],
+  categories: CocktailsFiltersKey[],
   currentCocktailsList: CocktailInterface[]
 ): Promise<CocktailInterface[]> => {
   try {
@@ -62,6 +63,18 @@ export const getSuggestsByCategory = async (
 ): Promise<CocktailInterface[]> => {
   try {
     const data = await fetch(`${coktailsApiUrl}/filter.php?c=${category}`);
+    const response = await data.json();
+    return response.drinks;
+  } catch (err) {
+    throw new Error('Error fetch suggested cocktails by category');
+  }
+};
+
+export const getSuggestsByAlcoholic = async (
+  category: string
+): Promise<CocktailInterface[]> => {
+  try {
+    const data = await fetch(`${coktailsApiUrl}/filter.php?a=${category}`);
     const response = await data.json();
     return response.drinks;
   } catch (err) {

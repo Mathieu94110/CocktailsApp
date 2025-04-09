@@ -1,6 +1,6 @@
 # Full stack Cocktails application with React Typescript Express and MongoDb
 
-Using [Thecocktaildb api](https://www.thecocktaildb.com/api/json/v1/1)
+Using [Thecocktaildb api](https://www.thecocktaildb.com/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 

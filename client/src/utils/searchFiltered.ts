@@ -1,8 +1,8 @@
 import {
   CocktailInterface,
-  CategoriesInterface,
   ValidQueriesInterface,
 } from 'interfaces';
+import { CocktailsFiltersKey } from 'interfaces/filters.interface';
 
 /**
  * Function to determine the required information based on the selected categories.
@@ -10,11 +10,7 @@ import {
  * @returns An object containing valid queries
  */
 const getRequiredInfos = (categories: string[]): ValidQueriesInterface => {
-  const validQueries: ValidQueriesInterface = {
-    strAlcoholic: '',
-    strCategory: '',
-    strGlass: '',
-  };
+  const validQueries: ValidQueriesInterface = {};
 
   const categoryMappings: Record<string, () => void> = {
     alcoholic: () => {
@@ -53,7 +49,7 @@ const getRequiredInfos = (categories: string[]): ValidQueriesInterface => {
  * @param categories Selected categories
  * @returns Valid information for the query
  */
-const getValidQueries = (categories: CategoriesInterface['value'][]): ValidQueriesInterface => {
+const getValidQueries = (categories: CocktailsFiltersKey[]): ValidQueriesInterface => {
   return getRequiredInfos(categories);
 };
 

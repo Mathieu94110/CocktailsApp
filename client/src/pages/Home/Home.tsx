@@ -10,15 +10,15 @@ import {
 import { useFetchCocktails, useFetchFavorites } from 'hooks';
 import { CocktailStateContext, CocktailsDispatcherContext, useToasts } from 'context';
 import { toggleFavorite } from 'utils';
-import { options } from 'data/constant';
-import { CocktailInterface, CategoriesInterface } from 'interfaces';
-import { CocktailsFiltersKey, CocktailsFiltersKeys } from 'interfaces/filters';
+import { CocktailInterface } from 'interfaces';
+import { CocktailsFiltersKey, CocktailsFiltersKeys } from 'interfaces/filters.interface';
+import cocktailGifImg from 'assets/images/cocktail.gif';
 import styles from './Home.module.scss';
 
 export const Home = () => {
-  const [searchInputValue, setSearchInputValue] = useState<string>('margarita');
+  const [searchInputValue, setSearchInputValue] = useState<string>('');
   const [letter, setLetter] = useState<string>('');
-  const [dropDownFilters, setDropDownFilters] = useState<CategoriesInterface[]>([]);
+  const [dropDownFilters, setDropDownFilters] = useState<CocktailsFiltersKey[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage] = useState<number>(6);
 
@@ -33,7 +33,7 @@ export const Home = () => {
     indexOfFirstCocktail,
     indexOfLastCocktail
   );
-
+  const isInitiaState = searchInputValue === '' && letter === '' && dropDownFilters.length === 0;
   const { isFavoritesFetched } = useFetchFavorites(favoritesState);
 
   const { fetchCocktailsLoading, restartPage } = useFetchCocktails(
@@ -125,7 +125,7 @@ export const Home = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className="my-10 ml-10">Découvrez des nouvelles recettes</h1>
+      <h1 className="my-10 ml-10 text-primary">Découvrez des nouvelles recettes</h1>
       <div className={`card flex-fill d-flex flex-column px-10 ${styles.contentCard}`}>
         <CategoryFilters
           isSearchable
@@ -155,10 +155,13 @@ export const Home = () => {
                   ))}
                 </div>
               )}
-              {!currentCocktails.length && !fetchCocktailsLoading && (
-                <p data-cy="no-results-text">Aucun résultat trouvé</p>
+              {isInitiaState && !currentCocktails.length && <div className="cocktail-gif">
+                <img src={cocktailGifImg} height={200} width={200} />
+              </div>}
+              {!isInitiaState && !currentCocktails.length && !fetchCocktailsLoading && (
+                <p data-cy="no-results-text" className='text-white'>Aucun résultat trouvé</p>
               )}
-              {cocktailsState.length > 6 && !fetchCocktailsLoading && (
+              {!!currentCocktails.length && cocktailsState.length > 6 && !fetchCocktailsLoading && (
                 <Pagination
                   postsPerPage={postsPerPage}
                   totalPosts={cocktailsState.length}
