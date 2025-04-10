@@ -51,6 +51,7 @@
 
 .recipeTitle {
   text-align: center;
+  font-size: 14px;
 
   @include mixin.sm-lt {
     font-size: 10px;

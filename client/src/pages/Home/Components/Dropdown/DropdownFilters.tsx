@@ -67,7 +67,7 @@ export const DropdownFilters = ({
     if (!selectedValue || selectedValue.length === 0) {
       return placeHolder;
     }
-    if (isMulti) {
+    else {
       return (
         <div className={styles.dropdownTags} data-cy="dropdown-tags-items">
           <ul>
@@ -86,42 +86,29 @@ export const DropdownFilters = ({
         </div>
       );
     }
-    return selectedValue.label;
+  };
+
+  const isOptionDisabled = (option: CocktailsFiltersKey) => {
+    return selectedValue?.length > 0 && !selectedValue.includes(option);
   };
 
   const toggleOption = (option: CocktailsFiltersKey) => {
-    let newValue;
-    if (isMulti) {
-      if (
-        selectedValue.findIndex(
-          (o: CocktailsFiltersKey) => o === option
-        ) >= 0
-      ) {
-        newValue = removeOption(option);
-      } else {
-        newValue = [...selectedValue, option];
-      }
-    } else {
-      newValue = option;
+    if (isOptionDisabled(option)) {
+      return;
     }
-    setSelectedValue(newValue);
-    onChange(newValue);
+    setSelectedValue([option]);
+    onChange([option]);
   };
 
   const isSelected = (option: CocktailsFiltersKey) => {
-    if (isMulti) {
-      return (
-        selectedValue.filter(
-          (o: CocktailsFiltersKey) => o === option
-        ).length > 0
-      );
-    }
-
     if (!selectedValue) {
       return false;
     }
-
-    return selectedValue.value === option;
+    return (
+      selectedValue.filter(
+        (o: CocktailsFiltersKey) => o === option
+      ).length > 0
+    );
   };
 
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,7 +118,6 @@ export const DropdownFilters = ({
   const getOptions = () => {
     if (!searchValue) {
       return options;
-
     }
 
     return options.filter(
@@ -150,7 +136,7 @@ export const DropdownFilters = ({
       >
         {getDisplay()}
         <div>
-          <i className={'fa-solid fa-magnyfing-glass mr-5 text-white'}></i>
+          <i className={'fa-solid fa-magnifying-glass mr-5 text-white'}></i>
         </div>
       </div>
       {showMenu && (
@@ -167,14 +153,14 @@ export const DropdownFilters = ({
                   onChange={() => toggleOption(option)}
                   type="checkbox"
                   checked={isSelected(option)}
+                  disabled={isOptionDisabled(option)}
                 />
                 <label>{getCocktailFilter(option)}</label>
               </li>
             ))}
           </ul>
         </div>
-      )
-      }
-    </div >
+      )}
+    </div>
   );
 };

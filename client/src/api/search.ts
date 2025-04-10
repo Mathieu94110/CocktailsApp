@@ -1,3 +1,4 @@
+import { categoryFilterMap } from 'data/constant';
 import { CocktailInterface } from 'interfaces';
 import { CocktailsFiltersKey } from 'interfaces/filters.interface';
 import { filterListByCategories } from 'utils';
@@ -70,17 +71,23 @@ export const getSuggestsByCategory = async (
   }
 };
 
-export const getSuggestsByAlcoholic = async (
-  category: string
-): Promise<CocktailInterface[]> => {
+export const searchByCategoryFilter = async (filter: string) => {
   try {
-    const data = await fetch(`${coktailsApiUrl}/filter.php?a=${category}`);
-    const response = await data.json();
-    return response.drinks;
-  } catch (err) {
-    throw new Error('Error fetch suggested cocktails by category');
+    const filterEntry = categoryFilterMap[filter];
+    if (!filterEntry) {
+      return [];
+    }
+    const url = `${coktailsApiUrl}/filter.php?${filterEntry.param}=${filterEntry.value}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    return data.drinks || [];
+  } catch (error) {
+    console.error('Error fetching cocktails by filters:', error);
+    throw new Error('Failed to fetch cocktails');
   }
 };
+
 
 const SearchApi = {
   searchCocktails,
@@ -88,6 +95,7 @@ const SearchApi = {
   searchByLetter,
   getSuggestsByGlass,
   getSuggestsByCategory,
+  searchByCategoryFilter
 };
 
 export default SearchApi;

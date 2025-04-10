@@ -18,6 +18,7 @@ module.exports = {
       },
     ],
     'import/extensions': 'off',
+    '@typescript-eslint/brace-style': 'off',
     "@typescript-eslint/no-unused-vars": "warn"
   },
 };

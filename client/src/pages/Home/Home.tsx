@@ -22,25 +22,32 @@ export const Home = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage] = useState<number>(6);
 
-  const { pushToast } = useToasts();
+
   const state = useContext(CocktailStateContext);
   const cocktailsState = state.cocktails;
   const favoritesState = state.favorites;
-  const dispatch = useContext(CocktailsDispatcherContext);
+
   const indexOfLastCocktail: number = currentPage * postsPerPage;
   const indexOfFirstCocktail: number = indexOfLastCocktail - postsPerPage;
   const currentCocktails: CocktailInterface[] = cocktailsState.slice(
     indexOfFirstCocktail,
     indexOfLastCocktail
   );
-  const isInitiaState = searchInputValue === '' && letter === '' && dropDownFilters.length === 0;
-  const { isFavoritesFetched } = useFetchFavorites(favoritesState);
 
   const { fetchCocktailsLoading, restartPage } = useFetchCocktails(
     searchInputValue,
     dropDownFilters,
     letter
   );
+  const { isFavoritesFetched } = useFetchFavorites(favoritesState);
+
+  const isInitiaState = searchInputValue === '' && letter === '' && dropDownFilters.length === 0;
+  const shouldShowGif = isInitiaState && !currentCocktails.length;
+  const shouldShowNoResults = !isInitiaState && !currentCocktails.length && !fetchCocktailsLoading;
+  const shouldShowPagination = !!currentCocktails.length && cocktailsState.length > 6 && !fetchCocktailsLoading;
+
+  const { pushToast } = useToasts();
+  const dispatch = useContext(CocktailsDispatcherContext);
 
   useEffect(() => {
     if (restartPage) {
@@ -129,8 +136,8 @@ export const Home = () => {
       <div className={`card flex-fill d-flex flex-column px-10 ${styles.contentCard}`}>
         <CategoryFilters
           isSearchable
-          isMulti
-          placeHolder="Sélectionner les filtres"
+          isMulti={false} // Requests with category filters to thecocktaildb.com API return results without category properties
+          placeHolder="Sélectionner un filtre"
           options={CocktailsFiltersKeys}
           onChange={(categories: any[]) =>
             categories ? setDropDownFilters(categories) : setDropDownFilters([])
@@ -155,13 +162,13 @@ export const Home = () => {
                   ))}
                 </div>
               )}
-              {isInitiaState && !currentCocktails.length && <div>
+              {shouldShowGif && <div>
                 <img className={styles.cocktailGif} src={cocktailGifImg} />
               </div>}
-              {!isInitiaState && !currentCocktails.length && !fetchCocktailsLoading && (
+              {shouldShowNoResults && (
                 <p data-cy="no-results-text" className='text-white'>Aucun résultat trouvé</p>
               )}
-              {!!currentCocktails.length && cocktailsState.length > 6 && !fetchCocktailsLoading && (
+              {shouldShowPagination && (
                 <Pagination
                   postsPerPage={postsPerPage}
                   totalPosts={cocktailsState.length}

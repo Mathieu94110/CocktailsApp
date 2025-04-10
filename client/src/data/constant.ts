@@ -48,3 +48,12 @@ export const categories: string[] = [
   'Homemade Liqueur',
   'Cocoa',
 ];
+
+export const categoryFilterMap: { [key: string]: { param: string; value: string } } = {
+  nonAlcoholic: { param: 'a', value: 'Non_Alcoholic' },
+  alcoholic: { param: 'a', value: 'Alcoholic' },
+  ordinaryDrink: { param: 'c', value: 'Ordinary_Drink' },
+  cocktail: { param: 'c', value: 'Cocktail' },
+  cocktailGlass: { param: 'g', value: 'Cocktail_glass' },
+  champagneFlute: { param: 'g', value: 'Champagne_flute' },
+};
