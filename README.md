@@ -38,16 +38,16 @@ and visit http://localhost:3000.
 
 ## Screenshots
 
-![login](client/src/assets/images/cocktails-login-screen.PNG?raw=true "Login")
-![home](client/src/assets/images/cocktails-home-screen.PNG?raw=true "Home")
-![home](client/src/assets/images/cocktails-home-screen-2.PNG?raw=true "Home")
-![cocktails details](client/src/assets/images/cocktails-favorite-screen.png?raw=true "CocktailsDetails")
+![login](client/src/assets/images/cocktails-login-screen.png?raw=true "Login")
+![home](client/src/assets/images/coktails-master-1.png?raw=true "Home")
+![home](client/src/assets/images/cocktails_master-2.png?raw=true "Home")
+![home](client/src/assets/images/cocktails_master_3.png?raw=true "Home")
+![cocktails details](client/src/assets/images/cocktails_master_4.png?raw=true "CocktailsDetails")
 ![favorites](client/src/assets/images/cocktails-favorite-screen.png?raw=true "Favorites")
 
 ## Screenshots mobiles
 
 ![login](client/src/assets/images/cocktails-login-screen-mobiles.png?raw=true "Login")
-![home](client/src/assets/images/cocktails-home-screen-mobiles.png?raw=true "Home")
-![home](client/src/assets/images/cocktails-home-screen-2-mobiles.png?raw=true "Home")
-![cocktails details](client/src/assets/images/cocktails-details-screen-mobiles.png?raw=true "CocktailsDetails")
+![home](client/src/assets/images/coktails_master_5.png?raw=true "Home")
+![cocktails details](client/src/assets/images/cocktails_master_6.png?raw=true "CocktailsDetails")
 ![favorites](client/src/assets/images/cocktails-favorites-screen-mobiles.png?raw=true "Favorites")
