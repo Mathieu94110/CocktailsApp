@@ -7,9 +7,10 @@
   background-color: #fff;
   box-shadow: var(--box-shadow-nav);
   color: var(--primary);
+  background-color: var(--gray-1);
 
   img {
-    width: 100px;
+    width: 76px;
 
     @include mixin.md-lt {
       width: 70px;
@@ -49,8 +50,7 @@
 }
 
 .links {
-  background-color: #fff;
-  color: var(--gray-1);
+  color: #fff;
 }
 
 .active {
