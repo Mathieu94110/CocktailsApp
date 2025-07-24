@@ -43,11 +43,24 @@ const signout = async (): Promise<void> => {
     method: 'DELETE',
   });
 };
+const sendPassword = async (email: string): Promise<Response> => {
+  const data = await fetch('/api/users/forgot-password', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  return data;
+};
+
 const AuthApi = {
   signin,
   getCurrentUser,
   createUser,
   signout,
+  sendPassword
 };
 
 export default AuthApi;

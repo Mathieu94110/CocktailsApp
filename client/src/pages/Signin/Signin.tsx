@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from 'context';
 import { Button } from 'components';
@@ -79,10 +79,11 @@ export const Signin = () => {
               {errors.password && <p className="auth-form-error">{errors.password.message}</p>}
             </div>
             {errors.generic && <p className="auth-form-error">{errors.generic.message}</p>}
-            <div>
+            <div className='d-flex flex-row'>
               <Button disabled={isSubmitting} className="btn-primary mt-10">
                 Connexion
               </Button>
+              <Link to="/password-recovery" className="forgot-password-link">Vous avez oublié votre mot de passe ?</Link>
             </div>
           </form>
         </div>

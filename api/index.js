@@ -3,12 +3,13 @@ const cookie = require("cookie-parser");
 const morgan = require("morgan");
 
 const app = express();
+require('dotenv').config();
 const routes = require("./routes");
 app.use(express.static(`${__dirname}/../client/build`));
 app.use(morgan("tiny"));
 app.use(cookie());
 app.use(express.json());
-require('dotenv').config();
+
 require("./database");
 
 app.use(routes);

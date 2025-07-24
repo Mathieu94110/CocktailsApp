@@ -1,27 +1,5 @@
 @use 'styles/mixins' as mixin;
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 10px 0px 20px 0px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 100px);
-  position: relative;
-  overflow: auto;
-
-  @include mixin.xs {
-    height: auto;
-    flex-grow: 1;
-    margin: 0;
-  }
-
-  @include mixin.md-lt {
-    margin: 0px auto auto auto;
-  }
-}
-
 .grid {
   display: grid;
   place-content: center;

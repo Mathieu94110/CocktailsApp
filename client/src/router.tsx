@@ -22,6 +22,12 @@ const Signin = lazy(() =>
   import('./pages/Signin/Signin').then((module) => ({ default: module.Signin }))
 );
 
+const PasswordRecovery = lazy(() =>
+  import('./pages/PasswordRecovery/PasswordRecovery').then((module) => ({
+    default: module.PasswordRecovery,
+  }))
+);
+
 const Favorites = lazy(() =>
   import('./pages/Favorites/Favorites').then((module) => ({
     default: module.Favorites,
@@ -57,6 +63,10 @@ export const router = createHashRouter([
             <Favorites />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: 'password-recovery',
+        element: <PasswordRecovery />,
       },
       {
         path: '/recipe/:id',
